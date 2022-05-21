@@ -19,111 +19,219 @@ class _ListingState extends State<Listing> {
       {'name': 'Peace'},
     ];
 
-    var posts = [
+    var projects = [
       {
         'name': 'Project For Good',
         'author': 'Don Quixote',
         'desc':
             'A placeholder description. It needs to be long so I can test the lines.',
-        'tag': 'Robot',
+        'tag': 'Peace',
         'avatar': ''
       },
       {
-        'name': 'Project For Good',
-        'author': 'Don Quixote',
+        'name': 'Project For Angelica',
+        'author': 'The Blue Reverberation',
         'desc':
-            'A placeholder description. It needs to be long so I can test the lines.',
-        'tag': 'Robot',
+            'A dirge, whatever that means. To do this I need to distort as many people as I can.',
+        'tag': 'Education',
         'avatar': ''
       },
       {
-        'name': 'Project For Good',
-        'author': 'Don Quixote',
-        'desc':
-            'A placeholder description. It needs to be long so I can test the lines.',
-        'tag': 'Robot',
+        'name': 'I need money. Just that, I am poor',
+        'author': 'Roland',
+        'desc': 'I need money for HamHamPangPang.',
+        'tag': 'Poverty',
         'avatar': ''
       },
       {
-        'name': 'Project For Good',
-        'author': 'Don Quixote',
-        'desc':
-            'A placeholder description. It needs to be long so I can test the lines.',
-        'tag': 'Robot',
+        'name': 'Finish the fight for Ayin',
+        'author': 'Hokma',
+        'desc': 'A project dedicated to the religion of A.',
+        'tag': 'Education',
         'avatar': ''
       },
     ];
 
-    return MaterialApp(
-      title: 'Testing',
-      home: SafeArea(
-        child: Scaffold(
-          body: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        print(1);
-                      },
-                      child: Icon(
-                        Icons.swap_horiz_rounded,
-                        size: 40,
+    return Scaffold(
+      body: MaterialApp(
+        title: 'Testing',
+        home: SafeArea(
+          child: Scaffold(
+            body: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          print(1);
+                        },
+                        child: Icon(
+                          Icons.swap_horiz_rounded,
+                          size: 40,
+                        ),
                       ),
-                    ),
-                    DefaultTextStyle(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.black,
-                        decoration: TextDecoration.none,
-                        fontWeight: FontWeight.bold,
+                      DefaultTextStyle(
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.black,
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        child: Text('Buy'),
                       ),
-                      child: Text('Buy'),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        print(2);
-                      },
-                      child: Icon(
-                        Icons.find_in_page_outlined,
-                        size: 40,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Divider(
-                height: 0,
-                thickness: 2,
-                indent: 30,
-                endIndent: 30,
-                color: Color.fromRGBO(225, 225, 225, 1),
-              ),
-              Padding(
-                padding: EdgeInsets.all(7),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8.0, // gap between adjacent chips
-                  runSpacing: -8.0, // gap between lines
-                  children: tags
-                      .map(
-                        (e) => Chip(
-                          label: Text(e['name']!),
+                      GestureDetector(
+                        onTap: () {
+                          print(2);
+                        },
+                        child: Icon(
+                          Icons.find_in_page_outlined,
+                          size: 40,
                         ),
                       )
-                      .toList(),
+                    ],
+                  ),
                 ),
-              ),
-              Column(),
-            ],
+                Divider(
+                  height: 0,
+                  thickness: 2,
+                  indent: 40,
+                  endIndent: 40,
+                  color: Color.fromRGBO(225, 225, 225, 1),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(7),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0, // gap between adjacent chips
+                    runSpacing: -8.0, // gap between lines
+                    children: tags
+                        .map(
+                          (e) => Chip(
+                            label: Text(e['name']!),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+                Expanded(
+                  child: SingleChildScrollView(
+                    padding: EdgeInsets.all(0),
+                    child: Column(
+                      children: projects
+                          .map(
+                            (e) => ProjectCard(e['name']!, e['author']!,
+                                e['desc']!, e['tag']!, e['avatar']!),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            backgroundColor: Colors.white,
           ),
-          backgroundColor: Colors.white,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => {print(3)},
+        child: const Icon(Icons.create),
+        backgroundColor: Colors.grey,
+      ),
+    );
+  }
+}
+
+class ProjectCard extends StatelessWidget {
+  const ProjectCard(this.name, this.author, this.desc, this.tag, this.avatar,
+      {Key? key})
+      : super(key: key);
+
+  final String name;
+  final String author;
+  final String desc;
+  final String tag;
+  final String avatar;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.all(8),
+        ),
+        Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(16),
+            ),
+            CircleAvatar(
+              backgroundColor: Colors.grey,
+              maxRadius: 45,
+            ),
+            Padding(
+              padding: EdgeInsets.all(10),
+            ),
+            Column(
+              children: [
+                Container(
+                  width: 230,
+                  child: DefaultTextStyle(
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    child: Text(name),
+                  ),
+                ),
+                Container(
+                  width: 230,
+                  child: DefaultTextStyle(
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                    child: Text(author),
+                  ),
+                ),
+                Container(
+                  width: 230,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Chip(
+                      label: Text(tag),
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 230,
+                  child: DefaultTextStyle(
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                    child: Text(desc),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        Divider(
+          height: 75,
+          thickness: 2,
+          indent: 40,
+          endIndent: 40,
+          color: Color.fromRGBO(225, 225, 225, 1),
+        ),
+      ],
     );
   }
 }
