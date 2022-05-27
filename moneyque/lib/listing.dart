@@ -158,80 +158,86 @@ class ProjectCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.all(8),
-        ),
-        Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16),
-            ),
-            CircleAvatar(
-              backgroundColor: Colors.grey,
-              maxRadius: 45,
-            ),
-            Padding(
-              padding: EdgeInsets.all(10),
-            ),
-            Column(
-              children: [
-                Container(
-                  width: 230,
-                  child: DefaultTextStyle(
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    child: Text(name),
-                  ),
-                ),
-                Container(
-                  width: 230,
-                  child: DefaultTextStyle(
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                    child: Text(author),
-                  ),
-                ),
-                Container(
-                  width: 230,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Chip(
-                      label: Text(tag),
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        print('Enter Project');
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(8),
+          ),
+          Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.all(16),
+              ),
+              CircleAvatar(
+                backgroundColor: Colors.grey,
+                maxRadius: 45,
+              ),
+              Padding(
+                padding: EdgeInsets.all(10),
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 230,
+                    child: DefaultTextStyle(
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      child: Text(name),
                     ),
                   ),
-                ),
-                Container(
-                  width: 230,
-                  child: DefaultTextStyle(
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
+                  Container(
+                    width: 230,
+                    child: DefaultTextStyle(
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                      child: Text(author),
                     ),
-                    child: Text(desc),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        Divider(
-          height: 75,
-          thickness: 2,
-          indent: 40,
-          endIndent: 40,
-          color: Color.fromRGBO(225, 225, 225, 1),
-        ),
-      ],
+                  Container(
+                    width: 230,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Chip(
+                        label: Text(tag),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 230,
+                    child: DefaultTextStyle(
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.black,
+                      ),
+                      child: Text(desc),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Divider(
+            height: 75,
+            thickness: 2,
+            indent: 40,
+            endIndent: 40,
+            color: Color.fromRGBO(225, 225, 225, 1),
+          ),
+        ],
+      ),
     );
   }
 }
