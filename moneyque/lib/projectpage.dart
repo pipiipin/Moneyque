@@ -33,7 +33,7 @@ class _ProjectPageState extends State<ProjectPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print(1);
+                          print('Back');
                         },
                         child: Icon(
                           Icons.swap_horiz_rounded,
@@ -52,7 +52,7 @@ class _ProjectPageState extends State<ProjectPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print(2);
+                          print('Discover?');
                         },
                         child: Icon(
                           Icons.find_in_page_outlined,
@@ -161,7 +161,7 @@ class _ProjectPageState extends State<ProjectPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print(3);
+                  print('Buy');
                 },
                 child: Icon(
                   Icons.credit_card,
@@ -171,12 +171,12 @@ class _ProjectPageState extends State<ProjectPage> {
               ),
               GestureDetector(
                 onTap: () {
-                  print(4);
+                  print('Contact');
                 },
                 child: Row(
                   children: [
                     Icon(
-                      Icons.chat_bubble_outline,
+                      Icons.live_help_outlined,
                       size: 32,
                       color: Colors.white,
                     ),

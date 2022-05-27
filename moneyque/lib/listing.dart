@@ -62,7 +62,7 @@ class _ListingState extends State<Listing> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print(1);
+                          print('Back');
                         },
                         child: Icon(
                           Icons.swap_horiz_rounded,
@@ -81,7 +81,7 @@ class _ListingState extends State<Listing> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          print(2);
+                          print('Discover?');
                         },
                         child: Icon(
                           Icons.find_in_page_outlined,
@@ -132,7 +132,7 @@ class _ListingState extends State<Listing> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {print(3)},
+        onPressed: () => {print('Create Post?')},
         child: const Icon(Icons.create),
         backgroundColor: Colors.grey,
       ),
