@@ -8,6 +8,45 @@ class ProfileSelf extends StatefulWidget {
 }
 
 class _ProfileSelfState extends State<ProfileSelf> {
+  User user = User(
+      name: 'Kanye West',
+      tags: ['Peace', 'Education, Poverty'],
+      avatar: '',
+      desc:
+          'An American rapper, record producer, and fashion designer. Born in Atlanta and raised in Chicago.',
+      projects: [
+        Project(
+            name: 'Project For Good',
+            author: 'Don Quixote',
+            desc:
+                'A placeholder description. It needs to be long so I can test the lines.',
+            tag: 'Peace',
+            avatar: '',
+            isDonate: true),
+        Project(
+            name: 'Project For Angelica',
+            author: 'The Blue Reverberation',
+            desc:
+                'A dirge, whatever that means. To do this I need to distort as many people as I can.',
+            tag: 'Education',
+            avatar: '',
+            isDonate: false),
+        Project(
+            name: 'I need money. Just that, I am poor.',
+            author: 'Roland',
+            desc: 'I need money for HamHamPangPang.',
+            tag: 'Poverty',
+            avatar: '',
+            isDonate: true),
+        Project(
+            name: 'Finish the fight for Ayin',
+            author: 'Hokma',
+            desc: 'A project dedicated to the religion of A.',
+            tag: 'Education',
+            avatar: '',
+            isDonate: false),
+      ]);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,18 +172,36 @@ class _ProfileSelfState extends State<ProfileSelf> {
   }
 }
 
+class Project {
+  final String name;
+  final String author;
+  final String desc;
+  final String tag;
+  final String avatar;
+  final bool isDonate;
+
+  const Project({
+    required this.name,
+    required this.author,
+    required this.desc,
+    required this.tag,
+    required this.avatar,
+    required this.isDonate,
+  });
+}
+
 class User {
   final String name;
   final List<String> tags;
   final String avatar;
   final String desc;
-  final String image;
+  final List<Project> projects;
 
   const User({
     required this.name,
     required this.tags,
     required this.avatar,
     required this.desc,
-    required this.image,
+    required this.projects,
   });
 }
