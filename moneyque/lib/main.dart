@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyque/listing.dart';
 import 'package:moneyque/projectpage.dart';
+import 'package:moneyque/profileself.dart';
 
 main() {
   runApp(const MyApp());
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => Listing(),
         //'/listing': (context) => Listing(),
         //'/project': (context) => ProjectPage(),
+        //'/profileself': (context) => ProfileSelf(),
       },
     );
   }

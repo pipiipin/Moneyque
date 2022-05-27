@@ -20,36 +20,32 @@ class _ListingState extends State<Listing> {
     ];
 
     var projects = [
-      {
-        'name': 'Project For Good',
-        'author': 'Don Quixote',
-        'desc':
-            'A placeholder description. It needs to be long so I can test the lines.',
-        'tag': 'Peace',
-        'avatar': ''
-      },
-      {
-        'name': 'Project For Angelica',
-        'author': 'The Blue Reverberation',
-        'desc':
-            'A dirge, whatever that means. To do this I need to distort as many people as I can.',
-        'tag': 'Education',
-        'avatar': ''
-      },
-      {
-        'name': 'I need money. Just that, I am poor',
-        'author': 'Roland',
-        'desc': 'I need money for HamHamPangPang.',
-        'tag': 'Poverty',
-        'avatar': ''
-      },
-      {
-        'name': 'Finish the fight for Ayin',
-        'author': 'Hokma',
-        'desc': 'A project dedicated to the religion of A.',
-        'tag': 'Education',
-        'avatar': ''
-      },
+      Project(
+          name: 'Project For Good',
+          author: 'Don Quixote',
+          desc:
+              'A placeholder description. It needs to be long so I can test the lines.',
+          tag: 'Peace',
+          avatar: ''),
+      Project(
+          name: 'Project For Angelica',
+          author: 'The Blue Reverberation',
+          desc:
+              'A dirge, whatever that means. To do this I need to distort as many people as I can.',
+          tag: 'Education',
+          avatar: ''),
+      Project(
+          name: 'I need money. Just that, I am poor.',
+          author: 'Roland',
+          desc: 'I need money for HamHamPangPang.',
+          tag: 'Poverty',
+          avatar: ''),
+      Project(
+          name: 'Finish the fight for Ayin',
+          author: 'Hokma',
+          desc: 'A project dedicated to the religion of A.',
+          tag: 'Education',
+          avatar: ''),
     ];
 
     return Scaffold(
@@ -123,8 +119,7 @@ class _ListingState extends State<Listing> {
                     child: Column(
                       children: projects
                           .map(
-                            (e) => ProjectCard(e['name']!, e['author']!,
-                                e['desc']!, e['tag']!, e['avatar']!),
+                            (e) => ProjectCard(e),
                           )
                           .toList(),
                     ),
@@ -145,16 +140,26 @@ class _ListingState extends State<Listing> {
   }
 }
 
-class ProjectCard extends StatelessWidget {
-  const ProjectCard(this.name, this.author, this.desc, this.tag, this.avatar,
-      {Key? key})
-      : super(key: key);
-
+class Project {
   final String name;
   final String author;
   final String desc;
   final String tag;
   final String avatar;
+
+  const Project({
+    required this.name,
+    required this.author,
+    required this.desc,
+    required this.tag,
+    required this.avatar,
+  });
+}
+
+class ProjectCard extends StatelessWidget {
+  const ProjectCard(this.prj, {Key? key}) : super(key: key);
+
+  final Project prj;
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +196,7 @@ class ProjectCard extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
                       ),
-                      child: Text(name),
+                      child: Text(prj.name),
                     ),
                   ),
                   Container(
@@ -202,7 +207,7 @@ class ProjectCard extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.black,
                       ),
-                      child: Text(author),
+                      child: Text(prj.author),
                     ),
                   ),
                   Container(
@@ -210,7 +215,7 @@ class ProjectCard extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Chip(
-                        label: Text(tag),
+                        label: Text(prj.tag),
                       ),
                     ),
                   ),
@@ -222,7 +227,7 @@ class ProjectCard extends StatelessWidget {
                         fontSize: 18,
                         color: Colors.black,
                       ),
-                      child: Text(desc),
+                      child: Text(prj.desc),
                     ),
                   ),
                 ],
