@@ -22,7 +22,7 @@ class _ProfileState extends State<Profile> {
                 'A placeholder description. It needs to be long so I can test the lines.',
             tag: 'Peace',
             avatar: '',
-            isDonate: true),
+            amount: 25.5),
         Project(
             name: 'Project For Angelica',
             author: 'The Blue Reverberation',
@@ -30,21 +30,21 @@ class _ProfileState extends State<Profile> {
                 'A dirge, whatever that means. To do this I need to distort as many people as I can. Don\'t know if we can take on the head or not, but I believe if you just distort some colors, we\'ll be fine, trust me. I am a color as well, you know?',
             tag: 'Education',
             avatar: '',
-            isDonate: false),
+            amount: 99.99),
         Project(
             name: 'I need money. Just that, I am poor.',
             author: 'Roland',
             desc: 'I need money for HamHamPangPang.',
             tag: 'Poverty',
             avatar: '',
-            isDonate: true),
+            amount: 0.1),
         Project(
             name: 'Finish the fight for Ayin',
             author: 'Hokma',
             desc: 'A project dedicated to the religion of A.',
             tag: 'Education',
             avatar: '',
-            isDonate: false),
+            amount: 100),
       ]);
 
   @override
@@ -106,16 +106,6 @@ class _ProfileState extends State<Profile> {
                                   ),
                                   child: Text(user.name),
                                 ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                print('Edit Profile');
-                              },
-                              child: Chip(
-                                label: Text('Edit Profile'),
-                                backgroundColor:
-                                    Color.fromRGBO(196, 196, 196, 1),
                               ),
                             ),
                             Padding(
@@ -273,7 +263,7 @@ class Project {
   final String desc;
   final String tag;
   final String avatar;
-  final bool isDonate;
+  final double amount;
 
   const Project({
     required this.name,
@@ -281,7 +271,7 @@ class Project {
     required this.desc,
     required this.tag,
     required this.avatar,
-    required this.isDonate,
+    required this.amount,
   });
 }
 
@@ -325,7 +315,7 @@ class ProjectCard extends StatelessWidget {
                 maxRadius: 30,
               ),
               Padding(
-                padding: EdgeInsets.all(8),
+                padding: EdgeInsets.all(6),
               ),
               Row(
                 children: [
@@ -390,16 +380,9 @@ class ProjectCard extends StatelessWidget {
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
-                            child: Text(prj.isDonate ? 'Donate' : 'Sell'),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            print('Delete Project');
-                          },
-                          child: Icon(
-                            Icons.delete_forever_outlined,
-                            size: 30,
+                            child: Text(prj.amount >= 100
+                                ? 'Bought'
+                                : 'Invested\n' + prj.amount.toString() + '%'),
                           ),
                         ),
                       ],
