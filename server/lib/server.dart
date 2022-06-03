@@ -4,7 +4,7 @@ import 'package:sevr/sevr.dart';
 void start() async {
   // Log into database
   final db = await Db.create(
-      'mongodb+srv://cbuser:cbpass@cluster0.xpkap.mongodb.net/test?retryWrites=true&w=majority');
+      'mongodb+srv://iceing11:mmkd1234@moneyque.elult.mongodb.net/test?retryWrites=true&w=majority');
   await db.open();
   final coll = db.collection('contacts');
 
