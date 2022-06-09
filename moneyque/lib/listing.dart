@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:moneyque/api.dart';
+import 'api.dart';
 
 class Listing extends StatefulWidget {
-  const Listing({Key? key}) : super(key: key);
+  Listing({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _ListingState createState() => _ListingState();
@@ -19,34 +23,20 @@ class _ListingState extends State<Listing> {
       {'name': 'Peace'},
     ];
 
-    var projects = [
-      Project(
-          name: 'Project For Good',
-          author: 'Don Quixote',
-          desc:
-              'A placeholder description. It needs to be long so I can test the lines.',
-          tag: 'Peace',
-          avatar: ''),
-      Project(
-          name: 'Project For Angelica',
-          author: 'The Blue Reverberation',
-          desc:
-              'A dirge, whatever that means. To do this I need to distort as many people as I can.',
-          tag: 'Education',
-          avatar: ''),
-      Project(
-          name: 'I need money. Just that, I am poor.',
-          author: 'Roland',
-          desc: 'I need money for HamHamPangPang.',
-          tag: 'Poverty',
-          avatar: ''),
-      Project(
-          name: 'Finish the fight for Ayin',
-          author: 'Hokma',
-          desc: 'A project dedicated to the religion of A.',
-          tag: 'Education',
-          avatar: ''),
-    ];
+    List projects = [];
+    bool loading = true;
+
+    @override
+    void initState() {
+      super.initState();
+
+      widget.api.getProjects().then((data) {
+        setState(() {
+          projects = data;
+          loading = false;
+        });
+      });
+    }
 
     return Scaffold(
       body: MaterialApp(
@@ -98,21 +88,25 @@ class _ListingState extends State<Listing> {
                   endIndent: 40,
                   color: Color.fromRGBO(225, 225, 225, 1),
                 ),
-                Padding(
-                  padding: EdgeInsets.all(7),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 8.0, // gap between adjacent chips
-                    runSpacing: -8.0, // gap between lines
-                    children: tags
-                        .map(
-                          (e) => Chip(
-                            label: Text(e['name']!),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
+                loading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Padding(
+                        padding: EdgeInsets.all(7),
+                        child: Wrap(
+                          alignment: WrapAlignment.center,
+                          spacing: 8.0, // gap between adjacent chips
+                          runSpacing: -8.0, // gap between lines
+                          children: tags
+                              .map(
+                                (e) => Chip(
+                                  label: Text(e['name']!),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
                 Expanded(
                   child: SingleChildScrollView(
                     padding: EdgeInsets.all(0),

@@ -4,9 +4,9 @@ import 'package:sevr/sevr.dart';
 void start() async {
   // Log into database
   final db = await Db.create(
-      'mongodb+srv://iceing11:mmkd1234@moneyque.elult.mongodb.net/test?retryWrites=true&w=majority');
+      'mongodb+srv://iceing11:mmkd1234@moneyque.elult.mongodb.net/app?retryWrites=true&w=majority');
   await db.open();
-  final coll = db.collection('contacts');
+  final coll = db.collection('projects');
 
   // Create server
   const port = 8081;
@@ -25,8 +25,8 @@ void start() async {
   serv.get('/', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final contacts = await coll.find().toList();
-      return res.status(200).json({'contacts': contacts});
+      final projects = await coll.find().toList();
+      return res.status(200).json({'projects': projects});
     }
   ]);
 
