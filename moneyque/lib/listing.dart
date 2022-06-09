@@ -12,32 +12,32 @@ class Listing extends StatefulWidget {
 }
 
 class _ListingState extends State<Listing> {
+  var tags = [
+    {'name': 'Poverty'},
+    {'name': 'Education'},
+    {'name': 'Gender Equality'},
+    {'name': 'Life On Land'},
+    {'name': 'Life Below Water'},
+    {'name': 'Peace'},
+  ];
+
+  List projects = [];
+  bool loading = true;
+
+  @override
+  void initState() {
+    super.initState();
+
+    widget.api.getProjects().then((data) {
+      setState(() {
+        projects = data;
+        loading = false;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    var tags = [
-      {'name': 'Poverty'},
-      {'name': 'Education'},
-      {'name': 'Gender Equality'},
-      {'name': 'Life On Land'},
-      {'name': 'Life Below Water'},
-      {'name': 'Peace'},
-    ];
-
-    List projects = [];
-    bool loading = true;
-
-    @override
-    void initState() {
-      super.initState();
-
-      widget.api.getProjects().then((data) {
-        setState(() {
-          projects = data;
-          loading = false;
-        });
-      });
-    }
-
     return Scaffold(
       body: MaterialApp(
         title: 'Testing',

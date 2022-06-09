@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => Listing(),
-        //'/listing': (context) => Listing(),
-        //'/project': (context) => ProjectPage(),
-        //'/profileself': (context) => ProfileSelf(),
-        //'/profile': (context) => Profile(),
+        '/listing': (context) => Listing(),
+        '/project': (context) => ProjectPage(),
+        '/profileself': (context) => ProfileSelf(),
+        '/profile': (context) => Profile(),
       },
     );
   }
