@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
-import 'api.dart';
+import 'package:moneyque/project.dart';
+import 'package:moneyque/projects_listing.dart';
 
 class Listing extends StatefulWidget {
   Listing({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _ListingState extends State<Listing> {
     {'name': 'Peace'},
   ];
 
-  List projects = [];
+  List<Project> projects = [];
   bool loading = true;
 
   @override
@@ -88,37 +89,28 @@ class _ListingState extends State<Listing> {
                   endIndent: 40,
                   color: Color.fromRGBO(225, 225, 225, 1),
                 ),
+                Padding(
+                  padding: EdgeInsets.all(7),
+                  child: Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8.0, // gap between adjacent chips
+                    runSpacing: -8.0, // gap between lines
+                    children: tags
+                        .map(
+                          (e) => Chip(
+                            label: Text(e['name']!),
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
                 loading
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : Padding(
-                        padding: EdgeInsets.all(7),
-                        child: Wrap(
-                          alignment: WrapAlignment.center,
-                          spacing: 8.0, // gap between adjacent chips
-                          runSpacing: -8.0, // gap between lines
-                          children: tags
-                              .map(
-                                (e) => Chip(
-                                  label: Text(e['name']!),
-                                ),
-                              )
-                              .toList(),
-                        ),
+                    : Expanded(
+                        child: ProjectsListing(projects),
                       ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      children: projects
-                          .map(
-                            (e) => ProjectCard(e),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                ),
               ],
             ),
             backgroundColor: Colors.white,
@@ -129,113 +121,6 @@ class _ListingState extends State<Listing> {
         onPressed: () => {print('Create Post?')},
         child: const Icon(Icons.create),
         backgroundColor: Colors.grey,
-      ),
-    );
-  }
-}
-
-class Project {
-  final String name;
-  final String author;
-  final String desc;
-  final String tag;
-  final String avatar;
-
-  const Project({
-    required this.name,
-    required this.author,
-    required this.desc,
-    required this.tag,
-    required this.avatar,
-  });
-}
-
-class ProjectCard extends StatelessWidget {
-  const ProjectCard(this.prj, {Key? key}) : super(key: key);
-
-  final Project prj;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        print('Enter Project');
-      },
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(8),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(16),
-              ),
-              CircleAvatar(
-                backgroundColor: Colors.grey,
-                maxRadius: 45,
-              ),
-              Padding(
-                padding: EdgeInsets.all(10),
-              ),
-              Column(
-                children: [
-                  Container(
-                    width: 230,
-                    child: DefaultTextStyle(
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      child: Text(prj.name),
-                    ),
-                  ),
-                  Container(
-                    width: 230,
-                    child: DefaultTextStyle(
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      child: Text(prj.author),
-                    ),
-                  ),
-                  Container(
-                    width: 230,
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Chip(
-                        label: Text(prj.tag),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    width: 230,
-                    child: DefaultTextStyle(
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.black,
-                      ),
-                      child: Text(prj.desc),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Divider(
-            height: 75,
-            thickness: 2,
-            indent: 40,
-            endIndent: 40,
-            color: Color.fromRGBO(225, 225, 225, 1),
-          ),
-        ],
       ),
     );
   }
