@@ -10,4 +10,9 @@ class MoneyqueApi {
         .map<Project>((json) => Project.fromJson(json))
         .toList();
   }
+
+  Future<Project> getProjectByName(String name) async {
+    final response = await _dio.get('/name', queryParameters: {'name': name});
+    return Project.fromJson(response.data['projects'][0]);
+  }
 }
