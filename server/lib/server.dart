@@ -30,6 +30,14 @@ void start() async {
     }
   ]);
 
+  serv.get('/name', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final projects = await coll.find(req.query).toList();
+      return res.status(200).json({'projects': projects});
+    }
+  ]);
+
   serv.post('/', [
     setCors,
     (ServRequest req, ServResponse res) async {
