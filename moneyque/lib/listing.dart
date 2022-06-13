@@ -40,81 +40,78 @@ class _ListingState extends State<Listing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MaterialApp(
-        title: 'Testing',
-        home: SafeArea(
-          child: Scaffold(
-            body: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          print('Back');
-                        },
-                        child: Icon(
-                          Icons.swap_horiz_rounded,
-                          size: 40,
-                        ),
+      body: SafeArea(
+        child: Scaffold(
+          body: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        print('Back');
+                      },
+                      child: Icon(
+                        Icons.swap_horiz_rounded,
+                        size: 40,
                       ),
-                      DefaultTextStyle(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.black,
-                          decoration: TextDecoration.none,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        child: Text('Buy'),
+                    ),
+                    DefaultTextStyle(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: Colors.black,
+                        decoration: TextDecoration.none,
+                        fontWeight: FontWeight.bold,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          print('Discover?');
-                        },
-                        child: Icon(
-                          Icons.find_in_page_outlined,
-                          size: 40,
+                      child: Text('Buy'),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print('Discover?');
+                      },
+                      child: Icon(
+                        Icons.find_in_page_outlined,
+                        size: 40,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Divider(
+                height: 0,
+                thickness: 2,
+                indent: 40,
+                endIndent: 40,
+                color: Color.fromRGBO(225, 225, 225, 1),
+              ),
+              Padding(
+                padding: EdgeInsets.all(7),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8.0, // gap between adjacent chips
+                  runSpacing: -8.0, // gap between lines
+                  children: tags
+                      .map(
+                        (e) => Chip(
+                          label: Text(e['name']!),
                         ),
                       )
-                    ],
-                  ),
+                      .toList(),
                 ),
-                Divider(
-                  height: 0,
-                  thickness: 2,
-                  indent: 40,
-                  endIndent: 40,
-                  color: Color.fromRGBO(225, 225, 225, 1),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(7),
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 8.0, // gap between adjacent chips
-                    runSpacing: -8.0, // gap between lines
-                    children: tags
-                        .map(
-                          (e) => Chip(
-                            label: Text(e['name']!),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ),
-                loading
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Expanded(
-                        child: ProjectsListing(projects),
-                      ),
-              ],
-            ),
-            backgroundColor: Colors.white,
+              ),
+              loading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      child: ProjectsListing(projects),
+                    ),
+            ],
           ),
+          backgroundColor: Colors.white,
         ),
       ),
       floatingActionButton: FloatingActionButton(
