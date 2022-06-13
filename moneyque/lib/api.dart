@@ -15,4 +15,19 @@ class MoneyqueApi {
     final response = await _dio.get('/name', queryParameters: {'name': name});
     return Project.fromJson(response.data['projects'][0]);
   }
+
+  Future<Project> getProjectById(String id) async {
+    final response = await _dio.get('');
+    late Project hit;
+
+    (response.data['projects'] as List)
+        .map<Project>((json) => Project.fromJson(json))
+        .forEach((element) {
+      if (element.id == id) {
+        hit = element;
+      }
+    });
+
+    return hit;
+  }
 }

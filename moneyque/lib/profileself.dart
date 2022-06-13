@@ -50,124 +50,120 @@ class _ProfileSelfState extends State<ProfileSelf> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MaterialApp(
-        title: 'Testing',
-        home: SafeArea(
-          child: Scaffold(
-            body: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          print('Back?');
-                        },
-                        child: Icon(
-                          Icons.swap_horiz_rounded,
-                          size: 40,
-                        ),
+      body: SafeArea(
+        child: Scaffold(
+          body: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        print('Back?');
+                      },
+                      child: Icon(
+                        Icons.swap_horiz_rounded,
+                        size: 40,
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          print('Stats?');
-                        },
-                        child: Icon(
-                          Icons.moving_outlined,
-                          size: 40,
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        print('Stats?');
+                      },
+                      child: Icon(
+                        Icons.moving_outlined,
+                        size: 40,
+                      ),
+                    )
+                  ],
                 ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    padding: EdgeInsets.all(0),
-                    child: Column(
-                      children: [
-                        Column(
-                          children: [
-                            CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              maxRadius: 60,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 12.0, 0, 5),
-                              child: Container(
-                                width: 230,
-                                child: DefaultTextStyle(
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  child: Text(user.name),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                print('Edit Profile');
-                              },
-                              child: Chip(
-                                label: Text('Edit Profile'),
-                                backgroundColor:
-                                    Color.fromRGBO(196, 196, 196, 1),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
-                              child: Wrap(
-                                alignment: WrapAlignment.center,
-                                spacing: 8.0, // gap between adjacent chips
-                                runSpacing: -8.0, // gap between lines
-                                children: user.tags
-                                    .map(
-                                      (e) => Chip(
-                                        label: Text(e),
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                            Container(
-                              width: 340,
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.all(0),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            maxRadius: 60,
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 12.0, 0, 5),
+                            child: Container(
+                              width: 230,
                               child: DefaultTextStyle(
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 18,
                                   color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                child: Text(user.desc),
+                                child: Text(user.name),
                               ),
                             ),
-                            Divider(
-                              height: 55,
-                              thickness: 2,
-                              indent: 40,
-                              endIndent: 40,
-                              color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              print('Edit Profile');
+                            },
+                            child: Chip(
+                              label: Text('Edit Profile'),
+                              backgroundColor: Color.fromRGBO(196, 196, 196, 1),
                             ),
-                            Column(
-                              children: user.projects
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
+                            child: Wrap(
+                              alignment: WrapAlignment.center,
+                              spacing: 8.0, // gap between adjacent chips
+                              runSpacing: -8.0, // gap between lines
+                              children: user.tags
                                   .map(
-                                    (e) => ProjectCard(e),
+                                    (e) => Chip(
+                                      label: Text(e),
+                                    ),
                                   )
                                   .toList(),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                          Container(
+                            width: 340,
+                            child: DefaultTextStyle(
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                              ),
+                              child: Text(user.desc),
+                            ),
+                          ),
+                          Divider(
+                            height: 55,
+                            thickness: 2,
+                            indent: 40,
+                            endIndent: 40,
+                            color: Color.fromRGBO(225, 225, 225, 1),
+                          ),
+                          Column(
+                            children: user.projects
+                                .map(
+                                  (e) => ProjectCard(e),
+                                )
+                                .toList(),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-            backgroundColor: Colors.white,
+              ),
+            ],
           ),
+          backgroundColor: Colors.white,
         ),
       ),
       bottomNavigationBar: Container(
