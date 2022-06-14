@@ -1,12 +1,12 @@
 class Project {
   final String id;
-  final String name;
-  final String author;
-  final String desc;
-  final String tag;
-  final String avatar;
+  String name;
+  String author;
+  String desc;
+  String tag;
+  String avatar;
 
-  const Project._(
+  Project._(
     this.id,
     this.name,
     this.author,

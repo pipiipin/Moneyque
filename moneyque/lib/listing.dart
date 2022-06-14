@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/projects_listing.dart';
+import 'package:moneyque/user.dart';
 
 class Listing extends StatefulWidget {
   Listing({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _ListingState extends State<Listing> {
   ];
 
   List<Project> projects = [];
+  List<User> users = [];
   bool loading = true;
 
   @override
@@ -32,9 +34,27 @@ class _ListingState extends State<Listing> {
     widget.api.getProjects().then((data) {
       setState(() {
         projects = data;
-        loading = false;
       });
-    });
+    }).then((value) => {
+          widget.api.getUsers().then((data) {
+            setState(() {
+              users = data;
+            });
+          }).then((value) => {
+                projects.forEach((prj) {
+                  String authName = 'N/A';
+
+                  users.forEach((user) {
+                    if (user.id == prj.author) {
+                      authName = user.name;
+                    }
+                  });
+
+                  prj.author = authName;
+                }),
+                loading = false
+              })
+        });
   }
 
   @override

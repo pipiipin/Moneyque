@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
+import 'package:moneyque/user.dart';
 
 late String projectId;
 
@@ -31,9 +32,15 @@ class _ProjectPageState extends State<ProjectPage> {
           widget.api.getProjectById(projectId).then((data) {
             setState(() {
               project = data;
-              loading = false;
             });
-          })
+          }).then((value) => {
+                widget.api.getUserById(project.author).then((data) {
+                  setState(() {
+                    project.author = data.name;
+                    loading = false;
+                  });
+                })
+              })
         });
   }
 
