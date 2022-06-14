@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 class ProfileSelf extends StatefulWidget {
@@ -8,7 +10,7 @@ class ProfileSelf extends StatefulWidget {
 }
 
 class _ProfileSelfState extends State<ProfileSelf> {
-  User user = User(
+  User user = const User(
       name: 'Kanye West',
       tags: ['Peace', 'Education', 'Poverty'],
       avatar: '',
@@ -57,7 +59,7 @@ class _ProfileSelfState extends State<ProfileSelf> {
             body: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                  padding: const EdgeInsets.fromLTRB(25, 25, 25, 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,7 +67,7 @@ class _ProfileSelfState extends State<ProfileSelf> {
                         onTap: () {
                           print('Back?');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.swap_horiz_rounded,
                           size: 40,
                         ),
@@ -74,7 +76,7 @@ class _ProfileSelfState extends State<ProfileSelf> {
                         onTap: () {
                           print('Stats?');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.moving_outlined,
                           size: 40,
                         ),
@@ -84,22 +86,22 @@ class _ProfileSelfState extends State<ProfileSelf> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: Column(
                       children: [
                         Column(
                           children: [
-                            CircleAvatar(
+                            const CircleAvatar(
                               backgroundColor: Colors.grey,
                               maxRadius: 60,
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(0, 12.0, 0, 5),
-                              child: Container(
+                              padding: const EdgeInsets.fromLTRB(0, 12.0, 0, 5),
+                              child: SizedBox(
                                 width: 230,
                                 child: DefaultTextStyle(
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -112,14 +114,14 @@ class _ProfileSelfState extends State<ProfileSelf> {
                               onTap: () {
                                 print('Edit Profile');
                               },
-                              child: Chip(
+                              child: const Chip(
                                 label: Text('Edit Profile'),
                                 backgroundColor:
                                     Color.fromRGBO(196, 196, 196, 1),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
+                              padding: const EdgeInsets.fromLTRB(0, 0, 0, 7),
                               child: Wrap(
                                 alignment: WrapAlignment.center,
                                 spacing: 8.0, // gap between adjacent chips
@@ -133,18 +135,18 @@ class _ProfileSelfState extends State<ProfileSelf> {
                                     .toList(),
                               ),
                             ),
-                            Container(
+                            SizedBox(
                               width: 340,
                               child: DefaultTextStyle(
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
                                 ),
                                 child: Text(user.desc),
                               ),
                             ),
-                            Divider(
+                            const Divider(
                               height: 55,
                               thickness: 2,
                               indent: 40,
@@ -172,7 +174,7 @@ class _ProfileSelfState extends State<ProfileSelf> {
       ),
       bottomNavigationBar: Container(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -182,13 +184,13 @@ class _ProfileSelfState extends State<ProfileSelf> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.explore,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -209,13 +211,13 @@ class _ProfileSelfState extends State<ProfileSelf> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.headset_mic_outlined,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -236,13 +238,13 @@ class _ProfileSelfState extends State<ProfileSelf> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.person_outline,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -261,7 +263,7 @@ class _ProfileSelfState extends State<ProfileSelf> {
           ),
         ),
         height: 58,
-        color: Color.fromRGBO(99, 94, 87, 1),
+        color: const Color.fromRGBO(99, 94, 87, 1),
       ),
     );
   }
@@ -317,25 +319,25 @@ class ProjectCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(12),
               ),
-              CircleAvatar(
+              const CircleAvatar(
                 backgroundColor: Colors.grey,
                 maxRadius: 30,
               ),
-              Padding(
+              const Padding(
                 padding: EdgeInsets.all(8),
               ),
               Row(
                 children: [
                   Column(
                     children: [
-                      Container(
+                      SizedBox(
                         width: 230,
                         child: DefaultTextStyle(
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
@@ -343,18 +345,18 @@ class ProjectCard extends StatelessWidget {
                           child: Text(prj.name),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 230,
                         child: DefaultTextStyle(
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,
                           ),
                           child: Text(prj.author),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 230,
                         child: Align(
                           alignment: Alignment.centerLeft,
@@ -363,11 +365,11 @@ class ProjectCard extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Container(
+                      SizedBox(
                         width: 210,
                         child: DefaultTextStyle(
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 14,
                             color: Colors.black,
                           ),
@@ -376,16 +378,16 @@ class ProjectCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Container(
+                  SizedBox(
                     height: 120,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           width: 80,
                           child: DefaultTextStyle(
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
@@ -397,7 +399,7 @@ class ProjectCard extends StatelessWidget {
                           onTap: () {
                             print('Delete Project');
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.delete_forever_outlined,
                             size: 30,
                           ),
@@ -409,7 +411,7 @@ class ProjectCard extends StatelessWidget {
               ),
             ],
           ),
-          Divider(
+          const Divider(
             height: 75,
             thickness: 2,
             indent: 40,

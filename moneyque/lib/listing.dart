@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
@@ -47,7 +49,7 @@ class _ListingState extends State<Listing> {
             body: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                  padding: const EdgeInsets.fromLTRB(25, 25, 25, 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -55,12 +57,12 @@ class _ListingState extends State<Listing> {
                         onTap: () {
                           print('Back');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.swap_horiz_rounded,
                           size: 40,
                         ),
                       ),
-                      DefaultTextStyle(
+                      const DefaultTextStyle(
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24,
@@ -74,7 +76,7 @@ class _ListingState extends State<Listing> {
                         onTap: () {
                           print('Discover?');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.find_in_page_outlined,
                           size: 40,
                         ),
@@ -82,7 +84,7 @@ class _ListingState extends State<Listing> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   height: 0,
                   thickness: 2,
                   indent: 40,
@@ -90,7 +92,7 @@ class _ListingState extends State<Listing> {
                   color: Color.fromRGBO(225, 225, 225, 1),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(7),
                   child: Wrap(
                     alignment: WrapAlignment.center,
                     spacing: 8.0, // gap between adjacent chips
@@ -105,7 +107,7 @@ class _ListingState extends State<Listing> {
                   ),
                 ),
                 loading
-                    ? Center(
+                    ? const Center(
                         child: CircularProgressIndicator(),
                       )
                     : Expanded(

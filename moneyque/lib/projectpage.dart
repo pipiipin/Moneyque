@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 
 class ProjectPage extends StatefulWidget {
@@ -10,7 +12,7 @@ class ProjectPage extends StatefulWidget {
 class _ProjectPageState extends State<ProjectPage> {
   @override
   Widget build(BuildContext context) {
-    var project = Project(
+    var project = const Project(
         name: 'Project Name',
         author: 'Kanye West',
         avatar: '',
@@ -27,7 +29,7 @@ class _ProjectPageState extends State<ProjectPage> {
             body: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(25, 25, 25, 15),
+                  padding: const EdgeInsets.fromLTRB(25, 25, 25, 15),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -35,14 +37,14 @@ class _ProjectPageState extends State<ProjectPage> {
                         onTap: () {
                           print('Back');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.swap_horiz_rounded,
                           size: 40,
                         ),
                       ),
                       DefaultTextStyle(
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 24,
                           color: Colors.black,
                           decoration: TextDecoration.none,
@@ -54,7 +56,7 @@ class _ProjectPageState extends State<ProjectPage> {
                         onTap: () {
                           print('Discover?');
                         },
-                        child: Icon(
+                        child: const Icon(
                           Icons.find_in_page_outlined,
                           size: 40,
                         ),
@@ -62,7 +64,7 @@ class _ProjectPageState extends State<ProjectPage> {
                     ],
                   ),
                 ),
-                Divider(
+                const Divider(
                   height: 0,
                   thickness: 2,
                   indent: 40,
@@ -71,40 +73,40 @@ class _ProjectPageState extends State<ProjectPage> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: EdgeInsets.all(0),
+                    padding: const EdgeInsets.all(0),
                     child: Column(
                       children: [
                         Column(
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.all(8),
                             ),
                             Row(
                               children: [
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.all(20),
                                 ),
-                                CircleAvatar(
+                                const CircleAvatar(
                                   backgroundColor: Colors.grey,
                                   maxRadius: 32,
                                 ),
-                                Padding(
+                                const Padding(
                                   padding: EdgeInsets.all(10),
                                 ),
                                 Column(
                                   children: [
-                                    Container(
+                                    SizedBox(
                                       width: 230,
                                       child: DefaultTextStyle(
                                         textAlign: TextAlign.left,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18,
                                           color: Colors.black,
                                         ),
                                         child: Text(project.author),
                                       ),
                                     ),
-                                    Container(
+                                    SizedBox(
                                       width: 230,
                                       child: Align(
                                         alignment: Alignment.centerLeft,
@@ -119,12 +121,12 @@ class _ProjectPageState extends State<ProjectPage> {
                             ),
                           ],
                         ),
-                        Padding(padding: EdgeInsets.all(8)),
-                        Container(
+                        const Padding(padding: EdgeInsets.all(8)),
+                        SizedBox(
                           width: 350,
                           child: DefaultTextStyle(
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 16,
                               color: Colors.black,
                             ),
@@ -132,8 +134,8 @@ class _ProjectPageState extends State<ProjectPage> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Container(
+                          padding: const EdgeInsets.all(20),
+                          child: SizedBox(
                             child: FittedBox(
                               child: Image.asset(
                                 'assets/kanye.png',
@@ -155,7 +157,7 @@ class _ProjectPageState extends State<ProjectPage> {
       ),
       bottomNavigationBar: Container(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -163,7 +165,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 onTap: () {
                   print('Buy');
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.credit_card,
                   size: 32,
                   color: Colors.white,
@@ -174,13 +176,13 @@ class _ProjectPageState extends State<ProjectPage> {
                   print('Contact');
                 },
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.live_help_outlined,
                       size: 32,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -199,7 +201,7 @@ class _ProjectPageState extends State<ProjectPage> {
           ),
         ),
         height: 58,
-        color: Color.fromRGBO(99, 94, 87, 1),
+        color: const Color.fromRGBO(99, 94, 87, 1),
       ),
     );
   }
