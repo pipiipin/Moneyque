@@ -15,6 +15,7 @@ class ProjectPage extends StatefulWidget {
 }
 
 late Project project;
+late String authorName;
 bool loading = true;
 
 class _ProjectPageState extends State<ProjectPage> {
@@ -36,7 +37,7 @@ class _ProjectPageState extends State<ProjectPage> {
           }).then((value) => {
                 widget.api.getUserById(project.author).then((data) {
                   setState(() {
-                    project.author = data.name;
+                    authorName = data.name;
                     loading = false;
                   });
                 })
@@ -64,7 +65,9 @@ class _ProjectPageState extends State<ProjectPage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                print('Back');
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                }
                               },
                               child: Icon(
                                 Icons.swap_horiz_rounded,
@@ -110,43 +113,49 @@ class _ProjectPageState extends State<ProjectPage> {
                                   Padding(
                                     padding: EdgeInsets.all(8),
                                   ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(20),
-                                      ),
-                                      CircleAvatar(
-                                        backgroundColor: Colors.grey,
-                                        maxRadius: 32,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.all(10),
-                                      ),
-                                      Column(
-                                        children: [
-                                          Container(
-                                            width: 230,
-                                            child: DefaultTextStyle(
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                color: Colors.black,
-                                              ),
-                                              child: Text(project.author),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 230,
-                                            child: Align(
-                                              alignment: Alignment.centerLeft,
-                                              child: Chip(
-                                                label: Text(project.tag),
+                                  GestureDetector(
+                                    onTap: () => {
+                                      Navigator.pushNamed(context, '/profile',
+                                          arguments: project.author)
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.all(20),
+                                        ),
+                                        CircleAvatar(
+                                          backgroundColor: Colors.grey,
+                                          maxRadius: 32,
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.all(10),
+                                        ),
+                                        Column(
+                                          children: [
+                                            Container(
+                                              width: 230,
+                                              child: DefaultTextStyle(
+                                                textAlign: TextAlign.left,
+                                                style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black,
+                                                ),
+                                                child: Text(authorName),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            Container(
+                                              width: 230,
+                                              child: Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Chip(
+                                                  label: Text(project.tag),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

@@ -1,51 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:moneyque/user.dart';
+import 'package:moneyque/api.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+  Profile({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _ProfileState createState() => _ProfileState();
 }
 
+late User user;
+late String userId;
+
+bool isLoading = true;
+
 class _ProfileState extends State<Profile> {
-  User user = User(
-      name: 'Kanye West',
-      tags: ['Peace', 'Education', 'Poverty'],
-      avatar: '',
-      desc:
-          'An American rapper, record producer, and fashion designer. Born in Atlanta and raised in Chicago.',
-      projects: [
-        Project(
-            name: 'Project For Good',
-            author: 'Don Quixote',
-            desc:
-                'A placeholder description. It needs to be long so I can test the lines.',
-            tag: 'Peace',
-            avatar: '',
-            amount: 25.5),
-        Project(
-            name: 'Project For Angelica',
-            author: 'The Blue Reverberation',
-            desc:
-                'A dirge, whatever that means. To do this I need to distort as many people as I can. Don\'t know if we can take on the head or not, but I believe if you just distort some colors, we\'ll be fine, trust me. I am a color as well, you know?',
-            tag: 'Education',
-            avatar: '',
-            amount: 99.99),
-        Project(
-            name: 'I need money. Just that, I am poor.',
-            author: 'Roland',
-            desc: 'I need money for HamHamPangPang.',
-            tag: 'Poverty',
-            avatar: '',
-            amount: 0.1),
-        Project(
-            name: 'Finish the fight for Ayin',
-            author: 'Hokma',
-            desc: 'A project dedicated to the religion of A.',
-            tag: 'Education',
-            avatar: '',
-            amount: 100),
-      ]);
+  List<Project> projects = [
+    Project(
+        name: 'Project For Good',
+        author: 'Don Quixote',
+        desc:
+            'A placeholder description. It needs to be long so I can test the lines.',
+        tag: 'Peace',
+        avatar: '',
+        amount: 25.5),
+    Project(
+        name: 'Project For Angelica',
+        author: 'The Blue Reverberation',
+        desc:
+            'A dirge, whatever that means. To do this I need to distort as many people as I can. Don\'t know if we can take on the head or not, but I believe if you just distort some colors, we\'ll be fine, trust me. I am a color as well, you know?',
+        tag: 'Education',
+        avatar: '',
+        amount: 99.99),
+    Project(
+        name: 'I need money. Just that, I am poor.',
+        author: 'Roland',
+        desc: 'I need money for HamHamPangPang.',
+        tag: 'Poverty',
+        avatar: '',
+        amount: 0.1),
+    Project(
+        name: 'Finish the fight for Ayin',
+        author: 'Hokma',
+        desc: 'A project dedicated to the religion of A.',
+        tag: 'Education',
+        avatar: '',
+        amount: 100),
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        userId = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    }).then((value) => {
+          widget.api.getUserById(userId).then((data) {
+            setState(() {
+              user = data;
+              isLoading = false;
+            });
+          })
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +84,9 @@ class _ProfileState extends State<Profile> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print('Back?');
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        }
                       },
                       child: Icon(
                         Icons.swap_horiz_rounded,
@@ -80,78 +105,82 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.all(0),
-                  child: Column(
-                    children: [
-                      Column(
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: Colors.grey,
-                            maxRadius: 60,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 12.0, 0, 5),
-                            child: Container(
-                              width: 230,
-                              child: DefaultTextStyle(
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
+              isLoading
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : Expanded(
+                      child: SingleChildScrollView(
+                        padding: EdgeInsets.all(0),
+                        child: Column(
+                          children: [
+                            Column(
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  maxRadius: 60,
                                 ),
-                                child: Text(user.name),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
-                            child: Wrap(
-                              alignment: WrapAlignment.center,
-                              spacing: 8.0, // gap between adjacent chips
-                              runSpacing: -8.0, // gap between lines
-                              children: user.tags
-                                  .map(
-                                    (e) => Chip(
-                                      label: Text(e),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 12.0, 0, 5),
+                                  child: Container(
+                                    width: 230,
+                                    child: DefaultTextStyle(
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      child: Text(user.name),
                                     ),
-                                  )
-                                  .toList(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 7),
+                                  child: Wrap(
+                                    alignment: WrapAlignment.center,
+                                    spacing: 8.0, // gap between adjacent chips
+                                    runSpacing: -8.0, // gap between lines
+                                    children: user.tags
+                                        .map(
+                                          (e) => Chip(
+                                            label: Text(e),
+                                          ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                                Container(
+                                  width: 340,
+                                  child: DefaultTextStyle(
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                    child: Text(user.desc),
+                                  ),
+                                ),
+                                Divider(
+                                  height: 55,
+                                  thickness: 2,
+                                  indent: 40,
+                                  endIndent: 40,
+                                  color: Color.fromRGBO(225, 225, 225, 1),
+                                ),
+                                Column(
+                                  children: projects
+                                      .map(
+                                        (e) => ProjectCard(e),
+                                      )
+                                      .toList(),
+                                ),
+                              ],
                             ),
-                          ),
-                          Container(
-                            width: 340,
-                            child: DefaultTextStyle(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                              ),
-                              child: Text(user.desc),
-                            ),
-                          ),
-                          Divider(
-                            height: 55,
-                            thickness: 2,
-                            indent: 40,
-                            endIndent: 40,
-                            color: Color.fromRGBO(225, 225, 225, 1),
-                          ),
-                          Column(
-                            children: user.projects
-                                .map(
-                                  (e) => ProjectCard(e),
-                                )
-                                .toList(),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
             ],
           ),
           backgroundColor: Colors.white,
@@ -269,22 +298,6 @@ class Project {
     required this.tag,
     required this.avatar,
     required this.amount,
-  });
-}
-
-class User {
-  final String name;
-  final List<String> tags;
-  final String avatar;
-  final String desc;
-  final List<Project> projects;
-
-  const User({
-    required this.name,
-    required this.tags,
-    required this.avatar,
-    required this.desc,
-    required this.projects,
   });
 }
 
