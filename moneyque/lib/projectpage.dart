@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/user.dart';
@@ -67,6 +68,8 @@ class _ProjectPageState extends State<ProjectPage> {
                               onTap: () {
                                 if (Navigator.canPop(context)) {
                                   Navigator.pop(context);
+                                } else {
+                                  SystemNavigator.pop();
                                 }
                               },
                               child: Icon(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moneyque/user.dart';
 import 'package:moneyque/api.dart';
 
@@ -86,6 +87,8 @@ class _ProfileState extends State<Profile> {
                       onTap: () {
                         if (Navigator.canPop(context)) {
                           Navigator.pop(context);
+                        } else {
+                          SystemNavigator.pop();
                         }
                       },
                       child: Icon(

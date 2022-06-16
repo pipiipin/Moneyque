@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/projects_listing.dart';
@@ -71,7 +72,11 @@ class _ListingState extends State<Listing> {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        print('Back');
+                        if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          SystemNavigator.pop();
+                        }
                       },
                       child: Icon(
                         Icons.swap_horiz_rounded,

@@ -8,6 +8,7 @@ void start() async {
   await db.open();
   final coll = db.collection('projects');
   final coll2 = db.collection('users');
+  final coll3 = db.collection('transactions');
 
   // Create server
   const port = 8081;
@@ -44,6 +45,14 @@ void start() async {
     (ServRequest req, ServResponse res) async {
       final users = await coll2.find().toList();
       return res.status(200).json({'users': users});
+    }
+  ]);
+
+  serv.get('/transactions', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final transactions = await coll3.find().toList();
+      return res.status(200).json({'transactions': transactions});
     }
   ]);
 
