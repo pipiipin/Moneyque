@@ -65,6 +65,9 @@ flutter:
     - assets/kanye.png
     - assets/etrade.png
     - assets/google_logo.png
+    - assets/JCB_logo.png
+    - assets/MasterCard_logo.png
+    - assets/Visa_Logo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -10,6 +10,7 @@ import 'package:moneyque/signin_more.dart';
 import 'package:moneyque/signup.dart';
 import 'package:moneyque/signup_more.dart';
 import 'package:moneyque/topic_type.dart';
+import 'package:moneyque/payment_creditcard.dart';
 
 main() {
   runApp(const MyApp());
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      initialRoute: '/',
+      initialRoute: '/payment_creditcard',
       routes: {
         '/': (context) => const Intro(),
         '/signin': (context) => const Signin(),
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/project': (context) => const ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) => const Profile(),
+        '/payment_creditcard':(context) => const Creditcard(),
       },
     );
   }
