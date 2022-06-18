@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:moneyque/project.dart';
+import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
 
 class MoneyqueApi {
@@ -51,5 +52,19 @@ class MoneyqueApi {
       }
     });
     return hit;
+  }
+
+  Future<List<Transaction>> getTransactionsByUser(String userId) async {
+    final response = await _dio.get('/transaction');
+    List<Transaction> hits = [];
+
+    (response.data['transaction'] as List)
+        .map<Transaction>((json) => Transaction.fromJson(json))
+        .forEach((element) {
+      if (element.owner == userId) {
+        hits.add(element);
+      }
+    });
+    return hits;
   }
 }
