@@ -55,10 +55,10 @@ class MoneyqueApi {
   }
 
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
-    final response = await _dio.get('/transaction');
+    final response = await _dio.get('/transactions');
     List<Transaction> hits = [];
 
-    (response.data['transaction'] as List)
+    (response.data['transactions'] as List)
         .map<Transaction>((json) => Transaction.fromJson(json))
         .forEach((element) {
       if (element.owner == userId) {

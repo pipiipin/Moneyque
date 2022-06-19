@@ -5,15 +5,10 @@ class Project {
   String desc;
   String tag;
   String avatar;
+  bool isDonate;
 
-  Project._(
-    this.id,
-    this.name,
-    this.author,
-    this.desc,
-    this.tag,
-    this.avatar,
-  );
+  Project._(this.id, this.name, this.author, this.desc, this.tag, this.avatar,
+      this.isDonate);
 
   factory Project.fromJson(Map json) {
     final id = json['_id'] as String;
@@ -22,6 +17,7 @@ class Project {
     final desc = json['desc'] as String;
     final tag = json['tag'] as String;
     final avatar = json['avatar'] as String;
-    return Project._(id, name, author, desc, tag, avatar);
+    final isDonate = json['isDonate'] as bool;
+    return Project._(id, name, author, desc, tag, avatar, isDonate);
   }
 }

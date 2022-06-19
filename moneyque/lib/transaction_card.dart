@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'project.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(this.prj, this.amount, {Key? key}) : super(key: key);
+  const TransactionCard(this.prj, this.amount, this.author, {Key? key})
+      : super(key: key);
 
   final Project prj;
   final double amount;
+  final String author;
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +55,7 @@ class TransactionCard extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          child: Text(prj.author),
+                          child: Text(author),
                         ),
                       ),
                       Container(
@@ -92,8 +94,8 @@ class TransactionCard extends StatelessWidget {
                               color: Colors.black,
                               fontWeight: FontWeight.bold,
                             ),
-                            child: Text(amount >= 100
-                                ? 'Bought'
+                            child: Text(prj.isDonate
+                                ? '\$' + amount.toString() + ' Donated'
                                 : 'Invested\n' + amount.toString() + '%'),
                           ),
                         ),

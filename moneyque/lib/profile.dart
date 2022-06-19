@@ -18,7 +18,10 @@ class Profile extends StatefulWidget {
 late User user;
 late String userId;
 
-List<ProjectPair> projects = [];
+List<ProjectPair> listing = [];
+late List<Project> projects;
+late List<User> users;
+late List<Transaction> transactions;
 
 bool isLoading = true;
 
@@ -33,14 +36,56 @@ class _ProfileState extends State<Profile> {
             ? ModalRoute.of(context)!.settings.arguments.toString()
             : '';
       });
-    }).then((value) => {
-          widget.api.getUserById(userId).then((data) {
-            setState(() {
-              user = data;
-              isLoading = false;
+    })
+        .then((value) => {
+              widget.api.getUserById(userId).then((data) {
+                setState(() {
+                  user = data;
+                });
+              })
+            })
+        .then((value) => {
+              widget.api.getProjects().then((data) {
+                setState(() {
+                  projects = data;
+                });
+              })
+            })
+        .then((value) => {
+              widget.api.getUsers().then((data) {
+                setState(() {
+                  users = data;
+                });
+              })
+            })
+        .then((value) => {
+              widget.api.getTransactionsByUser(userId).then((data) {
+                setState(() {
+                  listing.clear();
+                  transactions = data;
+                  transactions.forEach((trn) {
+                    late Project r;
+                    String n = '';
+
+                    projects.forEach((prj) {
+                      if (trn.project == prj.id) {
+                        r = prj;
+                      }
+                    });
+
+                    users.forEach((element) {
+                      if (element.id == r.author) {
+                        n = element.name;
+                      }
+                    });
+
+                    listing.add(ProjectPair.create(r, trn.amount, n));
+
+                    isLoading = false;
+                  });
+                });
+              })
             });
-          })
-        });
   }
 
   @override
@@ -144,9 +189,9 @@ class _ProfileState extends State<Profile> {
                                   color: Color.fromRGBO(225, 225, 225, 1),
                                 ),
                                 Column(
-                                  children: projects
+                                  children: listing
                                       .map(
-                                        (e) => TransactionCard(e.p, e.a),
+                                        (e) => TransactionCard(e.p, e.a, e.n),
                                       )
                                       .toList(),
                                 ),
@@ -259,11 +304,17 @@ class _ProfileState extends State<Profile> {
 }
 
 class ProjectPair {
-  final Project p;
-  final double a;
+  Project p;
+  double a;
+  String n;
 
-  const ProjectPair({
-    required this.p,
-    required this.a,
-  });
+  ProjectPair._(
+    this.p,
+    this.a,
+    this.n,
+  );
+
+  factory ProjectPair.create(Project p, double a, String n) {
+    return ProjectPair._(p, a, n);
+  }
 }
