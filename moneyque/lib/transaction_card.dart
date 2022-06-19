@@ -15,7 +15,7 @@ class TransactionCard extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        print('Enter Project');
+        Navigator.pushNamed(context, '/project', arguments: prj.id);
       },
       child: Column(
         children: [
