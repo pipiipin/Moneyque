@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moneyque/intro.dart';
+import 'package:moneyque/investment.dart';
 import 'package:moneyque/listing.dart';
 import 'package:moneyque/projectpage.dart';
 import 'package:moneyque/profileself.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      initialRoute: '/payment_creditcard',
+      initialRoute: '/investment',
       routes: {
         '/': (context) => const Intro(),
         '/signin': (context) => const Signin(),
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) => const Profile(),
         '/payment_creditcard':(context) => const Creditcard(),
+        '/investment':(context) => const investment(),
       },
     );
   }
