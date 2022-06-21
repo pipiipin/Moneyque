@@ -7,6 +7,8 @@ void start() async {
       'mongodb+srv://iceing11:mmkd1234@moneyque.elult.mongodb.net/app?retryWrites=true&w=majority');
   await db.open();
   final coll = db.collection('projects');
+  final coll2 = db.collection('users');
+  final coll3 = db.collection('transactions');
 
   // Create server
   const port = 8081;
@@ -22,7 +24,7 @@ void start() async {
     ]);
   }
 
-  serv.get('/', [
+  serv.get('/projects', [
     setCors,
     (ServRequest req, ServResponse res) async {
       final projects = await coll.find().toList();
@@ -30,6 +32,31 @@ void start() async {
     }
   ]);
 
+  serv.get('/projects/name', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final projects = await coll.find(req.query).toList();
+      return res.status(200).json({'projects': projects});
+    }
+  ]);
+
+  serv.get('/users', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final users = await coll2.find().toList();
+      return res.status(200).json({'users': users});
+    }
+  ]);
+
+  serv.get('/transactions', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final transactions = await coll3.find().toList();
+      return res.status(200).json({'transactions': transactions});
+    }
+  ]);
+
+  /*
   serv.post('/', [
     setCors,
     (ServRequest req, ServResponse res) async {
@@ -48,6 +75,7 @@ void start() async {
       return res.status(200);
     }
   ]);
+  */
 
   // Listen for connections
   serv.listen(port, callback: () {
