@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/user.dart';
@@ -87,6 +89,7 @@ class _ProfileState extends State<Profile> {
               })
             });
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -208,7 +211,7 @@ class _ProfileState extends State<Profile> {
       ),
       bottomNavigationBar: Container(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -218,13 +221,13 @@ class _ProfileState extends State<Profile> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.explore,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -245,13 +248,13 @@ class _ProfileState extends State<Profile> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.headset_mic_outlined,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -272,13 +275,13 @@ class _ProfileState extends State<Profile> {
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.person_outline,
                       size: 24,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -297,7 +300,7 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         height: 58,
-        color: Color.fromRGBO(99, 94, 87, 1),
+        color: const Color.fromRGBO(99, 94, 87, 1),
       ),
     );
   }
@@ -316,5 +319,6 @@ class ProjectPair {
 
   factory ProjectPair.create(Project p, double a, String n) {
     return ProjectPair._(p, a, n);
+
   }
 }

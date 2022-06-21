@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: avoid_print
 
-import 'project.dart';
+import 'package:flutter/material.dart';
 
 class ProjectsListing extends StatelessWidget {
   final List<dynamic> projects;
 
-  ProjectsListing(this.projects);
+  const ProjectsListing(this.projects, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +19,28 @@ class ProjectsListing extends StatelessWidget {
               },
               child: Column(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.all(8),
                   ),
                   Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(16),
                       ),
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundColor: Colors.grey,
                         maxRadius: 45,
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.all(10),
                       ),
                       Column(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 230,
                             child: DefaultTextStyle(
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 color: Colors.black,
                                 fontWeight: FontWeight.bold,
@@ -48,18 +48,18 @@ class ProjectsListing extends StatelessWidget {
                               child: Text(prj.name),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 230,
                             child: DefaultTextStyle(
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
                               child: Text(prj.author),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 230,
                             child: Align(
                               alignment: Alignment.centerLeft,
@@ -68,11 +68,11 @@ class ProjectsListing extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Container(
+                          SizedBox(
                             width: 230,
                             child: DefaultTextStyle(
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
@@ -83,7 +83,7 @@ class ProjectsListing extends StatelessWidget {
                       ),
                     ],
                   ),
-                  Divider(
+                  const Divider(
                     height: 75,
                     thickness: 2,
                     indent: 40,
@@ -95,7 +95,7 @@ class ProjectsListing extends StatelessWidget {
             ),
           )
           .toList(),
-      SizedBox(height: 70),
+      const SizedBox(height: 70),
     ]);
   }
 }

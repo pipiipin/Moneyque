@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
@@ -199,7 +201,7 @@ class _ProjectPageState extends State<ProjectPage> {
             ),
       bottomNavigationBar: Container(
         child: Padding(
-          padding: EdgeInsets.fromLTRB(18, 0, 18, 0),
+          padding: const EdgeInsets.fromLTRB(18, 0, 18, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -207,7 +209,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 onTap: () {
                   print('Buy');
                 },
-                child: Icon(
+                child: const Icon(
                   Icons.credit_card,
                   size: 32,
                   color: Colors.white,
@@ -218,13 +220,13 @@ class _ProjectPageState extends State<ProjectPage> {
                   print('Contact');
                 },
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(
                       Icons.live_help_outlined,
                       size: 32,
                       color: Colors.white,
                     ),
-                    Container(
+                    SizedBox(
                       width: 62,
                       child: DefaultTextStyle(
                         textAlign: TextAlign.center,
@@ -243,7 +245,7 @@ class _ProjectPageState extends State<ProjectPage> {
           ),
         ),
         height: 58,
-        color: Color.fromRGBO(99, 94, 87, 1),
+        color: const Color.fromRGBO(99, 94, 87, 1),
       ),
     );
   }
