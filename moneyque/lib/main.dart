@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      initialRoute: '/investment',
+      initialRoute: '/listing',
       routes: {
         '/': (context) => const Intro(),
         '/signin': (context) => const Signin(),
@@ -39,11 +39,11 @@ class MyApp extends StatelessWidget {
         '/topic-type': (context) => const TopicType(),
         '/qrcode': (context) => const QRCode(),
         '/listing': (context) => Listing(),
-        '/project': (context) => const ProjectPage(),
+        '/project': (context) => ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
-        '/profile': (context) => const Profile(),
-        '/payment_creditcard':(context) => const Creditcard(),
-        '/investment':(context) => const investment(),
+        '/profile': (context) => Profile(),
+        '/payment_creditcard': (context) => const Creditcard(),
+        '/investment': (context) => const investment(),
       },
     );
   }

@@ -207,7 +207,8 @@ class _ProjectPageState extends State<ProjectPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print('Buy');
+                  Navigator.pushNamed(context, '/investment',
+                      arguments: project.id);
                 },
                 child: const Icon(
                   Icons.credit_card,
