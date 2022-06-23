@@ -81,7 +81,12 @@ class _ProfileState extends State<Profile> {
                       }
                     });
 
-                    listing.add(ProjectPair.create(r, trn.amount, n));
+                    listing.add(ProjectPair.create(
+                      r,
+                      trn.amount,
+                      n,
+                      r.image,
+                    ));
 
                     isLoading = false;
                   });
@@ -89,7 +94,6 @@ class _ProfileState extends State<Profile> {
               })
             });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +144,7 @@ class _ProfileState extends State<Profile> {
                             Column(
                               children: [
                                 CircleAvatar(
-                                  backgroundColor: Colors.grey,
+                                  backgroundImage: NetworkImage(user.avatar),
                                   maxRadius: 60,
                                 ),
                                 Padding(
@@ -194,7 +198,8 @@ class _ProfileState extends State<Profile> {
                                 Column(
                                   children: listing
                                       .map(
-                                        (e) => TransactionCard(e.p, e.a, e.n),
+                                        (e) => TransactionCard(e.project,
+                                            e.amount, e.name, e.image),
                                       )
                                       .toList(),
                                 ),
@@ -307,18 +312,20 @@ class _ProfileState extends State<Profile> {
 }
 
 class ProjectPair {
-  Project p;
-  double a;
-  String n;
+  Project project;
+  double amount;
+  String name;
+  String image;
 
   ProjectPair._(
-    this.p,
-    this.a,
-    this.n,
+    this.project,
+    this.amount,
+    this.name,
+    this.image,
   );
 
-  factory ProjectPair.create(Project p, double a, String n) {
-    return ProjectPair._(p, a, n);
-
+  factory ProjectPair.create(
+      Project project, double amount, String name, String image) {
+    return ProjectPair._(project, amount, name, image);
   }
 }

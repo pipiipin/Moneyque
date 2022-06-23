@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'project.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(this.prj, this.amount, this.author, {Key? key})
+  const TransactionCard(this.prj, this.amount, this.author, this.avatar,
+      {Key? key})
       : super(key: key);
 
   final Project prj;
   final double amount;
   final String author;
+  final String avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TransactionCard extends StatelessWidget {
                 padding: EdgeInsets.all(12),
               ),
               CircleAvatar(
-                backgroundColor: Colors.grey,
+                backgroundImage: NetworkImage(avatar),
                 maxRadius: 30,
               ),
               Padding(

@@ -27,8 +27,8 @@ class ProjectsListing extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.all(16),
                       ),
-                      const CircleAvatar(
-                        backgroundColor: Colors.grey,
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(prj.image),
                         maxRadius: 45,
                       ),
                       const Padding(
