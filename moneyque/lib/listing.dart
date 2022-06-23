@@ -17,16 +17,25 @@ class Listing extends StatefulWidget {
 }
 
 class _ListingState extends State<Listing> {
-  var tags = [
-    {'name': 'Poverty'},
-    {'name': 'Education'},
-    {'name': 'Gender Equality'},
-    {'name': 'Life On Land'},
-    {'name': 'Life Below Water'},
-    {'name': 'Peace'},
+  /*
+    Available Tags:
+    'Investment',
+    'Environment',
+    'Technology Development',
+    'Robot',
+    'Agriculture',
+    'Industry',
+    'Education',
+    'Travel',
+  */
+
+  List<String> tags = [
+    'Travel',
+    'Robot',
   ];
 
   List<Project> projects = [];
+  List<Project> hitProjects = [];
   List<User> users = [];
   bool loading = true;
 
@@ -54,6 +63,13 @@ class _ListingState extends State<Listing> {
                   });
 
                   prj.author = authName;
+                }),
+                projects.forEach((prj) {
+                  tags.forEach((tag) {
+                    if (tag == prj.tag) {
+                      hitProjects.add(prj);
+                    }
+                  });
                 }),
                 loading = false
               })
@@ -123,7 +139,7 @@ class _ListingState extends State<Listing> {
                   children: tags
                       .map(
                         (e) => Chip(
-                          label: Text(e['name']!),
+                          label: Text(e),
                         ),
                       )
                       .toList(),
@@ -134,7 +150,7 @@ class _ListingState extends State<Listing> {
                       child: CircularProgressIndicator(),
                     )
                   : Expanded(
-                      child: ProjectsListing(projects),
+                      child: ProjectsListing(hitProjects),
                     ),
             ],
           ),
