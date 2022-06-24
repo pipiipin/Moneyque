@@ -87,9 +87,9 @@ class _ProfileState extends State<Profile> {
                       n,
                       r.image,
                     ));
-
-                    isLoading = false;
                   });
+
+                  isLoading = false;
                 });
               })
             });

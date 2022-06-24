@@ -89,7 +89,14 @@ class _ProjectPageState extends State<ProjectPage> {
                                 decoration: TextDecoration.none,
                                 fontWeight: FontWeight.bold,
                               ),
-                              child: Text(project.name),
+                              child: Container(
+                                width: 260,
+                                child: Text(
+                                  project.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                ),
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {

@@ -32,6 +32,7 @@ class _ListingState extends State<Listing> {
   List<String> tags = [
     'Travel',
     'Robot',
+    'Education',
   ];
 
   List<Project> projects = [];

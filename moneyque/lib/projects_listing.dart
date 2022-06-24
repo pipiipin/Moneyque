@@ -76,7 +76,11 @@ class ProjectsListing extends StatelessWidget {
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
-                              child: Text(prj.desc),
+                              child: Text(
+                                prj.desc,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 4,
+                              ),
                             ),
                           ),
                         ],

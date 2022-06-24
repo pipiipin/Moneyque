@@ -77,7 +77,11 @@ class TransactionCard extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          child: Text(prj.desc),
+                          child: Text(
+                            prj.desc,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                          ),
                         ),
                       ),
                     ],
