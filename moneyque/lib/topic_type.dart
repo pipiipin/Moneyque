@@ -62,24 +62,25 @@ class _TopicTypeState extends State<TopicType> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                          onPressed: () {},
-                          // => Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => const Signin())),
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(90, 40),
-                              primary: const Color.fromARGB(255, 43, 50, 48),
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              )),
-                        ),
+                  onPressed: () {},
+                  // => Navigator.push(context,
+                  //     MaterialPageRoute(builder: (context) => const Signin())),
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(90, 40),
+                    primary: const Color.fromARGB(255, 43, 50, 48),
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                ),
               ),
             ),
           )
@@ -116,7 +117,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
             borderRadius: BorderRadius.circular(20.0),
           ),
           backgroundColor: const Color(0xffededed),
-          selectedColor: const Color.fromARGB(255, 230, 76, 76),
+          selectedColor: const Color.fromARGB(255, 194, 193, 193),
           selected: selectedChoices.contains(item),
           onSelected: (selected) {
             setState(() {

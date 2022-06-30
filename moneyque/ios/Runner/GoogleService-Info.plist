@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>152050584231-sekmq9p60519vcebvvku946tfp67a8kj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.152050584231-sekmq9p60519vcebvvku946tfp67a8kj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>152050584231-j2arftj8ar9mg77u3b9j9eh4260q4d7h.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBoFo58rKQCrT9ANzr3wPCbS7Ig8rj765o</string>
+	<key>GCM_SENDER_ID</key>
+	<string>152050584231</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.moneyque</string>
+	<key>PROJECT_ID</key>
+	<string>moneyque-19585</string>
+	<key>STORAGE_BUCKET</key>
+	<string>moneyque-19585.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:152050584231:ios:bb6d95cd474e410a38a982</string>
+</dict>
+</plist>

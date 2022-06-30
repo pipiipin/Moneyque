@@ -19,6 +19,7 @@ class ProjectPage extends StatefulWidget {
 
 late Project project;
 late String authorName;
+late String authorAvatar;
 bool loading = true;
 
 class _ProjectPageState extends State<ProjectPage> {
@@ -41,6 +42,7 @@ class _ProjectPageState extends State<ProjectPage> {
                 widget.api.getUserById(project.author).then((data) {
                   setState(() {
                     authorName = data.name;
+                    authorAvatar = data.avatar;
                     loading = false;
                   });
                 })
@@ -87,7 +89,14 @@ class _ProjectPageState extends State<ProjectPage> {
                                 decoration: TextDecoration.none,
                                 fontWeight: FontWeight.bold,
                               ),
-                              child: Text(project.name),
+                              child: Container(
+                                width: 260,
+                                child: Text(
+                                  project.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: true,
+                                ),
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -129,7 +138,8 @@ class _ProjectPageState extends State<ProjectPage> {
                                           padding: EdgeInsets.all(20),
                                         ),
                                         CircleAvatar(
-                                          backgroundColor: Colors.grey,
+                                          backgroundImage:
+                                              NetworkImage(authorAvatar),
                                           maxRadius: 32,
                                         ),
                                         Padding(
@@ -180,8 +190,17 @@ class _ProjectPageState extends State<ProjectPage> {
                                 padding: EdgeInsets.all(20),
                                 child: Container(
                                   child: FittedBox(
-                                    child: Image.asset(
-                                      'assets/kanye.png',
+                                    child: Image.network(
+                                      project.image,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                        return loadingProgress == null
+                                            ? child
+                                            : Center(
+                                                child:
+                                                    CircularProgressIndicator(),
+                                              );
+                                      },
                                     ),
                                     fit: BoxFit.fill,
                                   ),
@@ -207,7 +226,8 @@ class _ProjectPageState extends State<ProjectPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print('Buy');
+                  Navigator.pushNamed(context, '/investment',
+                      arguments: project.id);
                 },
                 child: const Icon(
                   Icons.credit_card,
