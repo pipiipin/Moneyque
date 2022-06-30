@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moneyque/signup_more.dart';
 
@@ -9,19 +10,13 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final usernameController = TextEditingController();
-  final nameController = TextEditingController();
-  final lastnameController = TextEditingController();
-  final emailController = TextEditingController();
 
-  @override
-  void dispose() {
-    usernameController.dispose();
-    nameController.dispose();
-    lastnameController.dispose();
-    emailController.dispose();
-    super.dispose();
-  }
+  final _auth = FirebaseAuth.instance;
+  late String email;
+  late String password;
+   late String username;
+  late String name;
+   late String lastname;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -55,7 +50,9 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextFormField(
-                      controller: usernameController,
+                      onChanged: (value) {
+                        username = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
@@ -71,7 +68,9 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      controller: nameController,
+                      onChanged: (value) {
+                        name = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
@@ -87,7 +86,9 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      controller: lastnameController,
+                      onChanged: (value) {
+                        lastname = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your lastname';
@@ -103,7 +104,9 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      controller: emailController,
+                      onChanged: (value) {
+                        email = value;
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
