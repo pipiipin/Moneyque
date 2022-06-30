@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyque/firebase_options.dart';
 import 'package:moneyque/intro.dart';
 import 'package:moneyque/investment.dart';
 import 'package:moneyque/listing.dart';
@@ -13,7 +14,10 @@ import 'package:moneyque/signup_more.dart';
 import 'package:moneyque/topic_type.dart';
 import 'package:moneyque/payment_creditcard.dart';
 
-main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
   runApp(const MyApp());
 }
 
@@ -33,11 +37,10 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Intro(),
         '/signin': (context) => const Signin(),
-        '/signin-more': (context) => const SigninMore(),
         '/signup': (context) => const Signup(),
         '/signup-more': (context) => const SignupMore(),
         '/topic-type': (context) => const TopicType(),
-        '/qrcode': (context) => const QRCode(),
+        '/qrcode': (context) => QRCode(),
         '/listing': (context) => Listing(),
         '/project': (context) => ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),

@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "152050584231",
+    "project_id": "moneyque-19585",
+    "storage_bucket": "moneyque-19585.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152050584231:android:74cf3682c6e6765438a982",
+        "android_client_info": {
+          "package_name": "com.example.moneyque"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152050584231-tkkg17vi2ge5otsqrqb3pp6dmvq8d8i7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.moneyque",
+            "certificate_hash": "3d4c0d1f0f17f4c326d7a549f8a8561071590cbf"
+          }
+        },
+        {
+          "client_id": "152050584231-m6k6jdqjptdl859gctimh0itdgov9pas.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYCyNY7uXIhp3VDMCD_oVHY-KuXeId9zs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152050584231-m6k6jdqjptdl859gctimh0itdgov9pas.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "152050584231-sekmq9p60519vcebvvku946tfp67a8kj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.moneyque"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

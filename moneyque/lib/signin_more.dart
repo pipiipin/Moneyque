@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:moneyque/welcome.dart';
+import 'package:moneyque/success.dart';
 
 class SigninMore extends StatefulWidget {
-  const SigninMore({Key? key}) : super(key: key);
+  final String userInput;
+  SigninMore({Key? key, required this.userInput}) : super(key: key);
 
   @override
   _SigninMoreState createState() => _SigninMoreState();
 }
 
 class _SigninMoreState extends State<SigninMore> {
-  final userInputController = TextEditingController();
   final passController = TextEditingController();
+  late String userInput;
+
+  @override
+  void initState() {
+    userInput = widget.userInput;
+
+    super.initState();
+  }
+
   @override
   void dispose() {
-    userInputController.dispose();
     passController.dispose();
     super.dispose();
   }
@@ -53,7 +61,7 @@ class _SigninMoreState extends State<SigninMore> {
                 children: [
                   TextFormField(
                     readOnly: true,
-                    controller: userInputController,
+                    controller: TextEditingController(text: userInput),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your username or email';
@@ -83,19 +91,19 @@ class _SigninMoreState extends State<SigninMore> {
                     decoration: InputDecoration(
                       hintText: 'Password',
                       suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              passwordVisible = !passwordVisible;
-                            });
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.all(13),
-                              child: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility_off
-                                      : Icons.remove_red_eye_sharp,
-                                  size: 25)),
-                        ),
+                        onTap: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.all(13),
+                            child: Icon(
+                                passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.remove_red_eye_sharp,
+                                size: 25)),
+                      ),
                     ),
                   ),
                 ],
