@@ -53,7 +53,7 @@ class _IntroState extends State<Intro> {
               TextButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Signup()));
+                      MaterialPageRoute(builder: (context) => Signup()));
                 },
                 child: const Text(
                   'Sign up',

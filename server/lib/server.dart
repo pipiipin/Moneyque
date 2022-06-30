@@ -9,6 +9,7 @@ void start() async {
   final coll = db.collection('projects');
   final coll2 = db.collection('users');
   final coll3 = db.collection('transactions');
+  final coll4 = db.collection('auths');
 
   // Create server
   const port = 8081;
@@ -53,6 +54,40 @@ void start() async {
     (ServRequest req, ServResponse res) async {
       final transactions = await coll3.find().toList();
       return res.status(200).json({'transactions': transactions});
+    }
+  ]);
+
+  serv.get('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find().toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/username', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/email', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.post('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      await coll4.save(req.body);
+      return res.json(
+        await coll4.findOne(where.eq('username', req.body['username'])),
+      );
     }
   ]);
 
