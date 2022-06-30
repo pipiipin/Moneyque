@@ -15,7 +15,7 @@ class ProjectsListing extends StatelessWidget {
             (prj) => GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                print('Enter Project');
+                Navigator.pushNamed(context, '/project', arguments: prj.id);
               },
               child: Column(
                 children: [
@@ -27,8 +27,8 @@ class ProjectsListing extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.all(16),
                       ),
-                      const CircleAvatar(
-                        backgroundColor: Colors.grey,
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(prj.image),
                         maxRadius: 45,
                       ),
                       const Padding(
@@ -76,7 +76,11 @@ class ProjectsListing extends StatelessWidget {
                                 fontSize: 18,
                                 color: Colors.black,
                               ),
-                              child: Text(prj.desc),
+                              child: Text(
+                                prj.desc,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 4,
+                              ),
                             ),
                           ),
                         ],
