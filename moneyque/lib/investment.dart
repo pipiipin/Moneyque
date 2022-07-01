@@ -72,76 +72,136 @@ class _investmentState extends State<investment> {
                 const SizedBox(
                   height: 30.0,
                 ),
-                const Text(
-                  'TH Baht 1 = 0.00172977',
-                  style: TextStyle(fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Stack(
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              project.author,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            const Text(
+                              'Invested in',
+                              style: TextStyle(fontSize: 14),
+                            ),
+                            const SizedBox(
+                              height: 10.0,
+                            ),
+                            Text(
+                              project.name,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Text(
+                                  'TH Baht',
+                                  style: TextStyle(fontSize: 14),
+                                ),
+                                SizedBox(
+                                  width: 10.0,
+                                ),
+                                Text(
+                                  '14,684',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            const Divider(
+                              height: 0,
+                              thickness: 2,
+                              indent: 40,
+                              endIndent: 40,
+                              color: Color.fromRGBO(225, 225, 225, 1),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            const Text(
+                              'Choose your payment',
+                              style: TextStyle(
+                                  fontSize: 17, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(
+                              height: 30.0,
+                            ),
+                            SizedBox(
+                              child: Center(
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'QR Code',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(120, 40),
+                                        primary:
+                                            Color.fromARGB(189, 210, 210, 210),
+                                        elevation: 10,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.black45,
+                                      height: 40,
+                                      width: 2,
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'Credit Card/\nDebit Card',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(120, 40),
+                                        primary:
+                                            Color.fromARGB(189, 210, 210, 210),
+                                        elevation: 10,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const Divider(
-                  height: 0,
-                  thickness: 2,
-                  indent: 40,
-                  endIndent: 40,
-                  color: Color.fromRGBO(225, 225, 225, 1),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                const Text(
-                  'Choose your payment',
-                  style: TextStyle(fontSize: 17,
-                  fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'QR Code',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(100, 40),
-                                  primary:
-                                      Color.fromARGB(189, 210, 210, 210),
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {},
-                                child: const Text(
-                                  'Credit Card / Debit Card',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: const Size(100, 40),
-                                  primary:
-                                      Color.fromARGB(189, 210, 210, 210),
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
               ],
             ),
           ),

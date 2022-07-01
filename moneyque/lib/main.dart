@@ -39,11 +39,12 @@ class MyApp extends StatelessWidget {
         '/topic-type': (context) => const TopicType(),
         '/qrcode': (context) => const QRCode(),
         '/listing': (context) => Listing(),
-        '/project': (context) => const ProjectPage(),
+        '/project': (context) =>  ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
-        '/profile': (context) => const Profile(),
+        '/profile': (context) =>  Profile(),
         '/payment_creditcard':(context) => const Creditcard(),
         '/investment':(context) => const investment(),
+       
       },
     );
   }
