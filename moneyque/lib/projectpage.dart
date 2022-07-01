@@ -158,6 +158,38 @@ class _ProjectPageState extends State<ProjectPage> {
                                                 child: Text(authorName),
                                               ),
                                             ),
+                                            project.isBought
+                                                ? Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                      ),
+                                                      child: Text('Bought'),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 43, 43, 43),
+                                                      ),
+                                                      child: project.isDonate
+                                                          ? Text('TH Baht ' +
+                                                              project.price +
+                                                              ' Donated')
+                                                          : Text('TH Baht ' +
+                                                              project.price),
+                                                    ),
+                                                  ),
                                             Container(
                                               width: 230,
                                               child: Align(
