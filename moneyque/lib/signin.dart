@@ -3,7 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:moneyque/signin_more.dart';
 import 'package:moneyque/utils/authentication.dart';
 import 'package:moneyque/widgets/google_sign_in.dart';
-import 'package:provider/provider.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key? key}) : super(key: key);
@@ -67,7 +66,7 @@ class _SigninState extends State<Signin> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+            padding: const EdgeInsets.fromLTRB(30, 20, 30, 30),
             child: Form(
               key: _formKey,
               child: Column(

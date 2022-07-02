@@ -3,7 +3,7 @@ import 'package:moneyque/success.dart';
 
 class SigninMore extends StatefulWidget {
   final String userInput;
-  SigninMore({Key? key, required this.userInput}) : super(key: key);
+  const SigninMore({Key? key, required this.userInput}) : super(key: key);
 
   @override
   _SigninMoreState createState() => _SigninMoreState();
