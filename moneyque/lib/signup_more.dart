@@ -8,11 +8,10 @@ class SignupMore extends StatefulWidget {
       {Key? key,
       required this.username,
       required this.name,
-      required this.lastname,
       required this.email})
       : super(key: key);
 
-  final String username, name, lastname, email;
+  final String username, name, email;
 
   @override
   _SignupMoreState createState() => _SignupMoreState();
@@ -24,14 +23,12 @@ class _SignupMoreState extends State<SignupMore> {
 
   late String username;
   late String name;
-  late String lastname;
   late String email;
 
   @override
   void initState() {
     username = widget.username;
     name = widget.name;
-    lastname = widget.lastname;
     email = widget.email;
     super.initState();
   }
@@ -158,7 +155,11 @@ class _SignupMoreState extends State<SignupMore> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => TopicType(username: username,name: name,lastname:lastname,email: email,password: passController.text)));
+                              builder: (context) => TopicType(
+                                  username: username,
+                                  name: name,
+                                  email: email,
+                                  password: passController.text)));
                     }
                   },
                   child: const Text(

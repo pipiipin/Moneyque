@@ -5,7 +5,8 @@ import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
 
 class MoneyqueApi {
-  final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
+  // final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
+  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
 
   Future<List<Project>> getProjects() async {
     final response = await _dio.get('/projects');
@@ -102,12 +103,11 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<Auth> createAuth(String username, String name, String lastname,
+  Future<Auth> createAuth(String username, String name,
       String email, String password, List<dynamic> tags) async {
     final response = await _dio.post('/auths', data: {
       'username': username,
       'name': name,
-      'lastname': lastname,
       'email': email,
       'password': password,
       'tags': tags,

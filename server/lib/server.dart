@@ -91,6 +91,26 @@ void start() async {
     }
   ]);
 
+  serv.post('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      await coll4.save(req.body);
+      return res.json(
+        await coll4.findOne(where.eq('username', req.body['username'])),
+      );
+    }
+  ]);
+
+  // serv.post('/auths/signin', [
+  //   setCors,
+  //   (ServRequest req, ServResponse res) async {
+  //     await coll4.save(req.body);
+  //     return res.json(
+  //       await coll4.findOne(where.eq('username' ==req.body['username'])),
+  //     );
+  //   }
+  // ]);
+
   /*
   serv.post('/', [
     setCors,

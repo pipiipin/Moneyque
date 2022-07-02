@@ -56,14 +56,11 @@ import 'package:mongo_dart/mongo_dart.dart' as M;
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
 
-  
-
   @override
   _SignupState createState() => _SignupState();
 }
 
 class _SignupState extends State<Signup> {
-
   final usernameController = TextEditingController();
   final nameController = TextEditingController();
   final lastnameController = TextEditingController();
@@ -94,7 +91,6 @@ class _SignupState extends State<Signup> {
 //       });
 //     });
 //   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -202,13 +198,14 @@ class _SignupState extends State<Signup> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      final String name =
+                          nameController.text + " " +lastnameController.text;
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => SignupMore(
                             username: usernameController.text,
-                            name: nameController.text,
-                            lastname: lastnameController.text,
+                            name: name,
                             email: emailController.text,
                           ),
                         ),

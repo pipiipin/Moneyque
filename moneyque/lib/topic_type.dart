@@ -11,12 +11,11 @@ class TopicType extends StatefulWidget {
       {Key? key,
       required this.username,
       required this.name,
-      required this.lastname,
       required this.email,
       required this.password})
       : super(key: key);
 
-  final String username, name, lastname, email, password;
+  final String username, name, email, password;
   final MoneyqueApi api = MoneyqueApi();
 
   @override
@@ -42,7 +41,7 @@ class _TopicTypeState extends State<TopicType> {
 
   void _addAuth() async {
     final createdAuth = await widget.api.createAuth(
-        widget.username, widget.name, widget.lastname, widget.email, widget.password, selectedReportList);
+        widget.username, widget.name, widget.email, widget.password, selectedReportList);
     setState(() {
       auths.add(createdAuth);
     });
