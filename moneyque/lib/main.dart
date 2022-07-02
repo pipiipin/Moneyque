@@ -1,4 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:moneyque/firebase_options.dart';
 import 'package:moneyque/intro.dart';
 import 'package:moneyque/investment.dart';
 import 'package:moneyque/listing.dart';
@@ -13,7 +16,10 @@ import 'package:moneyque/signup_more.dart';
 import 'package:moneyque/topic_type.dart';
 import 'package:moneyque/payment_creditcard.dart';
 
-main() {
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(const MyApp());
 }
 
@@ -29,23 +35,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
       ),
-      initialRoute: '/listing',
+      initialRoute: '/',
       routes: {
         '/': (context) => const Intro(),
-        '/signin': (context) => const Signin(),
-        '/signin-more': (context) => const SigninMore(),
-        '/signup': (context) => const Signup(),
-        '/signup-more': (context) => const SignupMore(),
-        '/topic-type': (context) => const TopicType(),
-        '/qrcode': (context) => const QRCode(),
+        '/signin': (context) => Signin(),
+        '/signin-more': (context) => SigninMore(),
         '/listing': (context) => Listing(),
         '/project': (context) =>  ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) =>  Profile(),
         '/payment_creditcard':(context) => Creditcard(),
         '/investment':(context) => investment(),
-        
-       
       },
     );
   }

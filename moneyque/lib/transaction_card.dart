@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyque/projectpage.dart';
 
 import 'project.dart';
 
@@ -9,6 +10,7 @@ class TransactionCard extends StatelessWidget {
   final Project prj;
   final double amount;
   final String author;
+  final String avatar;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class TransactionCard extends StatelessWidget {
                 padding: EdgeInsets.all(12),
               ),
               CircleAvatar(
-                backgroundColor: Colors.grey,
+                backgroundImage: NetworkImage(avatar),
                 maxRadius: 30,
               ),
               Padding(
@@ -75,7 +77,11 @@ class TransactionCard extends StatelessWidget {
                             fontSize: 14,
                             color: Colors.black,
                           ),
-                          child: Text(prj.desc),
+                          child: Text(
+                            prj.desc,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 4,
+                          ),
                         ),
                       ),
                     ],
@@ -96,7 +102,7 @@ class TransactionCard extends StatelessWidget {
                             ),
                             child: Text(prj.isDonate
                                 ? '\$' + amount.toString() + ' Donated'
-                                : 'Invested\n' + amount.toString() + '%'),
+                                : 'Bought'),
                           ),
                         ),
                       ],

@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/projects_listing.dart';
 import 'package:moneyque/user.dart';
@@ -16,23 +17,49 @@ class Listing extends StatefulWidget {
   _ListingState createState() => _ListingState();
 }
 
+late String authId;
+late User a;
+
 class _ListingState extends State<Listing> {
-  var tags = [
-    {'name': 'Poverty'},
-    {'name': 'Education'},
-    {'name': 'Gender Equality'},
-    {'name': 'Life On Land'},
-    {'name': 'Life Below Water'},
-    {'name': 'Peace'},
+  /*
+    Available Tags:
+    'Investment',
+    'Environment',
+    'Technology Development',
+    'Robot',
+    'Agriculture',
+    'Industry',
+    'Education',
+    'Travel',
+  */
+
+  List<String> tags = [
+    'Travel',
+    'Robot',
+    'Education',
   ];
 
   List<Project> projects = [];
+  List<Project> hitProjects = [];
   List<User> users = [];
   bool loading = true;
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        authId = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    }).then((value) => {
+          widget.api.getUserByAuth(authId).then((data) {
+            setState(() {
+              a = data as User;
+            });
+          })
+        });
 
     widget.api.getProjects().then((data) {
       setState(() {
@@ -54,6 +81,13 @@ class _ListingState extends State<Listing> {
                   });
 
                   prj.author = authName;
+                }),
+                projects.forEach((prj) {
+                  tags.forEach((tag) {
+                    if (tag == prj.tag) {
+                      hitProjects.add(prj);
+                    }
+                  });
                 }),
                 loading = false
               })
@@ -123,7 +157,7 @@ class _ListingState extends State<Listing> {
                   children: tags
                       .map(
                         (e) => Chip(
-                          label: Text(e['name']!),
+                          label: Text(e),
                         ),
                       )
                       .toList(),
@@ -134,7 +168,7 @@ class _ListingState extends State<Listing> {
                       child: CircularProgressIndicator(),
                     )
                   : Expanded(
-                      child: ProjectsListing(projects),
+                      child: ProjectsListing(hitProjects, a.id),
                     ),
             ],
           ),

@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:moneyque/welcome.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 
 class SigninMore extends StatefulWidget {
-  const SigninMore({Key? key}) : super(key: key);
+  SigninMore({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _SigninMoreState createState() => _SigninMoreState();
 }
 
+late String userInput;
+late String authId;
+late String password;
+Auth? auth;
+
 class _SigninMoreState extends State<SigninMore> {
-  final userInputController = TextEditingController();
-  final passController = TextEditingController();
+  TextEditingController inputController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        authId = arg['arg1'];
+        userInput = arg['arg2'];
+        inputController = TextEditingController(text: userInput);
+      });
+    });
+  }
+
   @override
   void dispose() {
-    userInputController.dispose();
     passController.dispose();
     super.dispose();
   }
@@ -53,7 +74,7 @@ class _SigninMoreState extends State<SigninMore> {
                 children: [
                   TextFormField(
                     readOnly: true,
-                    controller: userInputController,
+                    controller: inputController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your username or email';
@@ -83,19 +104,19 @@ class _SigninMoreState extends State<SigninMore> {
                     decoration: InputDecoration(
                       hintText: 'Password',
                       suffixIcon: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              passwordVisible = !passwordVisible;
-                            });
-                          },
-                          child: Container(
-                              margin: const EdgeInsets.all(13),
-                              child: Icon(
-                                  passwordVisible
-                                      ? Icons.visibility_off
-                                      : Icons.remove_red_eye_sharp,
-                                  size: 25)),
-                        ),
+                        onTap: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        child: Container(
+                            margin: const EdgeInsets.all(13),
+                            child: Icon(
+                                passwordVisible
+                                    ? Icons.visibility_off
+                                    : Icons.remove_red_eye_sharp,
+                                size: 25)),
+                      ),
                     ),
                   ),
                 ],
@@ -108,9 +129,17 @@ class _SigninMoreState extends State<SigninMore> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  // => Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => const Welcome())),
+                  onPressed: () {
+                    password = passController.text;
+                    widget.api.getAuthByPass(authId, password).then((data) {
+                      setState(() {
+                        auth = data;
+                      });
+                      print(auth?.name);
+                      Navigator.pushNamed(context, '/listing',
+                          arguments: auth?.id);
+                    });
+                  },
                   child: const Text(
                     'Next',
                     style: TextStyle(

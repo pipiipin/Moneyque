@@ -9,7 +9,8 @@ void start() async {
   final coll = db.collection('projects');
   final coll2 = db.collection('users');
   final coll3 = db.collection('transactions');
-  final coll4 = db.collection('creditcard');
+  final coll4 = db.collection('auths');
+  final coll5 = db.collection('creditcard');
 
   // Create server
   const port = 8081;
@@ -49,6 +50,14 @@ void start() async {
     }
   ]);
 
+  serv.get('/users/auth', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final users = await coll.find(req.query).toList();
+      return res.status(200).json({'users': users});
+    }
+  ]);
+
   serv.get('/transactions', [
     setCors,
     (ServRequest req, ServResponse res) async {
@@ -59,11 +68,73 @@ void start() async {
   serv.get('/creditcard', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final creditcard = await coll4.find().toList();
+      final creditcard = await coll5.find().toList();
       return res.status(200).json({'creditcard': creditcard});
       print(creditcard);
     }
   ]);
+
+  serv.get('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find().toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/username', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/pass', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/email', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.post('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      await coll4.save(req.body);
+      return res.json(
+        await coll4.findOne(where.eq('username', req.body['username'])),
+      );
+    }
+  ]);
+
+  serv.post('/auths', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      await coll4.save(req.body);
+      return res.json(
+        await coll4.findOne(where.eq('username', req.body['username'])),
+      );
+    }
+  ]);
+
+  // serv.post('/auths/signin', [
+  //   setCors,
+  //   (ServRequest req, ServResponse res) async {
+  //     await coll4.save(req.body);
+  //     return res.json(
+  //       await coll4.findOne(where.eq('username' ==req.body['username'])),
+  //     );
+  //   }
+  // ]);
 
   /*
   serv.post('/', [

@@ -1,15 +1,32 @@
 // ignore_for_file: use_key_in_widget_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
+import 'package:moneyque/profile.dart';
 
 class TopicType extends StatefulWidget {
-  const TopicType({Key? key}) : super(key: key);
+  TopicType(
+      {Key? key,
+      required this.username,
+      required this.name,
+      required this.email,
+      required this.password})
+      : super(key: key);
+
+  final String username, name, email, password;
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _TopicTypeState createState() => _TopicTypeState();
 }
 
+Auth? auth;
+
 class _TopicTypeState extends State<TopicType> {
+  List<Auth> auths = [];
+
   final List<String> topics = [
     'Investment',
     'Environment',
@@ -22,7 +39,22 @@ class _TopicTypeState extends State<TopicType> {
     'Movies',
   ];
 
-  List<String> selectedReportList = [];
+  List<dynamic> selectedReportList = [];
+
+  void _addAuth() async {
+    final createdAuth = await widget.api.createAuth(widget.username,
+        widget.name, widget.email, widget.password, selectedReportList);
+    setState(() {
+      auths.add(createdAuth);
+    });
+    widget.api.getAuthByUsername(widget.username).then((data) {
+      setState(() {
+        auth = data;
+      });
+      print(auth?.name);
+      Navigator.pushNamed(context, '/listing', arguments: auth?.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,24 +94,25 @@ class _TopicTypeState extends State<TopicType> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                          onPressed: () {},
-                          // => Navigator.push(context,
-                          //     MaterialPageRoute(builder: (context) => const Signin())),
-                          child: const Text(
-                            'Next',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                            ),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(90, 40),
-                              primary: const Color.fromARGB(255, 43, 50, 48),
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
-                              )),
-                        ),
+                  onPressed: () {
+                    _addAuth();
+                  },
+                  child: const Text(
+                    'Next',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.white,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(90, 40),
+                    primary: const Color.fromARGB(255, 43, 50, 48),
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
+                ),
               ),
             ),
           )
@@ -90,8 +123,8 @@ class _TopicTypeState extends State<TopicType> {
 }
 
 class MultiSelectChip extends StatefulWidget {
-  final List<String> topicList;
-  final Function(List<String>) onSelectionChanged;
+  final List<dynamic> topicList;
+  final Function(List<dynamic>) onSelectionChanged;
 
   const MultiSelectChip(this.topicList, {required this.onSelectionChanged});
 
@@ -100,7 +133,7 @@ class MultiSelectChip extends StatefulWidget {
 }
 
 class _MultiSelectChipState extends State<MultiSelectChip> {
-  List<String> selectedChoices = [];
+  List<dynamic> selectedChoices = [];
 
   _buildTopicList() {
     List<Widget> choices = [];
@@ -116,7 +149,7 @@ class _MultiSelectChipState extends State<MultiSelectChip> {
             borderRadius: BorderRadius.circular(20.0),
           ),
           backgroundColor: const Color(0xffededed),
-          selectedColor: const Color.fromARGB(255, 230, 76, 76),
+          selectedColor: const Color.fromARGB(255, 194, 193, 193),
           selected: selectedChoices.contains(item),
           onSelected: (selected) {
             setState(() {
