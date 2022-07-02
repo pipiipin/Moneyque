@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:moneyque/auth.dart';
+import 'package:moneyque/creditcard.dart';
+import 'package:moneyque/payment_creditcard.dart';
+import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
@@ -64,6 +67,20 @@ class MoneyqueApi {
         .map<User>((json) => User.fromJson(json))
         .forEach((element) {
       if (element.auth == authId) {
+      hits.add(element);
+      }
+    });
+    return hits;
+  }
+  
+  Future<List<Credit>> getCreditcardByUser(String id) async {
+    final response = await _dio.get('/creditcard');
+    List<Credit> hits = [];
+
+    (response.data['creditcard'] as List)
+        .map<Credit>((json) => Credit.fromJson(json))
+        .forEach((element) {
+      if (element.id == userId) {
         hits.add(element);
       }
     });
