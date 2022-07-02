@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'project.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(this.prj, this.amount, this.author, {Key? key})
+  const TransactionCard(this.prj, this.amount, this.author, String image, {Key? key})
       : super(key: key);
 
   final Project prj;
