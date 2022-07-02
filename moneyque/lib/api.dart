@@ -1,10 +1,13 @@
 import 'package:dio/dio.dart';
+import 'package:moneyque/creditcard.dart';
+import 'package:moneyque/payment_creditcard.dart';
+import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
 
 class MoneyqueApi {
-  final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
+  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
 
   Future<List<Project>> getProjects() async {
     final response = await _dio.get('/projects');
@@ -54,6 +57,20 @@ class MoneyqueApi {
     return hit;
   }
 
+  Future<List<Credit>> getCreditcardByUser(String id) async {
+    final response = await _dio.get('/creditcard');
+    List<Credit> hits = [];
+
+    (response.data['creditcard'] as List)
+        .map<Credit>((json) => Credit.fromJson(json))
+        .forEach((element) {
+      if (element.id == userId) {
+        hits.add(element);
+      }
+    });
+    return hits;
+  }
+
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
     List<Transaction> hits = [];
@@ -67,4 +84,5 @@ class MoneyqueApi {
     });
     return hits;
   }
+
 }

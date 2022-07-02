@@ -1,23 +1,51 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/project.dart';
+
+late String projectId;
 
 class investment extends StatefulWidget {
-  const investment({Key? key}) : super(key: key);
+  investment({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   State<investment> createState() => _investmentState();
 }
 
+late Project project;
+
 class _investmentState extends State<investment> {
   @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        projectId = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    }).then((value) => {
+          widget.api.getProjectById(projectId).then((data) {
+            setState(() {
+              project = data as Project;
+            });
+          })
+        });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var project = const Project(
-        name: 'Robots House',
-        author: 'Kanye West',
-        avatar: '',
-        tag: 'Education',
-        desc:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur risus augue, eu suscipit neque euismod eget. Suspendisse id vulputate metus. Mauris vitae dui sem. Suspendisse bibendum, diam in volutpat pharetra, justo eros ultricies dui, ac facilisis justo massa quis velit. Pellentesque viverra nec risus vitae porta. Maecenas vitae tincidunt tellus. Vestibulum volutpat porta tortor et fermentum. Nam vitae libero dictum, laoreet purus ut, ultrices dolor. Nam at orci non massa fringilla ultricies. Duis vitae leo sit amet arcu tempor hendrerit eget vel ex. Donec sit amet erat at lorem sodales blandit a vitae nunc. Maecenas nec rutrum velit, at laoreet velit. Vivamus quis odio dolor. Mauris imperdiet urna non enim sodales, ut semper purus fringilla. Nullam imperdiet turpis lorem, in bibendum elit ultrices sit amet. Duis consectetur sollicitudin tellus, at vestibulum sapien porttitor ut. Aenean imperdiet magna turpis, consequat sodales sem sodales in. Praesent fermentum a nulla in dignissim. Sed ultricies, odio vel commodo auctor, velit enim volutpat mi, ut varius tortor neque eu arcu. Vestibulum rutrum condimentum sagittis. Maecenas feugiat, lectus at laoreet aliquet, neque ligula rhoncus dolor, a gravida magna nulla et purus. Nullam vel lorem convallis ligula elementum efficitur sit amet id lacus.',
-        image: '');
+    // var project = const Project(
+    //     name: 'Robots House',
+    //     author: 'Kanye West',
+    //     avatar: '',
+    //     tag: 'Education',
+    //     desc:
+    //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur risus augue, eu suscipit neque euismod eget. Suspendisse id vulputate metus. Mauris vitae dui sem. Suspendisse bibendum, diam in volutpat pharetra, justo eros ultricies dui, ac facilisis justo massa quis velit. Pellentesque viverra nec risus vitae porta. Maecenas vitae tincidunt tellus. Vestibulum volutpat porta tortor et fermentum. Nam vitae libero dictum, laoreet purus ut, ultrices dolor. Nam at orci non massa fringilla ultricies. Duis vitae leo sit amet arcu tempor hendrerit eget vel ex. Donec sit amet erat at lorem sodales blandit a vitae nunc. Maecenas nec rutrum velit, at laoreet velit. Vivamus quis odio dolor. Mauris imperdiet urna non enim sodales, ut semper purus fringilla. Nullam imperdiet turpis lorem, in bibendum elit ultrices sit amet. Duis consectetur sollicitudin tellus, at vestibulum sapien porttitor ut. Aenean imperdiet magna turpis, consequat sodales sem sodales in. Praesent fermentum a nulla in dignissim. Sed ultricies, odio vel commodo auctor, velit enim volutpat mi, ut varius tortor neque eu arcu. Vestibulum rutrum condimentum sagittis. Maecenas feugiat, lectus at laoreet aliquet, neque ligula rhoncus dolor, a gravida magna nulla et purus. Nullam vel lorem convallis ligula elementum efficitur sit amet id lacus.',
+    //     image: '');
 
     return Scaffold(
       body: MaterialApp(
@@ -33,7 +61,11 @@ class _investmentState extends State<investment> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print('Back');
+                          if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else {
+                                  SystemNavigator.pop();
+                                }
                         },
                         child: const Text(
                           'Cancel',
@@ -105,17 +137,17 @@ class _investmentState extends State<investment> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   'TH Baht',
-                                  style: TextStyle(fontSize: 14),
+                                  style: const TextStyle(fontSize: 14),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10.0,
                                 ),
                                 Text(
-                                  '14,684',
-                                  style: TextStyle(
+                                  project.price,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
@@ -148,7 +180,11 @@ class _investmentState extends State<investment> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/qrcode',
+                                            arguments: project.id);
+                                      },
                                       child: const Text(
                                         'QR Code',
                                         style: TextStyle(
@@ -158,8 +194,8 @@ class _investmentState extends State<investment> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         minimumSize: const Size(120, 40),
-                                        primary:
-                                            Color.fromARGB(189, 210, 210, 210),
+                                        primary: const Color.fromARGB(
+                                            189, 210, 210, 210),
                                         elevation: 10,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -173,7 +209,11 @@ class _investmentState extends State<investment> {
                                       width: 2,
                                     ),
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        Navigator.pushNamed(
+                                            context, '/payment_creditcard',
+                                            arguments: project.id);
+                                      },
                                       child: const Text(
                                         'Credit Card/\nDebit Card',
                                         style: TextStyle(
@@ -183,8 +223,8 @@ class _investmentState extends State<investment> {
                                       ),
                                       style: ElevatedButton.styleFrom(
                                         minimumSize: const Size(120, 40),
-                                        primary:
-                                            Color.fromARGB(189, 210, 210, 210),
+                                        primary: const Color.fromARGB(
+                                            189, 210, 210, 210),
                                         elevation: 10,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
@@ -209,22 +249,4 @@ class _investmentState extends State<investment> {
       ),
     );
   }
-}
-
-class Project {
-  final String name;
-  final String author;
-  final String avatar;
-  final String tag;
-  final String desc;
-  final String image;
-
-  const Project({
-    required this.name,
-    required this.author,
-    required this.avatar,
-    required this.tag,
-    required this.desc,
-    required this.image,
-  });
 }
