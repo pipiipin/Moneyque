@@ -38,8 +38,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const Intro(),
-        '/signin': (context) => const Signin(),
-        '/signup': (context) => Signup(),
+        '/signin': (context) => Signin(),
+        '/signin-more': (context) => SigninMore(),
         '/listing': (context) => Listing(),
         '/project': (context) => ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),

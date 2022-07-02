@@ -8,6 +8,7 @@ import 'package:moneyque/project.dart';
 import 'package:moneyque/user.dart';
 
 late String projectId;
+late String userId;
 
 class ProjectPage extends StatefulWidget {
   ProjectPage({Key? key}) : super(key: key);
@@ -30,9 +31,9 @@ class _ProjectPageState extends State<ProjectPage> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        projectId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
       });
     }).then((value) => {
           widget.api.getProjectById(projectId).then((data) {
@@ -264,7 +265,10 @@ class _ProjectPageState extends State<ProjectPage> {
                       : GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/investment',
-                                arguments: project.id);
+                                arguments: {
+                                  'arg1': project.id,
+                                  'arg2': userId,
+                                });
                           },
                           child: const Icon(
                             Icons.credit_card,

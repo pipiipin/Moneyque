@@ -5,8 +5,8 @@ import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
 
 class MoneyqueApi {
-  final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
-  //final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
+  // final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
+  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
 
   Future<List<Project>> getProjects() async {
     final response = await _dio.get('/projects');
@@ -56,6 +56,20 @@ class MoneyqueApi {
     return hit;
   }
 
+  Future<List<User>> getUserByAuth(String authId) async {
+    final response = await _dio.get('/users/auth');
+    List<User> hits = [];
+
+    (response.data['users'] as List)
+        .map<User>((json) => User.fromJson(json))
+        .forEach((element) {
+      if (element.auth == authId) {
+        hits.add(element);
+      }
+    });
+    return hits;
+  }
+
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
     List<Transaction> hits = [];
@@ -89,6 +103,20 @@ class MoneyqueApi {
     return Auth.fromJson(response.data['auths'][0]);
   }
 
+  Future<Auth> getAuthByPass(String id, String password) async {
+    final response = await _dio.get('/auths');
+    late Auth hit;
+
+    (response.data['auths'] as List)
+        .map<Auth>((json) => Auth.fromJson(json))
+        .forEach((element) {
+      if (element.id == id && element.password == password) {
+        hit = element;
+      }
+    });
+    return hit;
+  }
+
   Future<Auth> getAuthById(String id) async {
     final response = await _dio.get('/auths');
     late Auth hit;
@@ -103,8 +131,8 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<Auth> createAuth(String username, String name,
-      String email, String password, List<dynamic> tags) async {
+  Future<Auth> createAuth(String username, String name, String email,
+      String password, List<dynamic> tags) async {
     final response = await _dio.post('/auths', data: {
       'username': username,
       'name': name,

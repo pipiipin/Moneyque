@@ -22,9 +22,11 @@ class TopicType extends StatefulWidget {
   _TopicTypeState createState() => _TopicTypeState();
 }
 
+Auth? auth;
+
 class _TopicTypeState extends State<TopicType> {
   List<Auth> auths = [];
-  
+
   final List<String> topics = [
     'Investment',
     'Environment',
@@ -40,10 +42,17 @@ class _TopicTypeState extends State<TopicType> {
   List<dynamic> selectedReportList = [];
 
   void _addAuth() async {
-    final createdAuth = await widget.api.createAuth(
-        widget.username, widget.name, widget.email, widget.password, selectedReportList);
+    final createdAuth = await widget.api.createAuth(widget.username,
+        widget.name, widget.email, widget.password, selectedReportList);
     setState(() {
       auths.add(createdAuth);
+    });
+    widget.api.getAuthByUsername(widget.username).then((data) {
+      setState(() {
+        auth = data;
+      });
+      print(auth?.name);
+      Navigator.pushNamed(context, '/listing', arguments: auth?.id);
     });
   }
 
@@ -85,8 +94,9 @@ class _TopicTypeState extends State<TopicType> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                  onPressed: () 
-                  {_addAuth();},
+                  onPressed: () {
+                    _addAuth();
+                  },
                   child: const Text(
                     'Next',
                     style: TextStyle(

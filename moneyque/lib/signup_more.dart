@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:moneyque/topic_type.dart';
 
 class SignupMore extends StatefulWidget {
-  const SignupMore(
+  SignupMore(
       {Key? key,
       required this.username,
       required this.name,

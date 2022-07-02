@@ -4,6 +4,7 @@ class User {
   List<dynamic> tags;
   String avatar;
   String desc;
+  String auth;
 
   User._(
     this.id,
@@ -11,6 +12,7 @@ class User {
     this.tags,
     this.avatar,
     this.desc,
+    this.auth,
   );
 
   factory User.fromJson(Map json) {
@@ -19,6 +21,7 @@ class User {
     final tags = json['tags'] as List<dynamic>;
     final avatar = json['avatar'] as String;
     final desc = json['desc'] as String;
-    return User._(id, name, tags, avatar, desc);
+    final auth = json['auth'] as String;
+    return User._(id, name, tags, avatar, desc, auth);
   }
 }

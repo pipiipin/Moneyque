@@ -49,6 +49,14 @@ void start() async {
     }
   ]);
 
+  serv.get('/users/auth', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final users = await coll.find(req.query).toList();
+      return res.status(200).json({'users': users});
+    }
+  ]);
+
   serv.get('/transactions', [
     setCors,
     (ServRequest req, ServResponse res) async {
@@ -66,6 +74,14 @@ void start() async {
   ]);
 
   serv.get('/auths/username', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final auths = await coll4.find(req.query).toList();
+      return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/auths/pass', [
     setCors,
     (ServRequest req, ServResponse res) async {
       final auths = await coll4.find(req.query).toList();

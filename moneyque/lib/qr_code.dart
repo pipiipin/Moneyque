@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class QRCode  {
 
@@ -58,6 +59,11 @@ class QRCode  {
                       GestureDetector(
                         onTap: () {
                           print('Back');
+                          if (Navigator.canPop(context)) {
+                          Navigator.pop(context);
+                        } else {
+                          SystemNavigator.pop();
+                        }
                         },
                         child: const Text(
                           'Cancel',

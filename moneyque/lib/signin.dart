@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:moneyque/signin_more.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
+import 'package:moneyque/profile.dart';
 import 'package:moneyque/utils/authentication.dart';
 import 'package:moneyque/widgets/google_sign_in.dart';
 
 class Signin extends StatefulWidget {
-  const Signin({Key? key}) : super(key: key);
+  Signin({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _SigninState createState() => _SigninState();
 }
+
+late String password;
+Auth? auth;
+bool loading = false;
 
 class _SigninState extends State<Signin> {
   final userInputController = TextEditingController();
@@ -45,21 +52,18 @@ class _SigninState extends State<Signin> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
             child: FutureBuilder(
-                future: Authentication.initializeFirebase(context: context),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text('Error initializing Firebase');
-                  } else if (snapshot.connectionState == ConnectionState.done) {
-                    return GoogleSignInButton();
-                  }
-                  return const CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Colors.orange
-                    ),
-                  );
-                },
-              ),
-            
+              future: Authentication.initializeFirebase(context: context),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Error initializing Firebase');
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  return GoogleSignInButton();
+                }
+                return const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.orange),
+                );
+              },
+            ),
           ),
           const Text(
             'Or',
@@ -83,7 +87,7 @@ class _SigninState extends State<Signin> {
                       },
                       maxLines: 1,
                       decoration: const InputDecoration(
-                        hintText: 'Email',
+                        hintText: 'Username or Email',
                       ),
                     ),
                   ]),
@@ -95,12 +99,36 @@ class _SigninState extends State<Signin> {
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SigninMore(
-                              userInput: userInputController.text,
-                            )));
+                print(userInputController.text);
+                if (RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(userInputController.text)) {
+                  widget.api
+                      .getAuthByEmail(userInputController.text)
+                      .then((data) {
+                    setState(() {
+                      auth = data;
+                    });
+                    print(auth?.id);
+                    Navigator.of(context).pushNamed('/signin-more', arguments: {
+                      'arg1': auth?.id,
+                      'arg2': userInputController.text,
+                    });
+                  });
+                } else {
+                  widget.api
+                      .getAuthByUsername(userInputController.text)
+                      .then((data) {
+                    setState(() {
+                      auth = data;
+                    });
+                    print(auth?.id);
+                    Navigator.of(context).pushNamed('/signin-more', arguments: {
+                      'arg1': auth?.id,
+                      'arg2': userInputController.text,
+                    });
+                  });
+                }
               }
             },
             child: const Text(
