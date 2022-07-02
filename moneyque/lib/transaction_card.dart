@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:moneyque/projectpage.dart';
 
 import 'project.dart';
 
@@ -102,7 +103,7 @@ class TransactionCard extends StatelessWidget {
                             ),
                             child: Text(prj.isDonate
                                 ? '\$' + amount.toString() + ' Donated'
-                                : 'Invested\n' + amount.toString() + '%'),
+                                : 'Bought'),
                           ),
                         ),
                       ],

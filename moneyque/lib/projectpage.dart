@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/user.dart';
 
@@ -158,6 +159,38 @@ class _ProjectPageState extends State<ProjectPage> {
                                                 child: Text(authorName),
                                               ),
                                             ),
+                                            project.isBought
+                                                ? Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                      ),
+                                                      child: Text('Bought'),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 43, 43, 43),
+                                                      ),
+                                                      child: project.isDonate
+                                                          ? Text('TH Baht ' +
+                                                              project.price +
+                                                              ' Donated')
+                                                          : Text('TH Baht ' +
+                                                              project.price),
+                                                    ),
+                                                  ),
                                             Container(
                                               width: 230,
                                               child: Align(
@@ -224,17 +257,21 @@ class _ProjectPageState extends State<ProjectPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/investment',
-                      arguments: project.id);
-                },
-                child: const Icon(
-                  Icons.credit_card,
-                  size: 32,
-                  color: Colors.white,
-                ),
-              ),
+              loading
+                  ? Container()
+                  : project.isBought
+                      ? Container()
+                      : GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/investment',
+                                arguments: project.id);
+                          },
+                          child: const Icon(
+                            Icons.credit_card,
+                            size: 32,
+                            color: Colors.white,
+                          ),
+                        ),
               GestureDetector(
                 onTap: () {
                   print('Contact');
