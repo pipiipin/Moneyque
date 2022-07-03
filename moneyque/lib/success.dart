@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+bool isSuccess = false;
+
+class Success extends StatefulWidget {
+  const Success({Key? key}) : super(key: key);
 
   @override
-  _WelcomeState createState() => _WelcomeState();
+  _SuccessState createState() => _SuccessState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _SuccessState extends State<Success> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

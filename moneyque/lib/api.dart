@@ -119,6 +119,12 @@ class MoneyqueApi {
     return Auth.fromJson(response.data['auths'][0]);
   }
 
+Future<Credit> getCredit(String card,String name,String expiry,String cvc) async {
+    final response =
+        await _dio.get('/creditcard', queryParameters: {'card': card,'name':name,'expiry': expiry, 'cvc': cvc});
+    return Credit.fromJson(response.data['creditcard'][0]);
+  }
+ 
   Future<Auth> getAuthByPass(String id, String password) async {
     final response = await _dio.get('/auths');
     late Auth hit;
