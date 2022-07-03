@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
+import 'package:moneyque/user.dart';
 
 late String projectId;
+late String userId;
 
 class investment extends StatefulWidget {
   investment({Key? key}) : super(key: key);
@@ -15,6 +17,7 @@ class investment extends StatefulWidget {
 }
 
 late Project project;
+late User user;
 
 class _investmentState extends State<investment> {
   @override
@@ -23,15 +26,22 @@ class _investmentState extends State<investment> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        projectId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
+
       });
     }).then((value) => {
           widget.api.getProjectById(projectId).then((data) {
             setState(() {
               project = data as Project;
             });
+          }).then((value) => {
+            widget.api.getUserById(userId).then((data){
+              setState(() {
+                user = data;
+              });
+            })
           })
         });
   }
@@ -113,7 +123,7 @@ class _investmentState extends State<investment> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              project.author,
+                              user.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),

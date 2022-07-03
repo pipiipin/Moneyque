@@ -5,7 +5,7 @@ import 'package:moneyque/project.dart';
 import 'package:moneyque/creditcard.dart';
 
 late String projectId;
-late String creditId;
+late String userId;
 
 class Creditcard extends StatefulWidget {
   Creditcard({Key? key}) : super(key: key);
@@ -20,7 +20,10 @@ late Project project;
 late Creditcard creditcard;
 
 class _CreditcardState extends State<Creditcard> {
-  TextEditingController expirationController = TextEditingController();
+  TextEditingController expiry= TextEditingController();
+  TextEditingController card = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController cvc = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -37,7 +40,7 @@ class _CreditcardState extends State<Creditcard> {
               project = data as Project;
             });
           }).then((value) => {
-            widget.api.getCreditcardByUser(creditId).then((data) => {
+            widget.api.getCreditcard(card.text, name.text, expiry.text, cvc.text).then((data) => {
               setState(() {
                 creditcard = data as Creditcard;
               })
@@ -190,6 +193,7 @@ class _CreditcardState extends State<Creditcard> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       TextFormField(
+                                        controller: card,
                                         maxLines: 1,
                                         decoration: const InputDecoration(
                                           hintText: 'Card number',
@@ -203,6 +207,7 @@ class _CreditcardState extends State<Creditcard> {
                                         height: 8.0,
                                       ),
                                       TextFormField(
+                                        controller: name,
                                         maxLines: 1,
                                         decoration: const InputDecoration(
                                           hintText: 'Name on card',
@@ -227,12 +232,13 @@ class _CreditcardState extends State<Creditcard> {
                                       decoration: const InputDecoration(
                                         hintText: "Expiry date",
                                       ),
-                                      controller: expirationController,
+                                      controller: expiry,
                                     ),
                                   ),
                                   const SizedBox(width: 50.0),
                                   Flexible(
                                     child: TextField(
+                                      controller: cvc,
                                       decoration: const InputDecoration(
                                           hintText: 'Security code'),
                                       inputFormatters: <TextInputFormatter>[

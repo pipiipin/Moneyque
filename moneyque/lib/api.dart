@@ -63,7 +63,7 @@ class MoneyqueApi {
     final response = await _dio.get('/users/auth');
     List<User> hits = [];
 
-    (response.data['users'] as List)
+    (response.data['users/auth'] as List)
         .map<User>((json) => User.fromJson(json))
         .forEach((element) {
       if (element.auth == authId) {
@@ -73,14 +73,15 @@ class MoneyqueApi {
     return hits;
   }
   
-  Future<List<Credit>> getCreditcardByUser(String id) async {
+  Future<List<Credit>> getCreditcard(String card, name, expiry, cvc) async {
     final response = await _dio.get('/creditcard');
     List<Credit> hits = [];
 
     (response.data['creditcard'] as List)
         .map<Credit>((json) => Credit.fromJson(json))
         .forEach((element) {
-      if (element.id == userId) {
+      if (element.card == card && element.name == name 
+          && element.expiry == expiry && element.cvc == cvc) {
         hits.add(element);
       }
     });

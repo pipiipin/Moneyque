@@ -4,7 +4,7 @@ import 'package:moneyque/projectpage.dart';
 import 'project.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(this.prj, this.amount, this.author, String image, {Key? key})
+  const TransactionCard(this.prj, this.amount, this.author, this.avatar, {Key? key})
       : super(key: key);
 
   final Project prj;

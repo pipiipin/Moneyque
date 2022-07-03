@@ -70,7 +70,6 @@ void start() async {
     (ServRequest req, ServResponse res) async {
       final creditcard = await coll5.find().toList();
       return res.status(200).json({'creditcard': creditcard});
-      print(creditcard);
     }
   ]);
 
