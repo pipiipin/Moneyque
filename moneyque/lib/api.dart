@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:moneyque/auth.dart';
 import 'package:moneyque/creditcard.dart';
-import 'package:moneyque/payment_creditcard.dart';
 import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
@@ -59,20 +58,20 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<List<User>> getUserByAuth(String authId) async {
-    final response = await _dio.get('/users/auth');
-    List<User> hits = [];
+  Future<User> getUserByName(String name) async {
+    final response = await _dio.get('/users');
+    late User hit;
 
     (response.data['users'] as List)
         .map<User>((json) => User.fromJson(json))
         .forEach((element) {
-      if (element.auth == authId) {
-      hits.add(element);
+      if (element.name == name) {
+        hit = element;
       }
     });
-    return hits;
+    return hit;
   }
-  
+
   Future<List<Credit>> getCreditcardByUser(String id) async {
     final response = await _dio.get('/creditcard');
     List<Credit> hits = [];
@@ -80,7 +79,7 @@ class MoneyqueApi {
     (response.data['creditcard'] as List)
         .map<Credit>((json) => Credit.fromJson(json))
         .forEach((element) {
-      if (element.id == userId) {
+      if (element.id == id) {
         hits.add(element);
       }
     });
@@ -158,5 +157,20 @@ class MoneyqueApi {
       'tags': tags,
     });
     return Auth.fromJson(response.data);
+  }
+
+  Future<User> createUser(
+    String name,
+    List<dynamic> tags,
+    String avatar,
+    String desc,
+  ) async {
+    final response = await _dio.post('/users', data: {
+      'name': name,
+      'tags': tags,
+      'avartar': avatar,
+      'desc': desc,
+    });
+    return User.fromJson(response.data);
   }
 }

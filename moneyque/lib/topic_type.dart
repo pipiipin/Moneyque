@@ -1,10 +1,9 @@
 // ignore_for_file: use_key_in_widget_constructors
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/auth.dart';
-import 'package:moneyque/profile.dart';
+import 'package:moneyque/user.dart';
 
 class TopicType extends StatefulWidget {
   TopicType(
@@ -23,9 +22,13 @@ class TopicType extends StatefulWidget {
 }
 
 Auth? auth;
+User? user;
+String avatar = "";
+String desc = "";
 
 class _TopicTypeState extends State<TopicType> {
   List<Auth> auths = [];
+  List<User> users = [];
 
   final List<String> topics = [
     'Investment',
@@ -42,6 +45,7 @@ class _TopicTypeState extends State<TopicType> {
   List<dynamic> selectedReportList = [];
 
   void _addAuth() async {
+    //ADD NEW AURH
     final createdAuth = await widget.api.createAuth(widget.username,
         widget.name, widget.email, widget.password, selectedReportList);
     setState(() {
@@ -50,9 +54,22 @@ class _TopicTypeState extends State<TopicType> {
     widget.api.getAuthByUsername(widget.username).then((data) {
       setState(() {
         auth = data;
+        print(auth?.id);
       });
-      print(auth?.name);
-      Navigator.pushNamed(context, '/listing', arguments: auth?.id);
+    });
+  }
+
+  void _addUser() async {
+    final createdUser = await widget.api
+        .createUser(widget.name, selectedReportList, avatar, desc);
+    setState(() {
+      users.add(createdUser);
+    });
+    widget.api.getUserByName(widget.username).then((data) {
+      setState(() {
+        user = data as User;
+        print(user?.name);
+      });
     });
   }
 
@@ -96,6 +113,9 @@ class _TopicTypeState extends State<TopicType> {
                 child: ElevatedButton(
                   onPressed: () {
                     _addAuth();
+                    _addUser();
+                    Navigator.pushNamed(context, '/listing',
+                        arguments: widget.name);
                   },
                   child: const Text(
                     'Next',
