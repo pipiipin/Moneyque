@@ -6,7 +6,6 @@ import 'package:moneyque/creditcard.dart';
 import 'package:moneyque/user.dart';
 
 late String projectId;
-late String creditId;
 late String userId;
 
 class Creditcard extends StatefulWidget {
@@ -19,11 +18,14 @@ class Creditcard extends StatefulWidget {
 }
 
 late Project project;
-late Creditcard creditcard;
 late User user;
+late Credit creditcard;
 
 class _CreditcardState extends State<Creditcard> {
-  TextEditingController expirationController = TextEditingController();
+  TextEditingController expiry = TextEditingController();
+  TextEditingController card = TextEditingController();
+  TextEditingController name = TextEditingController();
+  TextEditingController cvc = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -35,23 +37,20 @@ class _CreditcardState extends State<Creditcard> {
         userId = arg['arg2'];
       });
     }).then((value) => {
-          widget.api.getUserById(userId).then((data) {
-            setState(() {
-              user = data;
-            });
-          }).then((value) => {
-                widget.api.getProjectById(projectId).then((data) {
-                  setState(() {
-                    project = data;
-                  });
-                }).then((value) => {
-                      widget.api.getCreditcardByUser(creditId).then((data) => {
-                            setState(() {
-                              creditcard = data as Creditcard;
-                            })
-                          })
-                    })
+          widget.api
+              .getProjectById(projectId)
+              .then((data) {
+                setState(() {
+                  project = data as Project;
+                });
               })
+              .then((value) => {
+                    widget.api.getUserById(userId).then((data) {
+                      setState(() {
+                        user = data;
+                      });
+                    })
+                  })
         });
   }
 
@@ -198,6 +197,7 @@ class _CreditcardState extends State<Creditcard> {
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       TextFormField(
+                                        controller: card,
                                         maxLines: 1,
                                         decoration: const InputDecoration(
                                           hintText: 'Card number',
@@ -211,6 +211,7 @@ class _CreditcardState extends State<Creditcard> {
                                         height: 8.0,
                                       ),
                                       TextFormField(
+                                        controller: name,
                                         maxLines: 1,
                                         decoration: const InputDecoration(
                                           hintText: 'Name on card',
@@ -235,12 +236,13 @@ class _CreditcardState extends State<Creditcard> {
                                       decoration: const InputDecoration(
                                         hintText: "Expiry date",
                                       ),
-                                      controller: expirationController,
+                                      controller: expiry,
                                     ),
                                   ),
                                   const SizedBox(width: 50.0),
                                   Flexible(
                                     child: TextField(
+                                      controller: cvc,
                                       decoration: const InputDecoration(
                                           hintText: 'Security code'),
                                       inputFormatters: <TextInputFormatter>[
@@ -260,7 +262,22 @@ class _CreditcardState extends State<Creditcard> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.api
+                                      .getCreditcard(card.text)
+                                      .then((data) => {
+                                            setState(() {
+                                              creditcard = data as Credit;
+                                            })
+                                          });
+                                  print(creditcard.id);
+                                  print(card.text +
+                                      name.text +
+                                      expiry.text +
+                                      cvc.text);
+                                  Navigator.pushNamed(context, '/success',
+                                      arguments: creditcard.id);
+                                },
                                 child: const Text(
                                   'Done',
                                   style: TextStyle(

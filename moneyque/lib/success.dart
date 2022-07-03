@@ -10,7 +10,22 @@ class Success extends StatefulWidget {
   _SuccessState createState() => _SuccessState();
 }
 
+late String id;
+
 class _SuccessState extends State<Success> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        id = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,19 +34,19 @@ class _SuccessState extends State<Success> {
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
+              children:  [
+                const Icon(
                   Icons.check_circle,
                   size: 200.0,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  'Payment  Successful',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  id,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                Text(
+                const Text(
                   'Your request has been processed successfully',
                   style: TextStyle(fontSize: 16),
                 ),

@@ -72,19 +72,25 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<List<Credit>> getCreditcardByUser(String id) async {
-    final response = await _dio.get('/creditcard');
-    List<Credit> hits = [];
-
-    (response.data['creditcard'] as List)
-        .map<Credit>((json) => Credit.fromJson(json))
-        .forEach((element) {
-      if (element.id == id) {
-        hits.add(element);
-      }
-    });
-    return hits;
+  Future<Credit> getCreditcard(String card) async {
+    final response =
+        await _dio.get('/creditcard', queryParameters: {'card': card});
+    return Credit.fromJson(response.data['creditcard'][0]);
   }
+  // Future <Credit> getCreditcard(String card, String name, String expiry, String cvc) async {
+  //   final response = await _dio.get('/creditcard');
+  //   late Credit hits;
+
+  //   (response.data['creditcard'] as List)
+  //       .map<Credit>((json) => Credit.fromJson(json))
+  //       .forEach((element) {
+  //     if (element.card == card && element.name == name 
+  //         && element.expiry == expiry && element.cvc == cvc) {
+  //       hits = element;
+  //     }
+  //   });
+  //   return hits;
+  // }
 
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
