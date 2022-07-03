@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:moneyque/topic_type.dart';
 
 class SignupMore extends StatefulWidget {
-  const SignupMore({Key? key}) : super(key: key);
+  SignupMore(
+      {Key? key,
+      required this.username,
+      required this.name,
+      required this.email})
+      : super(key: key);
+
+  final String username, name, email;
 
   @override
   _SignupMoreState createState() => _SignupMoreState();
@@ -13,6 +20,19 @@ class SignupMore extends StatefulWidget {
 class _SignupMoreState extends State<SignupMore> {
   final passController = TextEditingController();
   final rePassController = TextEditingController();
+
+  late String username;
+  late String name;
+  late String email;
+
+  @override
+  void initState() {
+    username = widget.username;
+    name = widget.name;
+    email = widget.email;
+    super.initState();
+  }
+
   @override
   void dispose() {
     passController.dispose();
@@ -135,7 +155,11 @@ class _SignupMoreState extends State<SignupMore> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const TopicType()));
+                              builder: (context) => TopicType(
+                                  username: username,
+                                  name: name,
+                                  email: email,
+                                  password: passController.text)));
                     }
                   },
                   child: const Text(

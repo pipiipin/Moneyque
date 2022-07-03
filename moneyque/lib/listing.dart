@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/projects_listing.dart';
 import 'package:moneyque/user.dart';
@@ -15,6 +16,9 @@ class Listing extends StatefulWidget {
   @override
   _ListingState createState() => _ListingState();
 }
+
+late String username;
+late User a;
 
 class _ListingState extends State<Listing> {
   /*
@@ -43,6 +47,19 @@ class _ListingState extends State<Listing> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        username = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    }).then((value) => {
+          widget.api.getUserByName(username).then((data) {
+            setState(() {
+              a = data;
+            });
+          })
+        });
 
     widget.api.getProjects().then((data) {
       setState(() {
@@ -151,7 +168,7 @@ class _ListingState extends State<Listing> {
                       child: CircularProgressIndicator(),
                     )
                   : Expanded(
-                      child: ProjectsListing(hitProjects),
+                      child: ProjectsListing(hitProjects, a.id),
                     ),
             ],
           ),

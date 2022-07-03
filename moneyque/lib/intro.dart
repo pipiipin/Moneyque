@@ -24,7 +24,7 @@ class _IntroState extends State<Intro> {
           ),
           ElevatedButton(
             onPressed: () => Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const Signin())),
+                MaterialPageRoute(builder: (context) => Signin())),
             child: const Text(
               'Sign in',
               style: TextStyle(
@@ -53,7 +53,7 @@ class _IntroState extends State<Intro> {
               TextButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Signup()));
+                      MaterialPageRoute(builder: (context) => Signup()));
                 },
                 child: const Text(
                   'Sign up',

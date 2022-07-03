@@ -1,11 +1,13 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:moneyque/profileself.dart';
 
 class ProjectsListing extends StatelessWidget {
   final List<dynamic> projects;
+  final String userId;
 
-  const ProjectsListing(this.projects, {Key? key}) : super(key: key);
+  const ProjectsListing(this.projects,this.userId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +17,10 @@ class ProjectsListing extends StatelessWidget {
             (prj) => GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
-                Navigator.pushNamed(context, '/project', arguments: prj.id);
+                Navigator.of(context).pushNamed('/project', arguments: {
+                      'arg1': prj.id,
+                      'arg2': userId,
+                    });
               },
               child: Column(
                 children: [

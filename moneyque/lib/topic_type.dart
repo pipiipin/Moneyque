@@ -1,15 +1,35 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
+import 'package:moneyque/user.dart';
 
 class TopicType extends StatefulWidget {
-  const TopicType({Key? key}) : super(key: key);
+  TopicType(
+      {Key? key,
+      required this.username,
+      required this.name,
+      required this.email,
+      required this.password})
+      : super(key: key);
+
+  final String username, name, email, password;
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _TopicTypeState createState() => _TopicTypeState();
 }
 
+Auth? auth;
+User? user;
+String avatar = "";
+String desc = "";
+
 class _TopicTypeState extends State<TopicType> {
+  List<Auth> auths = [];
+  List<User> users = [];
+
   final List<String> topics = [
     'Investment',
     'Environment',
@@ -22,7 +42,36 @@ class _TopicTypeState extends State<TopicType> {
     'Movies',
   ];
 
-  List<String> selectedReportList = [];
+  List<dynamic> selectedReportList = [];
+
+  void _addAuth() async {
+    //ADD NEW AURH
+    final createdAuth = await widget.api.createAuth(widget.username,
+        widget.name, widget.email, widget.password, selectedReportList);
+    setState(() {
+      auths.add(createdAuth);
+    });
+    widget.api.getAuthByUsername(widget.username).then((data) {
+      setState(() {
+        auth = data;
+        print(auth?.id);
+      });
+    });
+  }
+
+  void _addUser() async {
+    final createdUser = await widget.api
+        .createUser(widget.name, selectedReportList, avatar, desc);
+    setState(() {
+      users.add(createdUser);
+    });
+    widget.api.getUserByName(widget.username).then((data) {
+      setState(() {
+        user = data as User;
+        print(user?.name);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +111,12 @@ class _TopicTypeState extends State<TopicType> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  // => Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => const Signin())),
+                  onPressed: () {
+                    _addAuth();
+                    _addUser();
+                    Navigator.pushNamed(context, '/listing',
+                        arguments: widget.name);
+                  },
                   child: const Text(
                     'Next',
                     style: TextStyle(
@@ -91,8 +143,8 @@ class _TopicTypeState extends State<TopicType> {
 }
 
 class MultiSelectChip extends StatefulWidget {
-  final List<String> topicList;
-  final Function(List<String>) onSelectionChanged;
+  final List<dynamic> topicList;
+  final Function(List<dynamic>) onSelectionChanged;
 
   const MultiSelectChip(this.topicList, {required this.onSelectionChanged});
 
@@ -101,7 +153,7 @@ class MultiSelectChip extends StatefulWidget {
 }
 
 class _MultiSelectChipState extends State<MultiSelectChip> {
-  List<String> selectedChoices = [];
+  List<dynamic> selectedChoices = [];
 
   _buildTopicList() {
     List<Widget> choices = [];

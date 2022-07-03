@@ -3,10 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/user.dart';
 
 late String projectId;
+late String userId;
 
 class ProjectPage extends StatefulWidget {
   ProjectPage({Key? key}) : super(key: key);
@@ -29,9 +31,9 @@ class _ProjectPageState extends State<ProjectPage> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        projectId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
       });
     }).then((value) => {
           widget.api.getProjectById(projectId).then((data) {
@@ -58,7 +60,7 @@ class _ProjectPageState extends State<ProjectPage> {
               child: CircularProgressIndicator(),
             )
           : MaterialApp(
-              title: 'Testing',
+            debugShowCheckedModeBanner: false,
               home: SafeArea(
                 child: Scaffold(
                   body: Column(
@@ -158,6 +160,38 @@ class _ProjectPageState extends State<ProjectPage> {
                                                 child: Text(authorName),
                                               ),
                                             ),
+                                            project.isBought
+                                                ? Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 0, 0, 0),
+                                                      ),
+                                                      child: Text('Bought'),
+                                                    ),
+                                                  )
+                                                : Container(
+                                                    width: 230,
+                                                    child: DefaultTextStyle(
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: Color.fromARGB(
+                                                            255, 43, 43, 43),
+                                                      ),
+                                                      child: project.isDonate
+                                                          ? Text('TH Baht ' +
+                                                              project.price +
+                                                              ' Donated')
+                                                          : Text('TH Baht ' +
+                                                              project.price),
+                                                    ),
+                                                  ),
                                             Container(
                                               width: 230,
                                               child: Align(
@@ -224,17 +258,24 @@ class _ProjectPageState extends State<ProjectPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/investment',
-                      arguments: project.id);
-                },
-                child: const Icon(
-                  Icons.credit_card,
-                  size: 32,
-                  color: Colors.white,
-                ),
-              ),
+              loading
+                  ? Container()
+                  : project.isBought
+                      ? Container()
+                      : GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/investment',
+                                arguments: {
+                                  'arg1': project.id,
+                                  'arg2': userId,
+                                });
+                          },
+                          child: const Icon(
+                            Icons.credit_card,
+                            size: 32,
+                            color: Colors.white,
+                          ),
+                        ),
               GestureDetector(
                 onTap: () {
                   print('Contact');

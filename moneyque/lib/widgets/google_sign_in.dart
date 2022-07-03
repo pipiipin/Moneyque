@@ -1,15 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:moneyque/UserInfo.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
+// import 'package:moneyque/user.dart';
 import 'package:moneyque/utils/authentication.dart';
 
 class GoogleSignInButton extends StatefulWidget {
+  final MoneyqueApi api = MoneyqueApi();
+
   @override
   _GoogleSignInButtonState createState() => _GoogleSignInButtonState();
 }
 
 class _GoogleSignInButtonState extends State<GoogleSignInButton> {
   bool _isSigningIn = false;
+  List<Auth> auths = [];
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +42,21 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
 
                 User? user =
                     await Authentication.signInWithGoogle(context: context);
+                void _addAuth() async {
+                  final createdAuth = await widget.api.createAuth(
+                      user!.uid, user.displayName!, user.email!, "", [""]);
+                  setState(() {
+                    auths.add(createdAuth);
+                  });
+                }
+
+                _addAuth();
 
                 setState(() {
                   _isSigningIn = false;
                 });
 
-                if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => UserInfoScreen(
-                        user: user,
-                      ),
-                    ),
-                  );
-                }
+                if (user != null) {}
               },
               child: Padding(
                 padding: const EdgeInsets.all(8),

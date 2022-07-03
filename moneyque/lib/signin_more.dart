@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:moneyque/success.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 
 class SigninMore extends StatefulWidget {
-  final String userInput;
-  SigninMore({Key? key, required this.userInput}) : super(key: key);
+  SigninMore({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   _SigninMoreState createState() => _SigninMoreState();
 }
 
+late String userInput;
+late String authId;
+late String password;
+Auth? auth;
+
 class _SigninMoreState extends State<SigninMore> {
-  final passController = TextEditingController();
-  late String userInput;
+  TextEditingController inputController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
   @override
   void initState() {
-    userInput = widget.userInput;
-
     super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        authId = arg['arg1'];
+        userInput = arg['arg2'];
+        inputController = TextEditingController(text: userInput);
+      });
+    });
   }
 
   @override
@@ -61,7 +74,7 @@ class _SigninMoreState extends State<SigninMore> {
                 children: [
                   TextFormField(
                     readOnly: true,
-                    controller: TextEditingController(text: userInput),
+                    controller: inputController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your username or email';
@@ -116,9 +129,17 @@ class _SigninMoreState extends State<SigninMore> {
               child: Align(
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
-                  onPressed: () {},
-                  // => Navigator.push(context,
-                  //     MaterialPageRoute(builder: (context) => const Welcome())),
+                  onPressed: () {
+                    password = passController.text;
+                    widget.api.getAuthByPass(authId, password).then((data) {
+                      setState(() {
+                        auth = data;
+                      });
+                      print(auth?.name);
+                      Navigator.pushNamed(context, '/listing',
+                          arguments: auth?.name);
+                    });
+                  },
                   child: const Text(
                     'Next',
                     style: TextStyle(

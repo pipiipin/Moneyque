@@ -1,25 +1,70 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/project.dart';
+import 'package:moneyque/creditcard.dart';
+import 'package:moneyque/user.dart';
+
+late String projectId;
+late String creditId;
+late String userId;
 
 class Creditcard extends StatefulWidget {
-  const Creditcard({Key? key}) : super(key: key);
+  Creditcard({Key? key}) : super(key: key);
+
+  final MoneyqueApi api = MoneyqueApi();
 
   @override
   State<Creditcard> createState() => _CreditcardState();
 }
 
+late Project project;
+late Creditcard creditcard;
+late User user;
+
 class _CreditcardState extends State<Creditcard> {
   TextEditingController expirationController = TextEditingController();
   @override
+  void initState() {
+    super.initState();
+
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
+      });
+    }).then((value) => {
+          widget.api.getUserById(userId).then((data) {
+            setState(() {
+              user = data;
+            });
+          }).then((value) => {
+                widget.api.getProjectById(projectId).then((data) {
+                  setState(() {
+                    project = data;
+                  });
+                }).then((value) => {
+                      widget.api.getCreditcardByUser(creditId).then((data) => {
+                            setState(() {
+                              creditcard = data as Creditcard;
+                            })
+                          })
+                    })
+              })
+        });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    var project = const Project(
-        name: 'Robots House',
-        author: 'Kanye West',
-        avatar: '',
-        tag: 'Education',
-        desc:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur risus augue, eu suscipit neque euismod eget. Suspendisse id vulputate metus. Mauris vitae dui sem. Suspendisse bibendum, diam in volutpat pharetra, justo eros ultricies dui, ac facilisis justo massa quis velit. Pellentesque viverra nec risus vitae porta. Maecenas vitae tincidunt tellus. Vestibulum volutpat porta tortor et fermentum. Nam vitae libero dictum, laoreet purus ut, ultrices dolor. Nam at orci non massa fringilla ultricies. Duis vitae leo sit amet arcu tempor hendrerit eget vel ex. Donec sit amet erat at lorem sodales blandit a vitae nunc. Maecenas nec rutrum velit, at laoreet velit. Vivamus quis odio dolor. Mauris imperdiet urna non enim sodales, ut semper purus fringilla. Nullam imperdiet turpis lorem, in bibendum elit ultrices sit amet. Duis consectetur sollicitudin tellus, at vestibulum sapien porttitor ut. Aenean imperdiet magna turpis, consequat sodales sem sodales in. Praesent fermentum a nulla in dignissim. Sed ultricies, odio vel commodo auctor, velit enim volutpat mi, ut varius tortor neque eu arcu. Vestibulum rutrum condimentum sagittis. Maecenas feugiat, lectus at laoreet aliquet, neque ligula rhoncus dolor, a gravida magna nulla et purus. Nullam vel lorem convallis ligula elementum efficitur sit amet id lacus.',
-        image: '');
+    // var project = const Project(
+    //     name: 'Robots House',
+    //     author: 'Kanye West',
+    //     avatar: '',
+    //     tag: 'Education',
+    //     desc:
+    //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur risus augue, eu suscipit neque euismod eget. Suspendisse id vulputate metus. Mauris vitae dui sem. Suspendisse bibendum, diam in volutpat pharetra, justo eros ultricies dui, ac facilisis justo massa quis velit. Pellentesque viverra nec risus vitae porta. Maecenas vitae tincidunt tellus. Vestibulum volutpat porta tortor et fermentum. Nam vitae libero dictum, laoreet purus ut, ultrices dolor. Nam at orci non massa fringilla ultricies. Duis vitae leo sit amet arcu tempor hendrerit eget vel ex. Donec sit amet erat at lorem sodales blandit a vitae nunc. Maecenas nec rutrum velit, at laoreet velit. Vivamus quis odio dolor. Mauris imperdiet urna non enim sodales, ut semper purus fringilla. Nullam imperdiet turpis lorem, in bibendum elit ultrices sit amet. Duis consectetur sollicitudin tellus, at vestibulum sapien porttitor ut. Aenean imperdiet magna turpis, consequat sodales sem sodales in. Praesent fermentum a nulla in dignissim. Sed ultricies, odio vel commodo auctor, velit enim volutpat mi, ut varius tortor neque eu arcu. Vestibulum rutrum condimentum sagittis. Maecenas feugiat, lectus at laoreet aliquet, neque ligula rhoncus dolor, a gravida magna nulla et purus. Nullam vel lorem convallis ligula elementum efficitur sit amet id lacus.',
+    //     image: '');
 
     return Scaffold(
       body: MaterialApp(
@@ -35,7 +80,11 @@ class _CreditcardState extends State<Creditcard> {
                     children: [
                       GestureDetector(
                         onTap: () {
-                          print('Back');
+                          if (Navigator.canPop(context)) {
+                            Navigator.pop(context);
+                          } else {
+                            SystemNavigator.pop();
+                          }
                         },
                         child: const Text(
                           'Cancel',
@@ -80,7 +129,7 @@ class _CreditcardState extends State<Creditcard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              project.author,
+                              user.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -104,17 +153,17 @@ class _CreditcardState extends State<Creditcard> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   'TH Baht',
-                                  style: TextStyle(fontSize: 14),
+                                  style: const TextStyle(fontSize: 14),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10.0,
                                 ),
                                 Text(
-                                  '14,684',
-                                  style: TextStyle(
+                                  project.price,
+                                  style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 20),
                                 ),
@@ -183,7 +232,7 @@ class _CreditcardState extends State<Creditcard> {
                                 children: <Widget>[
                                   Flexible(
                                     child: ExpirationFormField(
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                         hintText: "Expiry date",
                                       ),
                                       controller: expirationController,
@@ -192,7 +241,7 @@ class _CreditcardState extends State<Creditcard> {
                                   const SizedBox(width: 50.0),
                                   Flexible(
                                     child: TextField(
-                                      decoration: InputDecoration(
+                                      decoration: const InputDecoration(
                                           hintText: 'Security code'),
                                       inputFormatters: <TextInputFormatter>[
                                         FilteringTextInputFormatter.allow(
@@ -245,24 +294,6 @@ class _CreditcardState extends State<Creditcard> {
   }
 }
 
-class Project {
-  final String name;
-  final String author;
-  final String avatar;
-  final String tag;
-  final String desc;
-  final String image;
-
-  const Project({
-    required this.name,
-    required this.author,
-    required this.avatar,
-    required this.tag,
-    required this.desc,
-    required this.image,
-  });
-}
-
 class ExpirationFormField extends StatefulWidget {
   final TextEditingController controller;
   final InputDecoration decoration;
@@ -286,7 +317,7 @@ class _ExpirationFormFieldState extends State<ExpirationFormField> {
   Widget build(BuildContext context) {
     return TextField(
       keyboardType:
-          TextInputType.numberWithOptions(signed: false, decimal: false),
+          const TextInputType.numberWithOptions(signed: false, decimal: false),
       controller: widget.controller,
       decoration: widget.decoration,
       onChanged: (value) {
@@ -295,31 +326,37 @@ class _ExpirationFormFieldState extends State<ExpirationFormField> {
           switch (value.length) {
             case 0:
               widget.controller.text = "MM/YY";
-              widget.controller.selection = TextSelection.collapsed(offset: 0);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 0);
               break;
             case 1:
               widget.controller.text = "${value}M/YY";
-              widget.controller.selection = TextSelection.collapsed(offset: 1);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 1);
               break;
             case 2:
               widget.controller.text = "$value/YY";
-              widget.controller.selection = TextSelection.collapsed(offset: 2);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 2);
               break;
             case 3:
               widget.controller.text =
                   "${value.substring(0, 2)}/${value.substring(2)}Y";
-              widget.controller.selection = TextSelection.collapsed(offset: 4);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 4);
               break;
             case 4:
               widget.controller.text =
                   "${value.substring(0, 2)}/${value.substring(2, 4)}";
-              widget.controller.selection = TextSelection.collapsed(offset: 5);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 5);
               break;
           }
           if (value.length > 4) {
             widget.controller.text =
                 "${value.substring(0, 2)}/${value.substring(2, 4)}";
-            widget.controller.selection = TextSelection.collapsed(offset: 5);
+            widget.controller.selection =
+                const TextSelection.collapsed(offset: 5);
           }
         });
       },

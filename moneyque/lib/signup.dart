@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 import 'package:moneyque/signup_more.dart';
+import 'package:mongo_dart/mongo_dart.dart' as M;
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
@@ -10,13 +13,19 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final usernameController = TextEditingController();
+  final nameController = TextEditingController();
+  final lastnameController = TextEditingController();
+  final emailController = TextEditingController();
 
-  final _auth = FirebaseAuth.instance;
-  late String email;
-  late String password;
-   late String username;
-  late String name;
-   late String lastname;
+  @override
+  void dispose() {
+    usernameController.dispose();
+    nameController.dispose();
+    lastnameController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -50,9 +59,7 @@ class _SignupState extends State<Signup> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextFormField(
-                      onChanged: (value) {
-                        username = value;
-                      },
+                      controller: usernameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
@@ -68,9 +75,7 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      onChanged: (value) {
-                        name = value;
-                      },
+                      controller: nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your name';
@@ -86,9 +91,7 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      onChanged: (value) {
-                        lastname = value;
-                      },
+                      controller: lastnameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your lastname';
@@ -104,14 +107,14 @@ class _SignupState extends State<Signup> {
                       height: 10,
                     ),
                     TextFormField(
-                      onChanged: (value) {
-                        email = value;
-                      },
+                      controller: emailController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your email';
                         }
-                        if (!(value.contains('@')) && value.isNotEmpty) {
+                        if (!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value) &&
+                            value.isNotEmpty) {
                           return "Enter a valid email address!";
                         }
                         return null;
@@ -132,10 +135,18 @@ class _SignupState extends State<Signup> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      final String name =
+                          nameController.text + " " +lastnameController.text;
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SignupMore()));
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => SignupMore(
+                            username: usernameController.text,
+                            name: name,
+                            email: emailController.text,
+                          ),
+                        ),
+                      );
                     }
                   },
                   child: const Text(
