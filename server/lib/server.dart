@@ -11,6 +11,7 @@ void start() async {
   final coll3 = db.collection('transactions');
   final coll4 = db.collection('auths');
   final coll5 = db.collection('creditcard');
+  final coll6 = db.collection('credits');
 
   // Create server
   const port = 8081;
@@ -65,10 +66,11 @@ void start() async {
       return res.status(200).json({'transactions': transactions});
     }
   ]);
+
   serv.get('/creditcard', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final creditcard = await coll5.find().toList();
+      final creditcard = await coll5.find(req.query).toList();
       return res.status(200).json({'creditcard': creditcard});
     }
   ]);
@@ -86,6 +88,14 @@ void start() async {
     (ServRequest req, ServResponse res) async {
       final auths = await coll4.find(req.query).toList();
       return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/credits', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final credits = await coll6.find(req.query).toList();
+      return res.status(200).json({'credits': credits});
     }
   ]);
 

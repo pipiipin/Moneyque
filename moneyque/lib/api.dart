@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:moneyque/auth.dart';
-import 'package:moneyque/creditcard.dart';
+import 'package:moneyque/credit.dart';
 import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
 
 class MoneyqueApi {
-  // final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
-  final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
+  final _dio = Dio(BaseOptions(baseUrl: 'http://10.0.2.2:8081'));
+  // final _dio = Dio(BaseOptions(baseUrl: 'http://localhost:8081'));
 
   Future<List<Project>> getProjects() async {
     final response = await _dio.get('/projects');
@@ -72,26 +72,6 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<Credit> getCreditcard(String card) async {
-    final response =
-        await _dio.get('/creditcard', queryParameters: {'card': card});
-    return Credit.fromJson(response.data['creditcard'][0]);
-  }
-  // Future <Credit> getCreditcard(String card, String name, String expiry, String cvc) async {
-  //   final response = await _dio.get('/creditcard');
-  //   late Credit hits;
-
-  //   (response.data['creditcard'] as List)
-  //       .map<Credit>((json) => Credit.fromJson(json))
-  //       .forEach((element) {
-  //     if (element.card == card && element.name == name 
-  //         && element.expiry == expiry && element.cvc == cvc) {
-  //       hits = element;
-  //     }
-  //   });
-  //   return hits;
-  // }
-
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
     List<Transaction> hits = [];
@@ -125,12 +105,36 @@ class MoneyqueApi {
     return Auth.fromJson(response.data['auths'][0]);
   }
 
-Future<Credit> getCredit(String card,String name,String expiry,String cvc) async {
-    final response =
-        await _dio.get('/creditcard', queryParameters: {'card': card,'name':name,'expiry': expiry, 'cvc': cvc});
-    return Credit.fromJson(response.data['creditcard'][0]);
+  Future<CreditCard> getCredit(
+      String num, String name, String expiry, String cvc) async {
+    final response = await _dio.get('/credits');
+    late CreditCard hit;
+
+    (response.data['credits'] as List)
+        .map<CreditCard>((json) => CreditCard.fromJson(json))
+        .forEach((element) {
+      if (element.name == name && element.num == num && element.expiry == expiry && element.cvc == cvc) {
+        hit = element;
+      }
+    });
+    return hit;
   }
- 
+
+  Future<CreditCard> getCreditById(
+      String id) async {
+    final response = await _dio.get('/credits');
+    late CreditCard hit;
+
+    (response.data['credits'] as List)
+        .map<CreditCard>((json) => CreditCard.fromJson(json))
+        .forEach((element) {
+      if (element.id == id) {
+        hit = element;
+      }
+    });
+    return hit;
+  }
+
   Future<Auth> getAuthByPass(String id, String password) async {
     final response = await _dio.get('/auths');
     late Auth hit;
