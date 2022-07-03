@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+bool isSuccess = false;
+
 class Success extends StatefulWidget {
   const Success({Key? key}) : super(key: key);
 
@@ -23,6 +25,7 @@ class _SuccessState extends State<Success> {
       });
     });
   }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
