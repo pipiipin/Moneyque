@@ -60,7 +60,7 @@ class _ProjectPageState extends State<ProjectPage> {
               child: CircularProgressIndicator(),
             )
           : MaterialApp(
-              title: 'Testing',
+            debugShowCheckedModeBanner: false,
               home: SafeArea(
                 child: Scaffold(
                   body: Column(

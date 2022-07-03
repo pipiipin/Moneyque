@@ -17,7 +17,7 @@ class Listing extends StatefulWidget {
   _ListingState createState() => _ListingState();
 }
 
-late String authId;
+late String username;
 late User a;
 
 class _ListingState extends State<Listing> {
@@ -49,14 +49,14 @@ class _ListingState extends State<Listing> {
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
-        authId = ModalRoute != null
+        username = ModalRoute != null
             ? ModalRoute.of(context)!.settings.arguments.toString()
             : '';
       });
     }).then((value) => {
-          widget.api.getUserByAuth(authId).then((data) {
+          widget.api.getUserByName(username).then((data) {
             setState(() {
-              a = data as User;
+              a = data;
             });
           })
         });

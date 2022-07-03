@@ -42,18 +42,18 @@ void start() async {
     }
   ]);
 
-  serv.get('/users', [
+  serv.get('/users/name', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final users = await coll2.find().toList();
+      final users = await coll2.find(req.query).toList();
       return res.status(200).json({'users': users});
     }
   ]);
 
-  serv.get('/users/auth', [
+  serv.get('/users', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final users = await coll.find(req.query).toList();
+      final users = await coll2.find().toList();
       return res.status(200).json({'users': users});
     }
   ]);
@@ -89,14 +89,6 @@ void start() async {
     }
   ]);
 
-  serv.get('/auths/pass', [
-    setCors,
-    (ServRequest req, ServResponse res) async {
-      final auths = await coll4.find(req.query).toList();
-      return res.status(200).json({'auths': auths});
-    }
-  ]);
-
   serv.get('/auths/email', [
     setCors,
     (ServRequest req, ServResponse res) async {
@@ -115,12 +107,12 @@ void start() async {
     }
   ]);
 
-  serv.post('/auths', [
+  serv.post('/users', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      await coll4.save(req.body);
+      await coll2.save(req.body);
       return res.json(
-        await coll4.findOne(where.eq('username', req.body['username'])),
+        await coll2.findOne(where.eq('name', req.body['name'])),
       );
     }
   ]);
