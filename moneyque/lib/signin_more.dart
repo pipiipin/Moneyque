@@ -137,7 +137,7 @@ class _SigninMoreState extends State<SigninMore> {
                       });
                       print(auth?.name);
                       Navigator.pushNamed(context, '/listing',
-                          arguments: auth?.id);
+                          arguments: auth?.name);
                     });
                   },
                   child: const Text(

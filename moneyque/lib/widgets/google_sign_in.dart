@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:moneyque/UserInfo.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/auth.dart';
+// import 'package:moneyque/user.dart';
 import 'package:moneyque/utils/authentication.dart';
 
 class GoogleSignInButton extends StatefulWidget {
@@ -49,6 +49,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                     auths.add(createdAuth);
                   });
                 }
+
                 _addAuth();
 
                 setState(() {

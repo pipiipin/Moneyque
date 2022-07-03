@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 import 'package:moneyque/project.dart';
+import 'package:moneyque/user.dart';
 
 late String projectId;
+late String userId;
 
 class investment extends StatefulWidget {
   investment({Key? key}) : super(key: key);
@@ -15,6 +18,7 @@ class investment extends StatefulWidget {
 }
 
 late Project project;
+late User user;
 
 class _investmentState extends State<investment> {
   @override
@@ -23,16 +27,22 @@ class _investmentState extends State<investment> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        projectId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
       });
     }).then((value) => {
           widget.api.getProjectById(projectId).then((data) {
             setState(() {
               project = data as Project;
             });
-          })
+          }).then((value) => {
+                widget.api.getUserById(userId).then((data) {
+                  setState(() {
+                    user = data;
+                  });
+                })
+              })
         });
   }
 
@@ -62,10 +72,10 @@ class _investmentState extends State<investment> {
                       GestureDetector(
                         onTap: () {
                           if (Navigator.canPop(context)) {
-                                  Navigator.pop(context);
-                                } else {
-                                  SystemNavigator.pop();
-                                }
+                            Navigator.pop(context);
+                          } else {
+                            SystemNavigator.pop();
+                          }
                         },
                         child: const Text(
                           'Cancel',
@@ -113,7 +123,7 @@ class _investmentState extends State<investment> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              project.author,
+                              user.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -181,9 +191,11 @@ class _investmentState extends State<investment> {
                                   children: [
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/qrcode',
-                                            arguments: project.id);
+                                        Navigator.of(context)
+                                            .pushNamed('/qrcode', arguments: {
+                                          'arg1': project.id,
+                                          'arg2': userId,
+                                        });
                                       },
                                       child: const Text(
                                         'QR Code',
@@ -210,9 +222,11 @@ class _investmentState extends State<investment> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.pushNamed(
-                                            context, '/payment_creditcard',
-                                            arguments: project.id);
+                                        Navigator.of(context)
+                                            .pushNamed('/creditcard', arguments: {
+                                          'arg1': project.id,
+                                          'arg2': userId,
+                                        });
                                       },
                                       child: const Text(
                                         'Credit Card/\nDebit Card',
