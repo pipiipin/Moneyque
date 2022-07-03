@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+class Success extends StatefulWidget {
+  const Success({Key? key}) : super(key: key);
 
   @override
-  _WelcomeState createState() => _WelcomeState();
+  _SuccessState createState() => _SuccessState();
 }
 
-class _WelcomeState extends State<Welcome> {
+late String id;
+
+class _SuccessState extends State<Success> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        id = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,19 +31,19 @@ class _WelcomeState extends State<Welcome> {
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(
+              children:  [
+                const Icon(
                   Icons.check_circle,
                   size: 200.0,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  'Payment  Successful',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  id,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                Text(
+                const Text(
                   'Your request has been processed successfully',
                   style: TextStyle(fontSize: 16),
                 ),

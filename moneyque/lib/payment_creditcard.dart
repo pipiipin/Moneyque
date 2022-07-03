@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/creditcard.dart';
+import 'package:moneyque/user.dart';
 
 late String projectId;
 late String userId;
@@ -17,10 +18,11 @@ class Creditcard extends StatefulWidget {
 }
 
 late Project project;
-late Creditcard creditcard;
+late User user;
+late Credit creditcard;
 
 class _CreditcardState extends State<Creditcard> {
-  TextEditingController expiry= TextEditingController();
+  TextEditingController expiry = TextEditingController();
   TextEditingController card = TextEditingController();
   TextEditingController name = TextEditingController();
   TextEditingController cvc = TextEditingController();
@@ -30,24 +32,26 @@ class _CreditcardState extends State<Creditcard> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        projectId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
       });
     }).then((value) => {
-          widget.api.getProjectById(projectId).then((data) {
-            setState(() {
-              project = data as Project;
-            });
-          }).then((value) => {
-            widget.api.getCreditcard(card.text, name.text, expiry.text, cvc.text).then((data) => {
-              setState(() {
-                creditcard = data as Creditcard;
+          widget.api
+              .getProjectById(projectId)
+              .then((data) {
+                setState(() {
+                  project = data as Project;
+                });
               })
-            })
-          })
+              .then((value) => {
+                    widget.api.getUserById(userId).then((data) {
+                      setState(() {
+                        user = data;
+                      });
+                    })
+                  })
         });
-    
   }
 
   @override
@@ -76,10 +80,10 @@ class _CreditcardState extends State<Creditcard> {
                       GestureDetector(
                         onTap: () {
                           if (Navigator.canPop(context)) {
-                                  Navigator.pop(context);
-                                } else {
-                                  SystemNavigator.pop();
-                                }
+                            Navigator.pop(context);
+                          } else {
+                            SystemNavigator.pop();
+                          }
                         },
                         child: const Text(
                           'Cancel',
@@ -124,7 +128,7 @@ class _CreditcardState extends State<Creditcard> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              project.author,
+                              user.name,
                               style: const TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 18),
                             ),
@@ -148,7 +152,7 @@ class _CreditcardState extends State<Creditcard> {
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children:  [
+                              children: [
                                 const Text(
                                   'TH Baht',
                                   style: const TextStyle(fontSize: 14),
@@ -258,7 +262,22 @@ class _CreditcardState extends State<Creditcard> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.api
+                                      .getCreditcard(card.text)
+                                      .then((data) => {
+                                            setState(() {
+                                              creditcard = data as Credit;
+                                            })
+                                          });
+                                  print(creditcard.id);
+                                  print(card.text +
+                                      name.text +
+                                      expiry.text +
+                                      cvc.text);
+                                  Navigator.pushNamed(context, '/success',
+                                      arguments: creditcard.id);
+                                },
                                 child: const Text(
                                   'Done',
                                   style: TextStyle(
@@ -292,7 +311,6 @@ class _CreditcardState extends State<Creditcard> {
   }
 }
 
-
 class ExpirationFormField extends StatefulWidget {
   final TextEditingController controller;
   final InputDecoration decoration;
@@ -325,31 +343,37 @@ class _ExpirationFormFieldState extends State<ExpirationFormField> {
           switch (value.length) {
             case 0:
               widget.controller.text = "MM/YY";
-              widget.controller.selection = const TextSelection.collapsed(offset: 0);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 0);
               break;
             case 1:
               widget.controller.text = "${value}M/YY";
-              widget.controller.selection = const TextSelection.collapsed(offset: 1);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 1);
               break;
             case 2:
               widget.controller.text = "$value/YY";
-              widget.controller.selection = const TextSelection.collapsed(offset: 2);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 2);
               break;
             case 3:
               widget.controller.text =
                   "${value.substring(0, 2)}/${value.substring(2)}Y";
-              widget.controller.selection = const TextSelection.collapsed(offset: 4);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 4);
               break;
             case 4:
               widget.controller.text =
                   "${value.substring(0, 2)}/${value.substring(2, 4)}";
-              widget.controller.selection = const TextSelection.collapsed(offset: 5);
+              widget.controller.selection =
+                  const TextSelection.collapsed(offset: 5);
               break;
           }
           if (value.length > 4) {
             widget.controller.text =
                 "${value.substring(0, 2)}/${value.substring(2, 4)}";
-            widget.controller.selection = const TextSelection.collapsed(offset: 5);
+            widget.controller.selection =
+                const TextSelection.collapsed(offset: 5);
           }
         });
       },
