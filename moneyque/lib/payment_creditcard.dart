@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:moneyque/api.dart';
+import 'package:moneyque/credit.dart';
 import 'package:moneyque/project.dart';
-import 'package:moneyque/creditcard.dart';
 import 'package:moneyque/user.dart';
 
 late String projectId;
@@ -19,7 +19,7 @@ class Creditcard extends StatefulWidget {
 
 late Project project;
 late User user;
-late Credit creditcard;
+late CreditCard credit;
 
 class _CreditcardState extends State<Creditcard> {
   TextEditingController expiry = TextEditingController();
@@ -37,20 +37,17 @@ class _CreditcardState extends State<Creditcard> {
         userId = arg['arg2'];
       });
     }).then((value) => {
-          widget.api
-              .getProjectById(projectId)
-              .then((data) {
-                setState(() {
-                  project = data as Project;
-                });
+          widget.api.getProjectById(projectId).then((data) {
+            setState(() {
+              project = data as Project;
+            });
+          }).then((value) => {
+                widget.api.getUserById(userId).then((data) {
+                  setState(() {
+                    user = data;
+                  });
+                })
               })
-              .then((value) => {
-                    widget.api.getUserById(userId).then((data) {
-                      setState(() {
-                        user = data;
-                      });
-                    })
-                  })
         });
   }
 
@@ -263,20 +260,14 @@ class _CreditcardState extends State<Creditcard> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  widget.api
-                                      .getCreditcard(card.text)
-                                      .then((data) => {
-                                            setState(() {
-                                              creditcard = data as Credit;
-                                            })
-                                          });
-                                  print(creditcard.id);
-                                  print(card.text +
-                                      name.text +
-                                      expiry.text +
-                                      cvc.text);
-                                  Navigator.pushNamed(context, '/success',
-                                      arguments: creditcard.id);
+                                  widget.api.getCredit(card.text,name.text,expiry.text,cvc.text).then((data) {
+                                    setState(() {
+                                      credit = data;
+                                    });
+                                    print(credit.id);
+                                    Navigator.pushNamed(context, '/success', arguments: user.id);
+                                  });
+                                  
                                 },
                                 child: const Text(
                                   'Done',

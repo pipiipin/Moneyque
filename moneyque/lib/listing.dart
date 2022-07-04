@@ -17,9 +17,6 @@ class Listing extends StatefulWidget {
   _ListingState createState() => _ListingState();
 }
 
-late String username;
-late User a;
-
 class _ListingState extends State<Listing> {
   /*
     Available Tags:
@@ -43,18 +40,20 @@ class _ListingState extends State<Listing> {
   List<Project> hitProjects = [];
   List<User> users = [];
   bool loading = true;
+  late String userId;
+  late User a;
 
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
-        username = ModalRoute != null
+        userId = ModalRoute != null
             ? ModalRoute.of(context)!.settings.arguments.toString()
             : '';
       });
     }).then((value) => {
-          widget.api.getUserByName(username).then((data) {
+          widget.api.getUserById(userId).then((data) {
             setState(() {
               a = data;
             });

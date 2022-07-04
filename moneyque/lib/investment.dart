@@ -8,19 +8,19 @@ import 'package:moneyque/user.dart';
 late String projectId;
 late String userId;
 
-class investment extends StatefulWidget {
-  investment({Key? key}) : super(key: key);
+class Investment extends StatefulWidget {
+  Investment({Key? key}) : super(key: key);
 
   final MoneyqueApi api = MoneyqueApi();
 
   @override
-  State<investment> createState() => _investmentState();
+  State<Investment> createState() => _InvestmentState();
 }
 
 late Project project;
 late User user;
 
-class _investmentState extends State<investment> {
+class _InvestmentState extends State<Investment> {
   @override
   void initState() {
     super.initState();

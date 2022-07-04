@@ -1,31 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/user.dart';
 
 bool isSuccess = false;
 
 class Success extends StatefulWidget {
-  const Success({Key? key}) : super(key: key);
+  Success({Key? key}) : super(key: key);
+  MoneyqueApi api = MoneyqueApi();
 
   @override
   _SuccessState createState() => _SuccessState();
 }
 
-late String id;
+late String userId;
+late User user;
 
 class _SuccessState extends State<Success> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
-        id = ModalRoute != null
+        userId = ModalRoute != null
             ? ModalRoute.of(context)!.settings.arguments.toString()
             : '';
       });
-    });
+    }).then((value) => {
+          widget.api.getUserById(userId).then((data) {
+            setState(() {
+              user = data;
+            });
+          })
+        });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,19 +42,20 @@ class _SuccessState extends State<Success> {
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                const Icon(
+              children: const [
+                Icon(
                   Icons.check_circle,
                   size: 200.0,
                 ),
-                const SizedBox(
+                SizedBox(
                   height: 10.0,
                 ),
                 Text(
-                  id,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  'Payment Successful',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 24),
                 ),
-                const Text(
+                Text(
                   'Your request has been processed successfully',
                   style: TextStyle(fontSize: 16),
                 ),
@@ -61,10 +70,8 @@ class _SuccessState extends State<Success> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const ()));
+                      Navigator.pushNamed(context, '/profile',
+                          arguments: user.id);
                     },
                     child: const Text(
                       'Done',

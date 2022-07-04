@@ -1,7 +1,10 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/auth.dart';
 import 'package:moneyque/topic_type.dart';
+import 'package:moneyque/user.dart';
 
 class SignupMore extends StatefulWidget {
   SignupMore(
@@ -12,18 +15,27 @@ class SignupMore extends StatefulWidget {
       : super(key: key);
 
   final String username, name, email;
+  MoneyqueApi api = MoneyqueApi();
 
   @override
   _SignupMoreState createState() => _SignupMoreState();
 }
 
+late Auth auth;
+
 class _SignupMoreState extends State<SignupMore> {
   final passController = TextEditingController();
   final rePassController = TextEditingController();
 
+  List<Auth> auths = [];
+  List<User> users = [];
+
   late String username;
   late String name;
   late String email;
+  late List<dynamic> tags;
+  late String avatar;
+  late String desc;
 
   @override
   void initState() {
@@ -38,6 +50,39 @@ class _SignupMoreState extends State<SignupMore> {
     passController.dispose();
     rePassController.dispose();
     super.dispose();
+  }
+
+  void _addAuth() async {
+    //ADD NEW AURH
+    final createdAuth = await widget.api.createAuth(
+        widget.username, widget.name, widget.email, passController.text);
+    setState(() {
+      auths.add(createdAuth);
+    });
+    widget.api.getAuthByUsername(widget.username).then((data) {
+      setState(() {
+        auth = data;
+        print(auth.id);
+      });
+    });
+  }
+
+  void _addUser() async {
+    final createdUser =
+        await widget.api.createUser(widget.name, tags, avatar, desc);
+    setState(() {
+      users.add(createdUser);
+    });
+    widget.api.getUserByName(widget.username).then((data) {
+      setState(() {
+        user = data;
+        print(user.name);
+        Navigator.of(context).pushNamed(
+          '/topic',
+          arguments: user.name,
+        );
+      });
+    });
   }
 
   bool passwordVisible = true;
@@ -152,14 +197,8 @@ class _SignupMoreState extends State<SignupMore> {
                     print(passController.text);
                     print(rePassController.text);
                     if (_formKey.currentState!.validate()) {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => TopicType(
-                                  username: username,
-                                  name: name,
-                                  email: email,
-                                  password: passController.text)));
+                      _addAuth();
+                      _addUser();
                     }
                   },
                   child: const Text(
