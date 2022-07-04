@@ -41,16 +41,20 @@ class _ListingState extends State<Listing> {
   List<User> users = [];
   bool loading = true;
   late String userId;
+  late List<dynamic> tag;
   late User a;
 
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration.zero, () {
       setState(() {
-        userId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        setState(() {
+          final arg = ModalRoute.of(context)!.settings.arguments as Map;
+          userId = arg['arg1'];
+          tag = arg['arg2'];
+        });
       });
     }).then((value) => {
           widget.api.getUserById(userId).then((data) {
@@ -60,37 +64,73 @@ class _ListingState extends State<Listing> {
           })
         });
 
-    widget.api.getProjects().then((data) {
-      setState(() {
-        projects = data;
-      });
-    }).then((value) => {
-          widget.api.getUsers().then((data) {
-            setState(() {
-              users = data;
+    widget.api
+        .getProjects()
+        .then((data) {
+          setState(() {
+            projects = data;
+          });
+        })
+        .then((value) => {
+              widget.api.getUsers().then((data) {
+                setState(() {
+                  users = data;
+                });
+              }).then((value) => {
+                    projects.forEach((prj) {
+                      String authName = 'N/A';
+
+                      users.forEach((user) {
+                        if (user.id == prj.author) {
+                          authName = user.name;
+                        }
+                      });
+
+                      prj.author = authName;
+                    }),
+                    projects.forEach((prj) {
+                      tags.forEach((tag) {
+                        if (tag == prj.tag) {
+                          hitProjects.add(prj);
+                        }
+                      });
+                    }),
+                    loading = false
+                  })
+            })
+        .then((value) => {
+              widget.api.getProjects().then((data) {
+                setState(() {
+                  projects = data;
+                });
+              }).then((value) => {
+                    widget.api.getUsers().then((data) {
+                      setState(() {
+                        users = data;
+                      });
+                    }).then((value) => {
+                          projects.forEach((prj) {
+                            String authName = 'N/A';
+
+                            users.forEach((user) {
+                              if (user.id == prj.author) {
+                                authName = user.name;
+                              }
+                            });
+
+                            prj.author = authName;
+                          }),
+                          projects.forEach((prj) {
+                            tags.forEach((tag) {
+                              if (tag == prj.tag) {
+                                hitProjects.add(prj);
+                              }
+                            });
+                          }),
+                          loading = false
+                        })
+                  })
             });
-          }).then((value) => {
-                projects.forEach((prj) {
-                  String authName = 'N/A';
-
-                  users.forEach((user) {
-                    if (user.id == prj.author) {
-                      authName = user.name;
-                    }
-                  });
-
-                  prj.author = authName;
-                }),
-                projects.forEach((prj) {
-                  tags.forEach((tag) {
-                    if (tag == prj.tag) {
-                      hitProjects.add(prj);
-                    }
-                  });
-                }),
-                loading = false
-              })
-        });
   }
 
   @override

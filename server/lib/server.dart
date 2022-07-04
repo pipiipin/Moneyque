@@ -127,12 +127,33 @@ void start() async {
     }
   ]);
 
+  serv.post('/transactions', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      print(req.body);
+      String o = req.body['owner'];
+      String p = req.body['project'];
+      ObjectId user = ObjectId.fromHexString(o);
+      ObjectId project = ObjectId.fromHexString(p);
+      print(user);
+      var data = <String,dynamic>{
+        'owner': user,
+        'project': project,
+        'amount': req.body['amount'],
+      };
+      await coll3.save(data);
+      return res.json(
+        await coll3.findOne(where.eq('owner', data['owner'])),
+      );
+    }
+  ]);
+
   serv.put('/users', [
     setCors,
     (ServRequest req, ServResponse res) async {
       print("request = " + req.body['_id']);
       print(await coll2.find(where.eq('name', req.body['name'])).toList());
-      print("tags = " + req.body['tags']);
+      print(req.body['tags']);
       await coll2.update(where.eq('name', req.body['name']),
           ModifierBuilder().set('tags', req.body['tags']));
       print(await coll2.find(where.eq('name', req.body['name'])).toList());

@@ -8,7 +8,6 @@ import 'package:moneyque/listing.dart';
 import 'package:moneyque/projectpage.dart';
 import 'package:moneyque/profileself.dart';
 import 'package:moneyque/profile.dart';
-import 'package:moneyque/qr_code.dart';
 import 'package:moneyque/signin.dart';
 import 'package:moneyque/signin_more.dart';
 import 'package:moneyque/signup.dart';
@@ -42,7 +41,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => Signin(),
         '/signin-more': (context) => SigninMore(),
         '/listing': (context) => Listing(),
-        '/project': (context) =>  ProjectPage(),
+        '/project': (context) => ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) =>  Profile(),
         '/success':(context) => Success(),
