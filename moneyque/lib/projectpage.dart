@@ -60,7 +60,7 @@ class _ProjectPageState extends State<ProjectPage> {
               child: CircularProgressIndicator(),
             )
           : MaterialApp(
-            debugShowCheckedModeBanner: false,
+              debugShowCheckedModeBanner: false,
               home: SafeArea(
                 child: Scaffold(
                   body: Column(
@@ -132,7 +132,10 @@ class _ProjectPageState extends State<ProjectPage> {
                                   GestureDetector(
                                     onTap: () => {
                                       Navigator.pushNamed(context, '/profile',
-                                          arguments: project.author)
+                                          arguments: {
+                                            'arg1': project.author,
+                                            'arg2': userId,
+                                          })
                                     },
                                     child: Row(
                                       children: [

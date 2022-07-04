@@ -46,6 +46,7 @@ class _ListingState extends State<Listing> {
   @override
   void initState() {
     super.initState();
+
     Future.delayed(Duration.zero, () {
       setState(() {
         userId = ModalRoute != null
@@ -60,37 +61,73 @@ class _ListingState extends State<Listing> {
           })
         });
 
-    widget.api.getProjects().then((data) {
-      setState(() {
-        projects = data;
-      });
-    }).then((value) => {
-          widget.api.getUsers().then((data) {
-            setState(() {
-              users = data;
+    widget.api
+        .getProjects()
+        .then((data) {
+          setState(() {
+            projects = data;
+          });
+        })
+        .then((value) => {
+              widget.api.getUsers().then((data) {
+                setState(() {
+                  users = data;
+                });
+              }).then((value) => {
+                    projects.forEach((prj) {
+                      String authName = 'N/A';
+
+                      users.forEach((user) {
+                        if (user.id == prj.author) {
+                          authName = user.name;
+                        }
+                      });
+
+                      prj.author = authName;
+                    }),
+                    projects.forEach((prj) {
+                      tags.forEach((tag) {
+                        if (tag == prj.tag) {
+                          hitProjects.add(prj);
+                        }
+                      });
+                    }),
+                    loading = false
+                  })
+            })
+        .then((value) => {
+              widget.api.getProjects().then((data) {
+                setState(() {
+                  projects = data;
+                });
+              }).then((value) => {
+                    widget.api.getUsers().then((data) {
+                      setState(() {
+                        users = data;
+                      });
+                    }).then((value) => {
+                          projects.forEach((prj) {
+                            String authName = 'N/A';
+
+                            users.forEach((user) {
+                              if (user.id == prj.author) {
+                                authName = user.name;
+                              }
+                            });
+
+                            prj.author = authName;
+                          }),
+                          projects.forEach((prj) {
+                            tags.forEach((tag) {
+                              if (tag == prj.tag) {
+                                hitProjects.add(prj);
+                              }
+                            });
+                          }),
+                          loading = false
+                        })
+                  })
             });
-          }).then((value) => {
-                projects.forEach((prj) {
-                  String authName = 'N/A';
-
-                  users.forEach((user) {
-                    if (user.id == prj.author) {
-                      authName = user.name;
-                    }
-                  });
-
-                  prj.author = authName;
-                }),
-                projects.forEach((prj) {
-                  tags.forEach((tag) {
-                    if (tag == prj.tag) {
-                      hitProjects.add(prj);
-                    }
-                  });
-                }),
-                loading = false
-              })
-        });
   }
 
   @override

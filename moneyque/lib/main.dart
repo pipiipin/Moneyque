@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/signin': (context) => Signin(),
         '/signin-more': (context) => SigninMore(),
         '/listing': (context) => Listing(),
-        '/project': (context) =>  ProjectPage(),
+        '/project': (context) => ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) =>  Profile(),
         '/success':(context) => Success(),
