@@ -133,7 +133,7 @@ packages:
       name: mongo_dart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.4"
   mongo_dart_query:
     dependency: transitive
     description:

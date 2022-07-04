@@ -43,11 +43,12 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                     await Authentication.signInWithGoogle(context: context);
                 void _addAuth() async {
                   final createdAuth = await widget.api.createAuth(
-                      user!.uid, user.displayName!, user.email!, "", [""]);
+                      user!.uid, user.displayName!, user.email!, "");
                   setState(() {
                     auths.add(createdAuth);
                   });
                 }
+
                 _addAuth();
 
                 setState(() {
@@ -55,7 +56,8 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
                 });
 
                 if (user != null) {
-                  Navigator.pushNamed(context, '/listing',
+                  print(user.displayName);
+                  Navigator.pushNamed(context, '/topic',
                       arguments: user.displayName);
                 }
               },

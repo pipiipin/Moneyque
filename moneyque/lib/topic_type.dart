@@ -5,31 +5,22 @@ import 'package:moneyque/api.dart';
 import 'package:moneyque/auth.dart';
 import 'package:moneyque/user.dart';
 
-class TopicType extends StatefulWidget {
-  TopicType(
-      {Key? key,
-      required this.username,
-      required this.name,
-      required this.email,
-      required this.password})
-      : super(key: key);
+late String userName;
 
-  final String username, name, email, password;
+class TopicType extends StatefulWidget {
+  TopicType({
+    Key? key,
+  }) : super(key: key);
+
   final MoneyqueApi api = MoneyqueApi();
 
   @override
   _TopicTypeState createState() => _TopicTypeState();
 }
 
-Auth? auth;
-User? user;
-String avatar = "";
-String desc = "";
+late User user;
 
 class _TopicTypeState extends State<TopicType> {
-  List<Auth> auths = [];
-  List<User> users = [];
-
   final List<String> topics = [
     'Investment',
     'Environment',
@@ -42,36 +33,19 @@ class _TopicTypeState extends State<TopicType> {
     'Movies',
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        userName = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    });
+  }
+
   List<dynamic> selectedReportList = [];
-
-  void _addAuth() async {
-    //ADD NEW AURH
-    final createdAuth = await widget.api.createAuth(widget.username,
-        widget.name, widget.email, widget.password, selectedReportList);
-    setState(() {
-      auths.add(createdAuth);
-    });
-    widget.api.getAuthByUsername(widget.username).then((data) {
-      setState(() {
-        auth = data;
-        print(auth?.id);
-      });
-    });
-  }
-
-  void _addUser() async {
-    final createdUser = await widget.api
-        .createUser(widget.name, selectedReportList, avatar, desc);
-    setState(() {
-      users.add(createdUser);
-    });
-    widget.api.getUserByName(widget.username).then((data) {
-      setState(() {
-        user = data;
-        print(user?.name);
-      });
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +86,21 @@ class _TopicTypeState extends State<TopicType> {
                 alignment: Alignment.bottomRight,
                 child: ElevatedButton(
                   onPressed: () {
-                    _addAuth();
-                    _addUser();
-                    Navigator.pushNamed(context, '/listing',
-                        arguments: widget.name);
+                    widget.api.getUserByName(userName).then((data) {
+                      widget.api
+                          .updateTags(data.id, data.name, selectedReportList,
+                              data.avatar, data.desc)
+                          .then((data) {
+                        setState(() {
+                          user = data;
+                          print(user.tags);
+                        });
+                        Navigator.of(context).pushNamed('/listing', arguments: {
+                          'arg1': user.id,
+                          'arg2': selectedReportList,
+                        });
+                      });
+                    });
                   },
                   child: const Text(
                     'Next',

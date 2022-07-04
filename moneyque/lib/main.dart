@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
         '/profile': (context) =>  Profile(),
         '/success':(context) => Success(),
         '/creditcard':(context) => Creditcard(),
+        '/topic':(context) => TopicType(),
         '/investment':(context) => Investment(),
       },
     );

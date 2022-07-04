@@ -27,8 +27,7 @@ class Authentication {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.pushNamed(context, '/listing',
-                      arguments: user.displayName);
+      Navigator.of(context).pushNamed('/topic', arguments: user.displayName);
     }
 
     return firebaseApp;

@@ -58,25 +58,25 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<User> getUserByName(String name) async {
-    final response =
-        await _dio.get('/users/name', queryParameters: {'name': name});
-    return User.fromJson(response.data['users'][0]);
-  }
-
   // Future<User> getUserByName(String name) async {
-  //   final response = await _dio.get('/users');
-  //   late User hit;
-
-  //   (response.data['users'] as List)
-  //       .map<User>((json) => User.fromJson(json))
-  //       .forEach((element) {
-  //     if (element.name == name) {
-  //       hit = element;
-  //     }
-  //   });
-  //   return hit;
+  //   final response =
+  //       await _dio.get('/users/name', queryParameters: {'name': name});
+  //   return User.fromJson(response.data['users'][0]);
   // }
+
+  Future<User> getUserByName(String name) async {
+    final response = await _dio.get('/users');
+    late User hit;
+
+    (response.data['users'] as List)
+        .map<User>((json) => User.fromJson(json))
+        .forEach((element) {
+      if (element.name == name) {
+        hit = element;
+      }
+    });
+    return hit;
+  }
 
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
@@ -171,14 +171,27 @@ class MoneyqueApi {
     return hit;
   }
 
-  Future<Auth> createAuth(String username, String name, String email,
-      String password, List<dynamic> tags) async {
+  Future<Auth> getAuthByName(String name) async {
+    final response = await _dio.get('/auths');
+    late Auth hit;
+
+    (response.data['auths'] as List)
+        .map<Auth>((json) => Auth.fromJson(json))
+        .forEach((element) {
+      if (element.name == name) {
+        hit = element;
+      }
+    });
+    return hit;
+  }
+
+  Future<Auth> createAuth(
+      String username, String name, String email, String password) async {
     final response = await _dio.post('/auths', data: {
       'username': username,
       'name': name,
       'email': email,
       'password': password,
-      'tags': tags,
     });
     return Auth.fromJson(response.data);
   }
@@ -196,5 +209,59 @@ class MoneyqueApi {
       'desc': desc,
     });
     return User.fromJson(response.data);
+  }
+
+  // Future<User> updateUserTags(String id, List<dynamic> tags) async {
+  //   final response = await _dio.put('/users');
+  //   late User hit;
+
+  //   (response.data['users'] as List)
+  //       .map<User>((json) => User.fromJson(json))
+  //       .forEach((element) {
+  //     if (element.id == id) {
+  //       element.tags = tags;
+  //       hit = element;
+  //     }
+  //   });
+  //   return hit;
+  // }
+
+  // Future<User> updateTags(String id, String name, List<dynamic> tags,
+  //     String avatar, String desc) async {
+  //   print(tags);
+  //   try {
+  //     Map<String, dynamic> map = {
+  //       '_id': id,
+  //       'name': name,
+  //       'tags': tags,
+  //       'avatar': avatar,
+  //       'desc': desc,
+  //     };
+  //     print(map.toString());
+  //     final response = await _dio.put("/users", data: map);
+  //     print(response.data.toString());
+  //     return User.fromJson(response.data);
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // }
+  Future<User> updateTags(String id, String name, List<dynamic> tags,
+      String avatar, String desc) async {
+    print(tags);
+    try {
+      Map<String, dynamic> map = {
+        '_id': id,
+        'name': name,
+        'tags': tags,
+        'avatar': avatar,
+        'desc': desc,
+      };
+      print(map.toString());
+      final response = await _dio.put("/users", data: map);
+      print(response.data.toString());
+      return User.fromJson(response.data);
+    } catch (e) {
+      throw e;
+    }
   }
 }
