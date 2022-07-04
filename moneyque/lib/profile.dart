@@ -19,9 +19,11 @@ class Profile extends StatefulWidget {
 
 late User user;
 late String userId;
+late String selfId;
 
 List<ProjectPair> listing = [];
 late List<Project> projects;
+late Map args;
 late List<User> users;
 late List<Transaction> transactions;
 
@@ -34,10 +36,10 @@ class _ProfileState extends State<Profile> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        userId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        args = ModalRoute.of(context)!.settings.arguments as Map;
       });
+      userId = args['arg1'];
+      selfId = args['arg2'];
     })
         .then((value) => {
               widget.api.getUserById(userId).then((data) {
@@ -199,7 +201,7 @@ class _ProfileState extends State<Profile> {
                                   children: listing
                                       .map(
                                         (e) => TransactionCard(e.project,
-                                            e.amount, e.name, e.image),
+                                            e.amount, e.name, e.image, selfId),
                                       )
                                       .toList(),
                                 ),

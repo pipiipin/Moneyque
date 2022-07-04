@@ -130,12 +130,12 @@ void start() async {
   serv.put('/users', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      print("request = " + req.body['_id']);
-      print(await coll2.find(where.eq('name', req.body['name'])).toList());
-      print("tags = " + req.body['tags']);
+      //print("request = " + req.body['_id']);
+      //print(await coll2.find(where.eq('name', req.body['name'])).toList());
+      //print("tags = " + req.body['tags']);
       await coll2.update(where.eq('name', req.body['name']),
           ModifierBuilder().set('tags', req.body['tags']));
-      print(await coll2.find(where.eq('name', req.body['name'])).toList());
+      //print(await coll2.find(where.eq('name', req.body['name'])).toList());
       return res.json(req.body);
     }
   ]);

@@ -4,20 +4,26 @@ import 'package:moneyque/projectpage.dart';
 import 'project.dart';
 
 class TransactionCard extends StatelessWidget {
-  const TransactionCard(this.prj, this.amount, this.author, this.avatar, {Key? key})
+  const TransactionCard(
+      this.prj, this.amount, this.author, this.avatar, this.userId,
+      {Key? key})
       : super(key: key);
 
   final Project prj;
   final double amount;
   final String author;
   final String avatar;
+  final String userId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        Navigator.pushNamed(context, '/project', arguments: prj.id);
+        Navigator.pushNamed(context, '/project', arguments: {
+          'arg1': prj.id,
+          'arg2': userId,
+        });
       },
       child: Column(
         children: [
