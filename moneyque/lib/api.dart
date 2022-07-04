@@ -1,9 +1,6 @@
-import 'package:barcode_scan/barcode_scan.dart';
 import 'package:dio/dio.dart';
-import 'dart:math';
 import 'package:moneyque/auth.dart';
 import 'package:moneyque/credit.dart';
-import 'package:moneyque/profile.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 import 'package:moneyque/user.dart';
@@ -213,6 +210,18 @@ class MoneyqueApi {
     return User.fromJson(response.data);
   }
 
+  Future<Transaction> createTran(
+      String userId, String projectId, double amount) async {
+    print("user" + userId);
+    final response = await _dio.post('/transactions', data: {
+      'owner': userId,
+      'project': projectId,
+      'amount': amount,
+    });
+    print(response.data.toString());
+    return Transaction.fromJson(response.data);
+  }
+
   Future<User> updateTags(String id, String name, List<dynamic> tags,
       String avatar, String desc) async {
     print(tags);
@@ -232,9 +241,4 @@ class MoneyqueApi {
       throw e;
     }
   }
-
-  Future<void> _scan() async {
-  ScanResult codeSanner = await BarcodeScanner.scan();
-}
-
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
-import 'package:moneyque/user.dart';
+import 'package:moneyque/project.dart';
+import 'package:moneyque/transaction.dart';
 
 bool isSuccess = false;
 
@@ -13,25 +14,23 @@ class Success extends StatefulWidget {
 }
 
 late String userId;
-late User user;
+late String projectId;
+late String creditId;
+late Transaction tran;
 
 class _SuccessState extends State<Success> {
+  double amount = 100;
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
       setState(() {
-        userId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        final arg = ModalRoute.of(context)!.settings.arguments as Map;
+        projectId = arg['arg1'];
+        userId = arg['arg2'];
+        creditId = arg['arg3'];
       });
-    }).then((value) => {
-          widget.api.getUserById(userId).then((data) {
-            setState(() {
-              user = data;
-            });
-          })
-        });
+    });
   }
 
   @override
@@ -52,8 +51,7 @@ class _SuccessState extends State<Success> {
                 ),
                 Text(
                   'Payment Successful',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 Text(
                   'Your request has been processed successfully',
@@ -70,8 +68,17 @@ class _SuccessState extends State<Success> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, '/profile',
-                          arguments: user.id);
+                      widget.api
+                          .createTran(userId, projectId, amount)
+                          .then((data) {
+                        setState(() {
+                          tran = data;
+                        });
+                        print(tran.id);
+                        Navigator.pushNamed(context, '/profile',
+                          arguments: userId);
+                      });
+                      
                     },
                     child: const Text(
                       'Done',

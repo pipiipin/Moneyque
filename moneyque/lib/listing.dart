@@ -41,6 +41,7 @@ class _ListingState extends State<Listing> {
   List<User> users = [];
   bool loading = true;
   late String userId;
+  late List<dynamic> tag;
   late User a;
 
   @override
@@ -49,9 +50,11 @@ class _ListingState extends State<Listing> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        userId = ModalRoute != null
-            ? ModalRoute.of(context)!.settings.arguments.toString()
-            : '';
+        setState(() {
+          final arg = ModalRoute.of(context)!.settings.arguments as Map;
+          userId = arg['arg1'];
+          tag = arg['arg2'];
+        });
       });
     }).then((value) => {
           widget.api.getUserById(userId).then((data) {

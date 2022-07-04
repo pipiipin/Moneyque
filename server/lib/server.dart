@@ -127,12 +127,23 @@ void start() async {
     }
   ]);
 
+  serv.post('/transactions', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      print(req.body);
+      await coll3.save(req.body);
+      return res.json(
+        await coll2.findOne(where.eq('owner', req.body['owner'])),
+      );
+    }
+  ]);
+
   serv.put('/users', [
     setCors,
     (ServRequest req, ServResponse res) async {
       print("request = " + req.body['_id']);
       print(await coll2.find(where.eq('name', req.body['name'])).toList());
-      print("tags = " + req.body['tags']);
+      print(req.body['tags']);
       await coll2.update(where.eq('name', req.body['name']),
           ModifierBuilder().set('tags', req.body['tags']));
       print(await coll2.find(where.eq('name', req.body['name'])).toList());
