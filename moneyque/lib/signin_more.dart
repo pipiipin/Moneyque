@@ -135,8 +135,9 @@ class _SigninMoreState extends State<SigninMore> {
                       setState(() {
                         auth = data;
                       });
+
                       print(auth?.name);
-                      Navigator.pushNamed(context, '/listing',
+                      Navigator.pushNamed(context, '/topic',
                           arguments: auth?.name);
                     });
                   },

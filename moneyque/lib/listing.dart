@@ -17,9 +17,6 @@ class Listing extends StatefulWidget {
   _ListingState createState() => _ListingState();
 }
 
-late String username;
-late User a;
-
 class _ListingState extends State<Listing> {
   /*
     Available Tags:
@@ -43,6 +40,8 @@ class _ListingState extends State<Listing> {
   List<Project> hitProjects = [];
   List<User> users = [];
   bool loading = true;
+  late String userId;
+  late User a;
 
   @override
   void initState() {
@@ -50,17 +49,51 @@ class _ListingState extends State<Listing> {
 
     Future.delayed(Duration.zero, () {
       setState(() {
-        username = ModalRoute != null
+        userId = ModalRoute != null
             ? ModalRoute.of(context)!.settings.arguments.toString()
             : '';
       });
-    })
+    }).then((value) => {
+          widget.api.getUserById(userId).then((data) {
+            setState(() {
+              a = data;
+            });
+          })
+        });
+
+    widget.api
+        .getProjects()
+        .then((data) {
+          setState(() {
+            projects = data;
+          });
+        })
         .then((value) => {
-              widget.api.getUserByName(username).then((data) {
+              widget.api.getUsers().then((data) {
                 setState(() {
-                  a = data;
+                  users = data;
                 });
-              })
+              }).then((value) => {
+                    projects.forEach((prj) {
+                      String authName = 'N/A';
+
+                      users.forEach((user) {
+                        if (user.id == prj.author) {
+                          authName = user.name;
+                        }
+                      });
+
+                      prj.author = authName;
+                    }),
+                    projects.forEach((prj) {
+                      tags.forEach((tag) {
+                        if (tag == prj.tag) {
+                          hitProjects.add(prj);
+                        }
+                      });
+                    }),
+                    loading = false
+                  })
             })
         .then((value) => {
               widget.api.getProjects().then((data) {

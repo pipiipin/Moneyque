@@ -1,14 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:moneyque/api.dart';
+import 'package:moneyque/user.dart';
 
-class Welcome extends StatefulWidget {
-  const Welcome({Key? key}) : super(key: key);
+bool isSuccess = false;
+
+class Success extends StatefulWidget {
+  Success({Key? key}) : super(key: key);
+  MoneyqueApi api = MoneyqueApi();
 
   @override
-  _WelcomeState createState() => _WelcomeState();
+  _SuccessState createState() => _SuccessState();
 }
 
-class _WelcomeState extends State<Welcome> {
+late String userId;
+late User user;
+
+class _SuccessState extends State<Success> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      setState(() {
+        userId = ModalRoute != null
+            ? ModalRoute.of(context)!.settings.arguments.toString()
+            : '';
+      });
+    }).then((value) => {
+          widget.api.getUserById(userId).then((data) {
+            setState(() {
+              user = data;
+            });
+          })
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +51,9 @@ class _WelcomeState extends State<Welcome> {
                   height: 10.0,
                 ),
                 Text(
-                  'Payment  Successful',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  'Payment Successful',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 Text(
                   'Your request has been processed successfully',
@@ -44,10 +70,8 @@ class _WelcomeState extends State<Welcome> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const ()));
+                      Navigator.pushNamed(context, '/profile',
+                          arguments: user.id);
                     },
                     child: const Text(
                       'Done',
