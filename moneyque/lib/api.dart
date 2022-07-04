@@ -59,18 +59,24 @@ class MoneyqueApi {
   }
 
   Future<User> getUserByName(String name) async {
-    final response = await _dio.get('/users');
-    late User hit;
-
-    (response.data['users'] as List)
-        .map<User>((json) => User.fromJson(json))
-        .forEach((element) {
-      if (element.name == name) {
-        hit = element;
-      }
-    });
-    return hit;
+    final response =
+        await _dio.get('/users/name', queryParameters: {'name': name});
+    return User.fromJson(response.data['users'][0]);
   }
+
+  // Future<User> getUserByName(String name) async {
+  //   final response = await _dio.get('/users');
+  //   late User hit;
+
+  //   (response.data['users'] as List)
+  //       .map<User>((json) => User.fromJson(json))
+  //       .forEach((element) {
+  //     if (element.name == name) {
+  //       hit = element;
+  //     }
+  //   });
+  //   return hit;
+  // }
 
   Future<List<Transaction>> getTransactionsByUser(String userId) async {
     final response = await _dio.get('/transactions');
@@ -113,15 +119,17 @@ class MoneyqueApi {
     (response.data['credits'] as List)
         .map<CreditCard>((json) => CreditCard.fromJson(json))
         .forEach((element) {
-      if (element.name == name && element.num == num && element.expiry == expiry && element.cvc == cvc) {
+      if (element.name == name &&
+          element.num == num &&
+          element.expiry == expiry &&
+          element.cvc == cvc) {
         hit = element;
       }
     });
     return hit;
   }
 
-  Future<CreditCard> getCreditById(
-      String id) async {
+  Future<CreditCard> getCreditById(String id) async {
     final response = await _dio.get('/credits');
     late CreditCard hit;
 
@@ -184,7 +192,7 @@ class MoneyqueApi {
     final response = await _dio.post('/users', data: {
       'name': name,
       'tags': tags,
-      'avartar': avatar,
+      'avatar': avatar,
       'desc': desc,
     });
     return User.fromJson(response.data);

@@ -67,7 +67,7 @@ class _TopicTypeState extends State<TopicType> {
     });
     widget.api.getUserByName(widget.username).then((data) {
       setState(() {
-        user = data as User;
+        user = data;
         print(user?.name);
       });
     });

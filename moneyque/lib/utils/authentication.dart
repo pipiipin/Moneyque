@@ -5,7 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:moneyque/investment.dart';
+import 'package:moneyque/UserInfo.dart';
 import 'package:moneyque/success.dart';
 
 class Authentication {
@@ -27,7 +27,8 @@ class Authentication {
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      Navigator.pushNamed(context, '/listing', arguments: user.displayName);
+      Navigator.pushNamed(context, '/listing',
+                      arguments: user.displayName);
     }
 
     return firebaseApp;
