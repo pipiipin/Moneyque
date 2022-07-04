@@ -48,6 +48,7 @@ class MyApp extends StatelessWidget {
         '/success':(context) => Success(),
         '/creditcard':(context) => Creditcard(),
         '/topic':(context) => TopicType(),
+        '/qrcode':(context) => Qrcode(),
         '/investment':(context) => Investment(),
       },
     );

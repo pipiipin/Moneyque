@@ -1,4 +1,6 @@
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:dio/dio.dart';
+import 'dart:math';
 import 'package:moneyque/auth.dart';
 import 'package:moneyque/credit.dart';
 import 'package:moneyque/profile.dart';
@@ -211,40 +213,6 @@ class MoneyqueApi {
     return User.fromJson(response.data);
   }
 
-  // Future<User> updateUserTags(String id, List<dynamic> tags) async {
-  //   final response = await _dio.put('/users');
-  //   late User hit;
-
-  //   (response.data['users'] as List)
-  //       .map<User>((json) => User.fromJson(json))
-  //       .forEach((element) {
-  //     if (element.id == id) {
-  //       element.tags = tags;
-  //       hit = element;
-  //     }
-  //   });
-  //   return hit;
-  // }
-
-  // Future<User> updateTags(String id, String name, List<dynamic> tags,
-  //     String avatar, String desc) async {
-  //   print(tags);
-  //   try {
-  //     Map<String, dynamic> map = {
-  //       '_id': id,
-  //       'name': name,
-  //       'tags': tags,
-  //       'avatar': avatar,
-  //       'desc': desc,
-  //     };
-  //     print(map.toString());
-  //     final response = await _dio.put("/users", data: map);
-  //     print(response.data.toString());
-  //     return User.fromJson(response.data);
-  //   } catch (e) {
-  //     throw e;
-  //   }
-  // }
   Future<User> updateTags(String id, String name, List<dynamic> tags,
       String avatar, String desc) async {
     print(tags);
@@ -264,4 +232,9 @@ class MoneyqueApi {
       throw e;
     }
   }
+
+  Future<void> _scan() async {
+  ScanResult codeSanner = await BarcodeScanner.scan();
+}
+
 }
