@@ -39,7 +39,7 @@ class _CreditcardState extends State<Creditcard> {
     }).then((value) => {
           widget.api.getProjectById(projectId).then((data) {
             setState(() {
-              project = data as Project;
+              project = data;
             });
           }).then((value) => {
                 widget.api.getUserById(userId).then((data) {
@@ -53,15 +53,6 @@ class _CreditcardState extends State<Creditcard> {
 
   @override
   Widget build(BuildContext context) {
-    // var project = const Project(
-    //     name: 'Robots House',
-    //     author: 'Kanye West',
-    //     avatar: '',
-    //     tag: 'Education',
-    //     desc:
-    //         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque efficitur risus augue, eu suscipit neque euismod eget. Suspendisse id vulputate metus. Mauris vitae dui sem. Suspendisse bibendum, diam in volutpat pharetra, justo eros ultricies dui, ac facilisis justo massa quis velit. Pellentesque viverra nec risus vitae porta. Maecenas vitae tincidunt tellus. Vestibulum volutpat porta tortor et fermentum. Nam vitae libero dictum, laoreet purus ut, ultrices dolor. Nam at orci non massa fringilla ultricies. Duis vitae leo sit amet arcu tempor hendrerit eget vel ex. Donec sit amet erat at lorem sodales blandit a vitae nunc. Maecenas nec rutrum velit, at laoreet velit. Vivamus quis odio dolor. Mauris imperdiet urna non enim sodales, ut semper purus fringilla. Nullam imperdiet turpis lorem, in bibendum elit ultrices sit amet. Duis consectetur sollicitudin tellus, at vestibulum sapien porttitor ut. Aenean imperdiet magna turpis, consequat sodales sem sodales in. Praesent fermentum a nulla in dignissim. Sed ultricies, odio vel commodo auctor, velit enim volutpat mi, ut varius tortor neque eu arcu. Vestibulum rutrum condimentum sagittis. Maecenas feugiat, lectus at laoreet aliquet, neque ligula rhoncus dolor, a gravida magna nulla et purus. Nullam vel lorem convallis ligula elementum efficitur sit amet id lacus.',
-    //     image: '');
-
     return Scaffold(
       body: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -260,14 +251,21 @@ class _CreditcardState extends State<Creditcard> {
                             children: [
                               ElevatedButton(
                                 onPressed: () {
-                                  widget.api.getCredit(card.text,name.text,expiry.text,cvc.text).then((data) {
+                                  widget.api
+                                      .getCredit(card.text, name.text,
+                                          expiry.text, cvc.text)
+                                      .then((data) {
                                     setState(() {
                                       credit = data;
                                     });
                                     print(credit.id);
-                                    Navigator.pushNamed(context, '/success', arguments: user.id);
+                                    Navigator.of(context)
+                                        .pushNamed('/success', arguments: {
+                                      'arg1': projectId,
+                                      'arg2': userId,
+                                      'arg3': credit.id
+                                    });
                                   });
-                                  
                                 },
                                 child: const Text(
                                   'Done',

@@ -38,6 +38,7 @@ class _ListingState extends State<Listing> {
   bool loading = true;
   late Map args;
   late String userId;
+  late List<dynamic> tag;
   late User a;
 
   @override

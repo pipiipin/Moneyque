@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:moneyque/api.dart';
 import 'package:moneyque/auth.dart';
 import 'package:moneyque/signup_more.dart';
-import 'package:mongo_dart/mongo_dart.dart' as M;
 
 class Signup extends StatefulWidget {
   const Signup({Key? key}) : super(key: key);
