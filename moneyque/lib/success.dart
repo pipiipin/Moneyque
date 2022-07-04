@@ -74,7 +74,7 @@ class _SuccessState extends State<Success> {
                         setState(() {
                           tran = data;
                         });
-                        print(tran.id);
+                        print("result" + tran.id);
                         Navigator.pushNamed(context, '/profile',
                           arguments: userId);
                       });

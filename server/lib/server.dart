@@ -131,9 +131,19 @@ void start() async {
     setCors,
     (ServRequest req, ServResponse res) async {
       print(req.body);
-      await coll3.save(req.body);
+      String o = req.body['owner'];
+      String p = req.body['project'];
+      ObjectId user = ObjectId.fromHexString(o);
+      ObjectId project = ObjectId.fromHexString(p);
+      print(user);
+      var data = <String,dynamic>{
+        'owner': user,
+        'project': project,
+        'amount': req.body['amount'],
+      };
+      await coll3.save(data);
       return res.json(
-        await coll2.findOne(where.eq('owner', req.body['owner'])),
+        await coll3.findOne(where.eq('owner', data['owner'])),
       );
     }
   ]);

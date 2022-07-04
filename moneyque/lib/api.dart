@@ -211,14 +211,14 @@ class MoneyqueApi {
   }
 
   Future<Transaction> createTran(
-      String userId, String projectId, double amount) async {
-    print("user" + userId);
+      String user, String project, double amount) async {
+    String userId= user.substring(10,34);
+    String projectId= project.substring(10,34);
     final response = await _dio.post('/transactions', data: {
       'owner': userId,
       'project': projectId,
       'amount': amount,
     });
-    print(response.data.toString());
     return Transaction.fromJson(response.data);
   }
 
