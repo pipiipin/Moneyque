@@ -13,6 +13,7 @@ import 'package:moneyque/signin.dart';
 import 'package:moneyque/signin_more.dart';
 import 'package:moneyque/signup.dart';
 import 'package:moneyque/signup_more.dart';
+import 'package:moneyque/success.dart';
 import 'package:moneyque/topic_type.dart';
 import 'package:moneyque/payment_creditcard.dart';
 
@@ -44,8 +45,10 @@ class MyApp extends StatelessWidget {
         '/project': (context) =>  ProjectPage(),
         '/profileself': (context) => const ProfileSelf(),
         '/profile': (context) =>  Profile(),
+        '/success':(context) => Success(),
         '/creditcard':(context) => Creditcard(),
-        '/investment':(context) => investment(),
+        '/topic':(context) => TopicType(),
+        '/investment':(context) => Investment(),
       },
     );
   }

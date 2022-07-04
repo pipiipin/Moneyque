@@ -11,6 +11,7 @@ void start() async {
   final coll3 = db.collection('transactions');
   final coll4 = db.collection('auths');
   final coll5 = db.collection('creditcard');
+  final coll6 = db.collection('credits');
 
   // Create server
   const port = 8081;
@@ -65,10 +66,11 @@ void start() async {
       return res.status(200).json({'transactions': transactions});
     }
   ]);
+
   serv.get('/creditcard', [
     setCors,
     (ServRequest req, ServResponse res) async {
-      final creditcard = await coll5.find().toList();
+      final creditcard = await coll5.find(req.query).toList();
       return res.status(200).json({'creditcard': creditcard});
     }
   ]);
@@ -86,6 +88,14 @@ void start() async {
     (ServRequest req, ServResponse res) async {
       final auths = await coll4.find(req.query).toList();
       return res.status(200).json({'auths': auths});
+    }
+  ]);
+
+  serv.get('/credits', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      final credits = await coll6.find(req.query).toList();
+      return res.status(200).json({'credits': credits});
     }
   ]);
 
@@ -114,6 +124,19 @@ void start() async {
       return res.json(
         await coll2.findOne(where.eq('name', req.body['name'])),
       );
+    }
+  ]);
+
+  serv.put('/users', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      print("request = " + req.body['_id']);
+      print(await coll2.find(where.eq('name', req.body['name'])).toList());
+      print("tags = " + req.body['tags']);
+      await coll2.update(where.eq('name', req.body['name']),
+          ModifierBuilder().set('tags', req.body['tags']));
+      print(await coll2.find(where.eq('name', req.body['name'])).toList());
+      return res.json(req.body);
     }
   ]);
 
@@ -156,7 +179,8 @@ void start() async {
 
 void setCors(ServRequest req, ServResponse res) {
   res.response.headers.add('Access-Control-Allow-Origin', '*');
-  res.response.headers.add('Access-Control-Allow-Methods', 'GET, POST, DELETE');
+  res.response.headers
+      .add('Access-Control-Allow-Methods', 'GET, POST, DELETE, PUT');
   res.response.headers
       .add('Access-Control-Allow-Headers', 'Origin, Content-Type');
 }
