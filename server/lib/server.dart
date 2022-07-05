@@ -135,7 +135,7 @@ void start() async {
       String p = req.body['project'];
       ObjectId user = ObjectId.fromHexString(o);
       ObjectId project = ObjectId.fromHexString(p);
-      print(user);
+      print("user = " + user.toString());
       var data = <String, dynamic>{
         'owner': user,
         'project': project,
@@ -157,6 +157,21 @@ void start() async {
       await coll2.update(where.eq('name', req.body['name']),
           ModifierBuilder().set('tags', req.body['tags']));
       //print(await coll2.find(where.eq('name', req.body['name'])).toList());
+      return res.json(req.body);
+    }
+  ]);
+
+  serv.put('/projects', [
+    setCors,
+    (ServRequest req, ServResponse res) async {
+      print("request = " + req.body['isBought'].toString());
+      String p = req.body['_id'];
+      ObjectId project = ObjectId.fromHexString(p);
+      print(project);
+      print(await coll.find(where.eq('_id', project)).toList());
+      await coll.update(where.eq('_id', project),
+          ModifierBuilder().set('isBought', req.body['isBought']));
+      print(await coll.find(where.eq('_id', project)).toList());
       return res.json(req.body);
     }
   ]);

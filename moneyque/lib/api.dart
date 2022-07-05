@@ -213,8 +213,8 @@ class MoneyqueApi {
 
   Future<Transaction> createTran(
       String user, String project, double amount) async {
-    String userId= user.substring(10,34);
-    String projectId= project.substring(10,34);
+    String userId = user.substring(10, 34);
+    String projectId = project.substring(10, 34);
     final response = await _dio.post('/transactions', data: {
       'owner': userId,
       'project': projectId,
@@ -238,6 +238,21 @@ class MoneyqueApi {
       final response = await _dio.put("/users", data: map);
       print(response.data.toString());
       return User.fromJson(response.data);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<Project> updateIsBought(String project, bool isBought) async {
+    String projectId = project.substring(10, 34);
+    try {
+      Map<String, dynamic> map = {
+        '_id': projectId,
+        'isBought': isBought,
+      };
+      final response = await _dio.put("/projects", data: map);
+      print(response.data.toString());
+      return Project.fromJson(response.data);
     } catch (e) {
       throw e;
     }
