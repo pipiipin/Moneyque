@@ -80,7 +80,7 @@ class _SuccessState extends State<Success> {
                             .then((data) {
                           print("result" + data.isBought.toString());
                         });
-                        Navigator.pushNamed(context, '/profile',
+                        Navigator.pushReplacementNamed(context, '/profile',
                             arguments: {'arg1': userId, 'arg2': userId});
                       });
                     },

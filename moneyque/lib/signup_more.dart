@@ -33,9 +33,19 @@ class _SignupMoreState extends State<SignupMore> {
   late String username;
   late String name;
   late String email;
-  late List<dynamic> tags;
-  late String avatar;
-  late String desc;
+  late List<dynamic> tags = [
+    'Investment',
+    'Environment',
+    'Technology Development',
+    'Robot',
+    'Agriculture',
+    'Industry',
+    'Education',
+    'Travel'
+  ];
+  late String avatar =
+      'https://t3.ftcdn.net/jpg/01/09/00/64/360_F_109006426_388PagqielgjFTAMgW59jRaDmPJvSBUL.jpg';
+  late String desc = '';
 
   @override
   void initState() {
@@ -73,7 +83,7 @@ class _SignupMoreState extends State<SignupMore> {
     setState(() {
       users.add(createdUser);
     });
-    widget.api.getUserByName(widget.username).then((data) {
+    widget.api.getUserByName(widget.name).then((data) {
       setState(() {
         user = data;
         print(user.name);

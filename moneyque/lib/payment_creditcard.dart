@@ -267,7 +267,8 @@ class _CreditcardState extends State<Creditcard> {
                                     });
                                     print(credit.id);
                                     print(project.price);
-                                    Navigator.of(context).pushNamed('/success',
+                                    Navigator.of(context).pushReplacementNamed(
+                                        '/success',
                                         arguments: {
                                           'arg1': projectId,
                                           'arg2': userId,

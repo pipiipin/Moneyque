@@ -196,42 +196,36 @@ class _InvestmentState extends State<Investment> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    // ElevatedButton(
-                                    //   onPressed: () {
-                                    //     Navigator.of(context)
-                                    //         .pushNamed('/qrcode', arguments: {
-                                    //       'arg1': project.id,
-                                    //       'arg2': userId,
-                                    //     });
-                                    //   },
-                                    //   child: const Text(
-                                    //     'QR Code',
-                                    //     style: TextStyle(
-                                    //       fontSize: 14,
-                                    //       color: Colors.black,
-                                    //     ),
-                                    //   ),
-                                    //   style: ElevatedButton.styleFrom(
-                                    //     minimumSize: const Size(120, 40),
-                                    //     primary: const Color.fromARGB(
-                                    //         189, 210, 210, 210),
-                                    //     elevation: 10,
-                                    //     shape: RoundedRectangleBorder(
-                                    //       borderRadius:
-                                    //           BorderRadius.circular(5),
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    // Container(
-                                    //   color: Colors.black45,
-                                    //   height: 40,
-                                    //   width: 2,
-                                    // ),
+                                    ElevatedButton(
+                                      onPressed: () {},
+                                      child: const Text(
+                                        'QR Code',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                        ),
+                                      ),
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: const Size(120, 40),
+                                        primary: const Color.fromARGB(
+                                            189, 210, 210, 210),
+                                        elevation: 10,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      color: Colors.black45,
+                                      height: 40,
+                                      width: 2,
+                                    ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.of(context).pushNamed(
-                                            '/creditcard',
-                                            arguments: {
+                                        Navigator.of(context)
+                                            .pushReplacementNamed('/creditcard',
+                                                arguments: {
                                               'arg1': projectId,
                                               'arg2': userId,
                                             });

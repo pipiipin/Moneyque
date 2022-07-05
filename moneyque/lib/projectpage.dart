@@ -271,7 +271,8 @@ class _ProjectPageState extends State<ProjectPage> {
                       ? Container()
                       : GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, '/investment',
+                            Navigator.pushReplacementNamed(
+                                context, '/investment',
                                 arguments: {
                                   'arg1': project.id,
                                   'arg2': userId,
