@@ -3,7 +3,6 @@ import 'package:moneyque/api.dart';
 import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 
-bool isSuccess = false;
 bool isBought = true;
 
 class Success extends StatefulWidget {
@@ -16,11 +15,10 @@ class Success extends StatefulWidget {
 
 late String userId;
 late String projectId;
-late String creditId;
 late Transaction tran;
+late String a;
 
 class _SuccessState extends State<Success> {
-  double amount = 100;
   @override
   void initState() {
     super.initState();
@@ -29,7 +27,7 @@ class _SuccessState extends State<Success> {
         final arg = ModalRoute.of(context)!.settings.arguments as Map;
         projectId = arg['arg1'];
         userId = arg['arg2'];
-        creditId = arg['arg3'];
+        a = arg['arg3'];
       });
     });
   }
@@ -69,6 +67,8 @@ class _SuccessState extends State<Success> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
+                      var amount = double.parse(a);
+                      print(amount);
                       widget.api
                           .createTran(userId, projectId, amount)
                           .then((data) {
@@ -76,10 +76,10 @@ class _SuccessState extends State<Success> {
                           tran = data;
                         });
                         widget.api
-                              .updateIsBought(projectId, isBought)
-                              .then((data) {
-                            print("result" + data.isBought.toString());
-                          });
+                            .updateIsBought(projectId, isBought)
+                            .then((data) {
+                          print("result" + data.isBought.toString());
+                        });
                         Navigator.pushNamed(context, '/profile',
                             arguments: userId);
                       });
