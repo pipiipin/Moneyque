@@ -4,6 +4,7 @@ import 'package:moneyque/project.dart';
 import 'package:moneyque/transaction.dart';
 
 bool isSuccess = false;
+bool isBought = true;
 
 class Success extends StatefulWidget {
   Success({Key? key}) : super(key: key);
@@ -74,11 +75,14 @@ class _SuccessState extends State<Success> {
                         setState(() {
                           tran = data;
                         });
-                        print("result" + tran.id);
+                        widget.api
+                              .updateIsBought(projectId, isBought)
+                              .then((data) {
+                            print("result" + data.isBought.toString());
+                          });
                         Navigator.pushNamed(context, '/profile',
-                          arguments: userId);
+                            arguments: userId);
                       });
-                      
                     },
                     child: const Text(
                       'Done',
