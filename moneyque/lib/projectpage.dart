@@ -102,10 +102,14 @@ class _ProjectPageState extends State<ProjectPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                print('Discover?');
+                                Navigator.pushNamed(context, '/profile',
+                                    arguments: {
+                                      'arg1': userId,
+                                      'arg2': userId
+                                    });
                               },
                               child: Icon(
-                                Icons.find_in_page_outlined,
+                                Icons.account_circle,
                                 size: 40,
                               ),
                             )
