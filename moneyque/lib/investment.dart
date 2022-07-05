@@ -84,13 +84,20 @@ class _InvestmentState extends State<Investment> {
                       ),
                       DefaultTextStyle(
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           color: Colors.black,
                           decoration: TextDecoration.none,
                           fontWeight: FontWeight.bold,
                         ),
-                        child: Text(project.name),
+                        child: Container(
+                          width: 260,
+                          child: Text(
+                            project.name,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -222,11 +229,12 @@ class _InvestmentState extends State<Investment> {
                                     // ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.of(context)
-                                            .pushNamed('/creditcard', arguments: {
-                                          'arg1': projectId,
-                                          'arg2': userId,
-                                        });
+                                        Navigator.of(context).pushNamed(
+                                            '/creditcard',
+                                            arguments: {
+                                              'arg1': projectId,
+                                              'arg2': userId,
+                                            });
                                       },
                                       child: const Text(
                                         'Credit Card',

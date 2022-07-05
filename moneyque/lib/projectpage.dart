@@ -292,7 +292,7 @@ class _ProjectPageState extends State<ProjectPage> {
                     Icon(
                       Icons.live_help_outlined,
                       size: 32,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 124, 124, 124),
                     ),
                     SizedBox(
                       width: 62,
@@ -300,7 +300,7 @@ class _ProjectPageState extends State<ProjectPage> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 124, 124, 124),
                           fontWeight: FontWeight.w600,
                         ),
                         child: Text('Contact'),

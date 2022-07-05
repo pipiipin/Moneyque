@@ -128,6 +128,7 @@ class _ProfileState extends State<Profile> {
                       },
                       child: Icon(
                         Icons.moving_outlined,
+                        color: Color.fromARGB(255, 124, 124, 124),
                         size: 40,
                       ),
                     )
@@ -224,7 +225,19 @@ class _ProfileState extends State<Profile> {
             children: [
               GestureDetector(
                 onTap: () {
-                  print('Discover');
+                  Navigator.of(context).pushNamed('/listing', arguments: {
+                    'arg1': user.id,
+                    'arg2': [
+                      'Investment',
+                      'Environment',
+                      'Technology Development',
+                      'Robot',
+                      'Agriculture',
+                      'Industry',
+                      'Education',
+                      'Travel'
+                    ],
+                  });
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -259,7 +272,7 @@ class _ProfileState extends State<Profile> {
                     Icon(
                       Icons.headset_mic_outlined,
                       size: 24,
-                      color: Colors.white,
+                      color: Color.fromARGB(255, 124, 124, 124),
                     ),
                     SizedBox(
                       width: 62,
@@ -278,7 +291,8 @@ class _ProfileState extends State<Profile> {
               ),
               GestureDetector(
                 onTap: () {
-                  print('Profile');
+                  Navigator.pushReplacementNamed(context, '/profile',
+                      arguments: {'arg1': selfId, 'arg2': selfId});
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -80,13 +80,20 @@ class _CreditcardState extends State<Creditcard> {
                       ),
                       DefaultTextStyle(
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 24,
                           color: Colors.black,
                           decoration: TextDecoration.none,
                           fontWeight: FontWeight.bold,
                         ),
-                        child: Text(project.name),
+                        child: Container(
+                          width: 260,
+                          child: Text(
+                            project.name,
+                            overflow: TextOverflow.ellipsis,
+                            softWrap: true,
+                          ),
+                        ),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -259,12 +266,12 @@ class _CreditcardState extends State<Creditcard> {
                                       credit = data;
                                     });
                                     print(credit.id);
-                                    Navigator.of(context)
-                                        .pushNamed('/success', arguments: {
-                                      'arg1': projectId,
-                                      'arg2': userId,
-                                      'arg3': credit.id
-                                    });
+                                    Navigator.of(context).pushNamed('/success',
+                                        arguments: {
+                                          'arg1': projectId,
+                                          'arg2': userId,
+                                          'arg3': credit.id
+                                        });
                                   });
                                 },
                                 child: const Text(
