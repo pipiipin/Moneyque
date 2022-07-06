@@ -25,4 +25,8 @@ class Project {
     return Project._(
         id, name, author, desc, tag, price, isDonate, image, isBought);
   }
+
+  factory Project.blank() {
+    return Project._('', '', '', '', '', '', false, '', true);
+  }
 }

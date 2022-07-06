@@ -21,4 +21,8 @@ class User {
     final desc = json['desc'] as String;
     return User._(id, name, tags, avatar, desc);
   }
+
+  factory User.blank() {
+    return User._('', '', [], '', '');
+  }
 }

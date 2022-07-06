@@ -17,8 +17,8 @@ class Investment extends StatefulWidget {
   State<Investment> createState() => _InvestmentState();
 }
 
-late Project project;
-late User user;
+late Project project = Project.blank();
+late User user = User.blank();
 
 class _InvestmentState extends State<Investment> {
   @override

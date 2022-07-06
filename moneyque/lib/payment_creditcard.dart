@@ -17,8 +17,8 @@ class Creditcard extends StatefulWidget {
   State<Creditcard> createState() => _CreditcardState();
 }
 
-late Project project;
-late User user;
+late Project project = Project.blank();
+late User user = User.blank();
 late CreditCard credit;
 
 class _CreditcardState extends State<Creditcard> {
